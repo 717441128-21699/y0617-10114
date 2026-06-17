@@ -12,39 +12,247 @@
       "licenseVerified": true,
       "specialties": [
         "anxiety",
-        "depression"
+        "depression",
+        "marriage"
       ],
       "serviceModes": [
         "text",
+        "voice",
         "video"
       ],
-      "introduction": "????????:???????,?????????",
+      "introduction": "国家二级心理咨询师，从业10年，擅长运用认知行为疗法(CBT)和正念疗法处理焦虑、抑郁等情绪问题，以及婚姻关系咨询。",
       "education": "北京大学心理学硕士",
       "experienceYears": 10,
-      "sessionDuration": 60,
-      "pricePerSession": 599,
+      "sessionDuration": 50,
+      "pricePerSession": 600,
       "avgRating": 4.8,
       "reviewCount": 156,
       "totalSessions": 892,
       "schedule": {
-        "tuesday": [],
-        "friday": [],
-        "wednesday": [],
-        "saturday": [],
-        "thursday": [],
         "monday": [
           {
+            "start": "09:00",
             "end": "09:50",
-            "available": true,
-            "start": "09:00"
+            "available": true
           },
           {
+            "start": "10:00",
             "end": "10:50",
-            "available": false,
-            "start": "10:00"
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
           }
         ],
-        "sunday": []
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
       },
       "createdAt": "2023-01-15T09:00:00Z"
     },
@@ -847,39 +1055,247 @@
       "licenseVerified": true,
       "specialties": [
         "anxiety",
-        "depression"
+        "depression",
+        "marriage"
       ],
       "serviceModes": [
         "text",
+        "voice",
         "video"
       ],
-      "introduction": "????????:???????,?????????",
+      "introduction": "国家二级心理咨询师，从业10年，擅长运用认知行为疗法(CBT)和正念疗法处理焦虑、抑郁等情绪问题，以及婚姻关系咨询。",
       "education": "北京大学心理学硕士",
       "experienceYears": 10,
-      "sessionDuration": 60,
-      "pricePerSession": 599,
+      "sessionDuration": 50,
+      "pricePerSession": 600,
       "avgRating": 4.8,
       "reviewCount": 156,
       "totalSessions": 892,
       "schedule": {
-        "tuesday": [],
-        "friday": [],
-        "wednesday": [],
-        "saturday": [],
-        "thursday": [],
         "monday": [
           {
+            "start": "09:00",
             "end": "09:50",
-            "available": true,
-            "start": "09:00"
+            "available": true
           },
           {
+            "start": "10:00",
             "end": "10:50",
-            "available": false,
-            "start": "10:00"
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
           }
         ],
-        "sunday": []
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
       },
       "createdAt": "2023-01-15T09:00:00Z"
     },
@@ -1811,33 +2227,6 @@
       "price": 600,
       "crisisTriggered": false,
       "createdAt": "2024-03-19T14:20:00Z"
-    },
-    {
-      "id": "a-1781670472483-xco5bm",
-      "counselorId": "c-001",
-      "clientId": "u-001",
-      "counselorName": "林清和",
-      "clientName": "李小明",
-      "date": "2025-01-15",
-      "timeSlot": "10:00-11:00",
-      "serviceMode": "video",
-      "status": "pending",
-      "price": 599,
-      "assessmentForm": {
-        "stressLevel": 7,
-        "selfHarmThoughts": false,
-        "mainConcern": "?????????",
-        "previousTherapy": false,
-        "sleepQuality": 4,
-        "emotionalState": 6,
-        "suicidalIdeation": false,
-        "additionalNotes": "???????",
-        "durationMonths": 6,
-        "anonymousId": "anon-u001-abc123",
-        "submittedAt": "2026-06-17T04:27:52.483Z"
-      },
-      "crisisTriggered": false,
-      "createdAt": "2026-06-17T04:27:52.483Z"
     }
   ],
   "chatMessages": [
@@ -1846,7 +2235,7 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:bVtyNzdqOmjnjpLogIjluI/lpoTvvJPmiJjmmLbmnZXlsJbmmJXjgInku5HlpLDmg7rogZHogZHlkpPmiJjlp4LlrZfnmovlhbrntILpl7Xpop/jgIk=",
+      "content": "enc:SnU9clp2THHnjpLogIjluI/lpoTvvJPmiJjmmLbmnZXlsJbmmJXjgInku5HlpLDmg7rogZHogZHlkpPmiJjlp4LlrZfnmovlhbrntILpl7Xpop/jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:00:05Z"
     },
@@ -1855,7 +2244,7 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "enc:enZRaj5WTmzlsJbmmJXkvaflpoTvvJPlvo/pq5/lhbvop4jliLfkvafjgInmiJjku7Pku5HlpLDlj7bku6zmhanmhanmnazvvJPkvafmg7rku5Xlk7Hph5PlvIflp5Lor7vlkanvvKY=",
+      "content": "enc:N29YTE13XXTlsJbmmJXkvaflpoTvvJPlvo/pq5/lhbvop4jliLfkvafjgInmiJjku7Pku5HlpLDlj7bku6zmhanmhanmnazvvJPkvafmg7rku5Xlk7Hph5PlvIflp5Lor7vlkanvvKY=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:00:30Z"
     },
@@ -1864,7 +2253,7 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:fEBQdlpqbV7mnIfov5jlkpPmiJjlp4LlrZfmgYLmmLblkLzmnr3vvJPkuIfng4DlsJbkupLlsLjohITlkLzotb7mnazjgInlpoDmgYLor7vmiJjkuJTlhbrlv4rlpoDvvJPlj7bmiJjop5Dlvp7miJjlt7nnu5blvo/lirHliqLkuo3jgIk=",
+      "content": "enc:OT1aOX11cUrmnIfov5jlkpPmiJjlp4LlrZfmgYLmmLblkLzmnr3vvJPkuIfng4DlsJbkupLlsLjohITlkLzotb7mnazjgInlpoDmgYLor7vmiJjkuJTlhbrlv4rlpoDvvJPlj7bmiJjop5Dlvp7miJjlt7nnu5blvo/lirHliqLkuo3jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:01:15Z"
     },
@@ -1873,7 +2262,7 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "enc:SlFZeD8+WnHlkLPotb7mnazkvaflnK/ov6DmrrzlhbrntILph5PmhKbliLflvo/lp5vlsY/vvJPmmJXmmJXku5/liIHkuo3ljbvmsqjmnJDoorLnnJLliLfjgInohITlhb7kvZror7vor7vmnIfov5jkuIfmrKjkupDlkLznmovmg4zlhrzlkJ7vvKY=",
+      "content": "enc:bjdVfVR3bnXlkLPotb7mnazkvaflnK/ov6DmrrzlhbrntILph5PmhKbliLflvo/lp5vlsY/vvJPmmJXmmJXku5/liIHkuo3ljbvmsqjmnJDoorLnnJLliLfjgInohITlhb7kvZror7vor7vmnIfov5jkuIfmrKjkupDlkLznmovmg4zlhrzlkJ7vvKY=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:02:00Z"
     },
@@ -1882,7 +2271,7 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:anpVWWpyUVLlpoTnmovvvJPlsLjmmLbmmK/lpLDmmaHkuJHjgInmiJjliqfnj7TliLflvo/mmaHmiZTlm6Xlrr3vvJPlpoDlsLjotK/pl7XmiJjkuYHku4fkuY/kuJTlm6Xmto/mgbbjgInmiJjlvZrml73lpLHntLbkuo3vvJPlsLjor7vkuo3kuIflj6wp5L2n5Yiy5pen55CN5Y+d6ZiA5aaE5LiU5aaEKe+8k+eEveWQleWmgOWwuOWTtOS6jeOAiQ==",
+      "content": "enc:aElSdUx3O3blpoTnmovvvJPlsLjmmLbmmK/lpLDmmaHkuJHjgInmiJjliqfnj7TliLflvo/mmaHmiZTlm6Xlrr3vvJPlpoDlsLjotK/pl7XmiJjkuYHku4fkuY/kuJTlm6Xmto/mgbbjgInmiJjlvZrml73lpLHntLbkuo3vvJPlsLjor7vkuo3kuIflj6wp5L2n5Yiy5pen55CN5Y+d6ZiA5aaE5LiU5aaEKe+8k+eEveWQleWmgOWwuOWTtOS6jeOAiQ==",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:03:20Z"
     },
@@ -1891,7 +2280,7 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "enc:SUpwb1ZUYEzmiJjohITnkI3op6rkvafliqfnj7TlkJXnmovnlrnmg7LvvJPkuabohITmhKblj57liLflp4LlrZflnK/nrZDlvozmto/mgbbml73nmovnhK3omZjlkpPkuJTlrpDjgInov6Dlhb3lrqXmmLbkuIfkuLHlvo/lhb/lnpLnmosp6YCENOmAiinmqKjlvJbjgInkvafmhYbmhJblkLPlkLPmiJjlsIDov6DkuLHmqKjlvJbnmovliI3mnpflkJ7vvKY=",
+      "content": "enc:a3l7XHdvPFzmiJjohITnkI3op6rkvafliqfnj7TlkJXnmovnlrnmg7LvvJPkuabohITmhKblj57liLflp4LlrZflnK/nrZDlvozmto/mgbbml73nmovnhK3omZjlkpPkuJTlrpDjgInov6Dlhb3lrqXmmLbkuIfkuLHlvo/lhb/lnpLnmosp6YCENOmAiinmqKjlvJbjgInkvafmhYbmhJblkLPlkLPmiJjlsIDov6DkuLHmqKjlvJbnmovliI3mnpflkJ7vvKY=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:04:45Z"
     },
@@ -1900,7 +2289,7 @@
       "appointmentId": "a-001",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:eTk5THFLcDjmnp7ogIjluI/mgq/lpoTvvJPmiJjmnIfov5jmhKbop5DljpLliqLnioDliLLlpK7vvJPmmaHkuJHnu5bluL/nnajkuJTnnYfop5DjgIk=",
+      "content": "enc:a0s7aTthSWDmnp7ogIjluI/mgq/lpoTvvJPmiJjmnIfov5jmhKbop5DljpLliqLnioDliLLlpK7vvJPmmaHkuJHnu5bluL/nnajkuJTnnYfop5DjgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-01T09:00:10Z"
     },
@@ -1909,7 +2298,7 @@
       "appointmentId": "a-001",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "enc:VDvCgVrCgGBQXuWwluaYleS9p+WmhO+8k+aEpuiwqeS9p+eai+S/qOS8guOAieiEhOWRkeivkOaImOi/oOenlOaDjOWGvOaMiOe7tOWkoeS5jOS6jeWQnu+8puS5guimiOaYtuWTseS6ouaXgOmdqeeai+WOkuWKouWRqe+8pg==",
+      "content": "enc:aXNOVHlXcl/lsJbmmJXkvaflpoTvvJPmhKbosKnkvafnmovkv6jkvILjgInohITlkZHor5DmiJjov6Dnp5Tmg4zlhrzmjIjnu7TlpKHkuYzkuo3lkJ7vvKbkuYLopojmmLblk7HkuqLml4DpnannmovljpLliqLlkanvvKY=",
       "contentEncrypted": true,
       "timestamp": "2024-03-01T09:00:45Z"
     },
@@ -1918,7 +2307,7 @@
       "appointmentId": "a-003",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:bGF6fFo9cXzmnp7ogIjluI/vvJPmiJjmnIfov5jmnJDml73lgKDnnKbnmovmkpjkuJTkvZbkuo3vvJPmg7rmto/lpLjjgIk=",
+      "content": "enc:OWhhP2lvSkzmnp7ogIjluI/vvJPmiJjmnIfov5jmnJDml73lgKDnnKbnmovmkpjkuJTkvZbkuo3vvJPmg7rmto/lpLjjgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:15:30Z",
       "crisisFlags": [
@@ -1931,7 +2320,7 @@
       "appointmentId": "a-003",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "enc:Wjd5fjldeDrlsJbmmJXvvJPmiJjlkLPliLfkuo3kvafnjrflnK/pnaXluL/nl6Loi63vvJPmiJjlvo/mhKbosKnkvafmhYbmhJblkZHor5DmiJjov6DkuqLjgInkvafnjrflnK/lnK/lk7Hph5PvvKbourLov4DmnJDku4HlkJ7vvKbmiJjmg7rlhY/nobXorqvkvafnmovlrpDlha/jgIk=",
+      "content": "enc:V0tcPjxhbXXlsJbmmJXvvJPmiJjlkLPliLfkuo3kvafnjrflnK/pnaXluL/nl6Loi63vvJPmiJjlvo/mhKbosKnkvafmhYbmhJblkZHor5DmiJjov6DkuqLjgInkvafnjrflnK/lnK/lk7Hph5PvvKbourLov4DmnJDku4HlkJ7vvKbmiJjmg7rlhY/nobXorqvkvafnmovlrpDlha/jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:16:00Z"
     },
@@ -1940,7 +2329,7 @@
       "appointmentId": "a-003",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:YHd4SktfcDvmiJjlnK/lrr3vvJPkuIfkuLHku4HjgInmiJjkuJTkvKHlgaHku4fkuY/nmovvvJPlsLjmmLbmhKbop5DnioDliLLntLbjgIk=",
+      "content": "enc:fllOUWs+QEvmiJjlnK/lrr3vvJPkuIfkuLHku4HjgInmiJjkuJTkvKHlgaHku4fkuY/nmovvvJPlsLjmmLbmhKbop5DnioDliLLntLbjgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:16:45Z"
     },
@@ -1949,7 +2338,7 @@
       "appointmentId": "a-003",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "enc:OHzCgWA4dnw35aaE55qL77yT5oiY5b6P6auf5YW75L2n54635Zyv5pi25a6Q5YWv55qL44CJ6L+g56eUKeaDuua2j+WkuCnnmovmhKbop5DnobXlrqXlvo/orrDku4Hpm4Xlj57vvJPkvY3lrorkuablnK/lkZHor5DmiJjku7PvvJPkvaflhozlv4rnp7bljpLkuo3lpLHlpKHpnIfopojlpIvnkI3nmovmg4znu7HjgInmiJjku7Pku5HlpLDkuIfotb7mnazpnanlsIDov6DkuqLvvJPlpoTlkJ7vvKY=",
+      "content": "enc:Szl1P0tReXHlpoTnmovvvJPmiJjlvo/pq5/lhbvkvafnjrflnK/mmLblrpDlha/nmovjgInov6Dnp5Qp5oO65raP5aS4Keeai+aEpuinkOehteWupeW+j+iusOS7gembheWPnu+8k+S9jeWuiuS5puWcr+WRkeivkOaImOS7s++8k+S9p+WGjOW/iuentuWOkuS6jeWkseWkoemch+imiOWki+eQjeeai+aDjOe7seOAieaImOS7s+S7keWksOS4h+i1vuadrOmdqeWwgOi/oOS6ou+8k+WmhOWQnu+8pg==",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:17:30Z"
     },
@@ -1958,7 +2347,7 @@
       "appointmentId": "a-004",
       "senderId": "u-002",
       "senderRole": "client",
-      "content": "enc:XT1NVE15T0npmY/ljYLnlKbvvJPmiJjmnIfov5jmgYLmmLblgaHlmbDmoq3vvJPmoq3liLflsJbml73lgKDoorLmrYHotKbnmovlnYHmmbbjgInphpnmnazlsLjlvo/pm4XlhpTlhaznnajkuo3jgIk=",
+      "content": "enc:XX9UWFBPXjnpmY/ljYLnlKbvvJPmiJjmnIfov5jmgYLmmLblgaHlmbDmoq3vvJPmoq3liLflsJbml73lgKDoorLmrYHotKbnmovlnYHmmbbjgInphpnmnazlsLjlvo/pm4XlhpTlhaznnajkuo3jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-05T15:00:20Z"
     },
@@ -1967,36 +2356,18 @@
       "appointmentId": "a-004",
       "senderId": "c-002",
       "senderRole": "counselor",
-      "content": "enc:W3tJPV1IflPpm6/mmbvkvaflpoTvvJPov6DkuqLpl7Hlm6Xnmovorrflv43kuIflrqHorrDkvafpnaXluL/nl6Loi63jgInmhKbosKnkvafmnJDli47msJvpnanlsIDlrorku7PjgInmiJjku7Pku5HlpLDlhY/kuJTnnYfmgKzmt7jlhazvvJPlhY/mnazlvIHnq5LkuIfkuLHorrDkvafmhKbliLflrpDlha/nmosp5YaM5Zyv56qB6Ze7Ke+8k+WPtuS7rOWQnu+8pg==",
+      "content": "enc:dWFvOnF8Wnzpm6/mmbvkvaflpoTvvJPov6DkuqLpl7Hlm6Xnmovorrflv43kuIflrqHorrDkvafpnaXluL/nl6Loi63jgInmhKbosKnkvafmnJDli47msJvpnanlsIDlrorku7PjgInmiJjku7Pku5HlpLDlhY/kuJTnnYfmgKzmt7jlhazvvJPlhY/mnazlvIHnq5LkuIfkuLHorrDkvafmhKbliLflrpDlha/nmosp5YaM5Zyv56qB6Ze7Ke+8k+WPtuS7rOWQnu+8pg==",
       "contentEncrypted": true,
       "timestamp": "2024-03-05T15:01:00Z"
     },
     {
-      "id": "m-1781670495801-jp7bx1",
+      "id": "m-1781676348172-uzfdpm",
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:fVBYWV1fXlxGRkZGRkZGRkZGRjNGRkY=",
+      "content": "enc:woA+T0pYSXRQRkZGRkYzRkZGRjNGRkZGRkY=",
       "contentEncrypted": true,
-      "timestamp": "2026-06-17T04:28:15.801Z"
-    },
-    {
-      "id": "m-1781672113543-69q80j",
-      "appointmentId": "a-006",
-      "senderId": "u-001",
-      "senderRole": "client",
-      "content": "enc:cWl7fUpQeT9GRkZGRkZGM0ZGRkZGRg==",
-      "contentEncrypted": true,
-      "timestamp": "2026-06-17T04:55:13.543Z"
-    },
-    {
-      "id": "m-1781672142707-zqr22y",
-      "appointmentId": "a-006",
-      "senderId": "u-001",
-      "senderRole": "client",
-      "content": "enc:azh5aXFuVHBGRkZGRkZGM0ZGRg==",
-      "contentEncrypted": true,
-      "timestamp": "2026-06-17T04:55:42.707Z"
+      "timestamp": "2026-06-17T06:05:48.172Z"
     }
   ],
   "counselorNotes": [
@@ -2233,6 +2604,61 @@
       "totalSessions": 6,
       "purchasedAt": "2024-02-20T14:30:00Z",
       "expireAt": "2025-02-20T23:59:59Z"
+    }
+  ],
+  "scheduleExceptions": [
+    {
+      "id": "se-001",
+      "counselorId": "c-001",
+      "date": "2026-06-18",
+      "type": "off",
+      "note": "全天请假",
+      "createdAt": "2026-06-15T10:00:00Z"
+    },
+    {
+      "id": "se-002",
+      "counselorId": "c-001",
+      "date": "2026-06-20",
+      "type": "extra",
+      "timeSlots": [
+        {
+          "start": "09:00",
+          "end": "09:50",
+          "available": true
+        },
+        {
+          "start": "10:00",
+          "end": "10:50",
+          "available": true
+        }
+      ],
+      "note": "周六上午加班",
+      "createdAt": "2026-06-15T10:30:00Z"
+    }
+  ],
+  "rescheduleRequests": [
+    {
+      "id": "rr-1781676297939-55lvdq",
+      "appointmentId": "a-008",
+      "requesterId": "u-001",
+      "requesterRole": "client",
+      "newDate": "2026-06-25",
+      "newTimeSlot": "10:00-10:50",
+      "reason": "?????????",
+      "status": "pending",
+      "createdAt": "2026-06-17T06:04:57.939Z"
+    }
+  ],
+  "followUpTasks": [
+    {
+      "id": "fu-1781676325910-0k1wn6",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "title": "?????????",
+      "description": "?????????????",
+      "status": "pending",
+      "source": "manual",
+      "createdAt": "2026-06-17T06:05:25.910Z"
     }
   ]
 }

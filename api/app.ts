@@ -15,6 +15,7 @@ import crisisRoutes from './routes/crisis.js';
 import recordRoutes from './routes/records.js';
 import reviewRoutes from './routes/reviews.js';
 import packageRoutes from './routes/packages.js';
+import followUpRoutes from './routes/followups.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,6 +36,7 @@ app.use('/api/crisis', crisisRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/packages', packageRoutes);
+app.use('/api/follow-ups', followUpRoutes);
 
 app.use(
   '/api/health',

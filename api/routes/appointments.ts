@@ -8,6 +8,8 @@ import type {
   Counselor,
   Client,
   User,
+  RescheduleRequest,
+  RescheduleStatus,
 } from '../../shared/types.js';
 
 const router = Router();
@@ -143,6 +145,18 @@ router.post('/', authRequired, async (req: Request, res: Response): Promise<void
       };
     }
 
+    const availableSlots = db.getAvailableSlotsForDate(counselorId, date);
+    const slotAvailable = availableSlots.some(
+      (s) => `${s.start}-${s.end}` === timeSlot && s.available,
+    );
+    if (!slotAvailable) {
+      res.status(400).json({
+        success: false,
+        error: '该时段不在咨询师的可用时段内，请重新选择',
+      });
+      return;
+    }
+
     const appointment: Appointment = {
       id,
       counselorId,
@@ -161,6 +175,13 @@ router.post('/', authRequired, async (req: Request, res: Response): Promise<void
     };
 
     const created = db.addAppointment(appointment);
+    if (!created) {
+      res.status(409).json({
+        success: false,
+        message: '该时段刚刚被其他来访者预约，请重新选择时段',
+      });
+      return;
+    }
     res.status(201).json({ success: true, data: enrichAppointment(created) });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
@@ -254,10 +275,11 @@ router.patch('/:id/status', authRequired, async (req: Request, res: Response): P
 
     const validTransitions: Record<AppointmentStatus, AppointmentStatus[]> = {
       pending: ['confirmed', 'cancelled'],
-      confirmed: ['in_progress', 'cancelled', 'completed'],
+      confirmed: ['in_progress', 'cancelled', 'completed', 'rescheduled'],
       in_progress: ['completed', 'cancelled'],
       completed: [],
       cancelled: [],
+      rescheduled: [],
     };
 
     if (!validTransitions[appointment.status].includes(status)) {
@@ -328,6 +350,231 @@ router.post('/:id/assessment', authRequired, async (req: Request, res: Response)
       return;
     }
     res.status(200).json({ success: true, data: enrichAppointment(updated) });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师：待处理改期申请 ============
+router.get('/mine/reschedule/pending', authRequired, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = req.user as User;
+    if (user.role !== 'counselor') {
+      res.status(403).json({ success: false, error: 'Only counselors can view pending reschedule requests' });
+      return;
+    }
+
+    const requests = db.getRescheduleRequestsForCounselor(user.id).filter(
+      (r) => r.status === 'pending',
+    );
+    const enriched = requests.map((r) => {
+      const appt = db.getAppointmentById(r.appointmentId);
+      return {
+        ...r,
+        appointment: appt ? enrichAppointment(appt) : undefined,
+      };
+    });
+    res.status(200).json({ success: true, data: enriched });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 发起改期申请 ============
+router.post('/:id/reschedule', authRequired, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const user = req.user as User;
+    const { newDate, newTimeSlot, reason } = req.body as {
+      newDate: string;
+      newTimeSlot: string;
+      reason?: string;
+    };
+
+    if (user.role !== 'client') {
+      res.status(403).json({ success: false, error: 'Only clients can request reschedule' });
+      return;
+    }
+
+    if (!newDate || !newTimeSlot) {
+      res.status(400).json({ success: false, error: 'newDate and newTimeSlot are required' });
+      return;
+    }
+
+    const appointment = db.getAppointmentById(id);
+    if (!appointment) {
+      res.status(404).json({ success: false, error: 'Appointment not found' });
+      return;
+    }
+
+    if (appointment.clientId !== user.id) {
+      res.status(403).json({ success: false, error: 'This appointment does not belong to you' });
+      return;
+    }
+
+    if (appointment.status === 'cancelled' || appointment.status === 'completed' || appointment.status === 'rescheduled') {
+      res.status(400).json({ success: false, error: 'Cannot reschedule this appointment' });
+      return;
+    }
+
+    const availableSlots = db.getAvailableSlotsForDate(appointment.counselorId, newDate);
+    const slotAvailable = availableSlots.some(
+      (s) => `${s.start}-${s.end}` === newTimeSlot && s.available,
+    );
+    if (!slotAvailable) {
+      res.status(400).json({
+        success: false,
+        error: '新时段不在咨询师的可用时段内，请重新选择',
+      });
+      return;
+    }
+
+    const requestId = generateId('rr');
+    const request: RescheduleRequest = {
+      id: requestId,
+      appointmentId: id,
+      requesterId: user.id,
+      requesterRole: user.role,
+      newDate,
+      newTimeSlot,
+      reason,
+      status: 'pending',
+      createdAt: new Date().toISOString(),
+    };
+
+    const created = db.createRescheduleRequest(request);
+    res.status(201).json({ success: true, data: created });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 获取某预约的改期记录 ============
+router.get('/:id/reschedule', authRequired, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const user = req.user as User;
+
+    const appointment = db.getAppointmentById(id);
+    if (!appointment) {
+      res.status(404).json({ success: false, error: 'Appointment not found' });
+      return;
+    }
+
+    if (appointment.counselorId !== user.id && appointment.clientId !== user.id) {
+      res.status(403).json({ success: false, error: 'You do not have access to this appointment' });
+      return;
+    }
+
+    const requests = db.getRescheduleRequestsForAppointment(id);
+    res.status(200).json({ success: true, data: requests });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师同意改期 ============
+router.put('/:id/reschedule/:requestId/approve', authRequired, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id, requestId } = req.params;
+    const user = req.user as User;
+
+    if (user.role !== 'counselor') {
+      res.status(403).json({ success: false, error: 'Only counselors can approve reschedule requests' });
+      return;
+    }
+
+    const appointment = db.getAppointmentById(id);
+    if (!appointment) {
+      res.status(404).json({ success: false, error: 'Appointment not found' });
+      return;
+    }
+
+    if (appointment.counselorId !== user.id) {
+      res.status(403).json({ success: false, error: 'This appointment does not belong to you' });
+      return;
+    }
+
+    const request = db.getRescheduleRequestsForAppointment(id).find((r) => r.id === requestId);
+    if (!request) {
+      res.status(404).json({ success: false, error: 'Reschedule request not found' });
+      return;
+    }
+
+    if (request.status !== 'pending') {
+      res.status(400).json({ success: false, error: 'This request has already been processed' });
+      return;
+    }
+
+    const result = db.approveReschedule(requestId);
+    if (!result) {
+      res.status(409).json({
+        success: false,
+        error: '新时段已被预约，改期失败',
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        oldAppointment: enrichAppointment(result.oldAppointment),
+        newAppointment: enrichAppointment(result.newAppointment),
+        request: result.request,
+      },
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师拒绝改期 ============
+router.put('/:id/reschedule/:requestId/reject', authRequired, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id, requestId } = req.params;
+    const user = req.user as User;
+    const { responseNote } = req.body as { responseNote?: string };
+
+    if (user.role !== 'counselor') {
+      res.status(403).json({ success: false, error: 'Only counselors can reject reschedule requests' });
+      return;
+    }
+
+    const appointment = db.getAppointmentById(id);
+    if (!appointment) {
+      res.status(404).json({ success: false, error: 'Appointment not found' });
+      return;
+    }
+
+    if (appointment.counselorId !== user.id) {
+      res.status(403).json({ success: false, error: 'This appointment does not belong to you' });
+      return;
+    }
+
+    const request = db.getRescheduleRequestsForAppointment(id).find((r) => r.id === requestId);
+    if (!request) {
+      res.status(404).json({ success: false, error: 'Reschedule request not found' });
+      return;
+    }
+
+    if (request.status !== 'pending') {
+      res.status(400).json({ success: false, error: 'This request has already been processed' });
+      return;
+    }
+
+    const updated = db.updateRescheduleRequest(requestId, {
+      status: 'rejected',
+      decidedAt: new Date().toISOString(),
+      decidedById: user.id,
+      responseNote,
+    });
+
+    res.status(200).json({ success: true, data: updated });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     res.status(500).json({ success: false, error: message });

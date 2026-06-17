@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Package, Star, Clock, Calendar } from 'lucide-react';
+import { Plus, Package, Star, Clock, Calendar, RefreshCw, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAppointmentStore } from '@/store/appointmentStore';
+import { useCounselorStore } from '@/store/counselorStore';
 import AppointmentCard from '@/components/AppointmentCard';
 import Empty from '@/components/Empty';
-import type { AppointmentStatus } from '@shared/types';
+import Modal from '@/components/Modal';
+import type { Appointment, AppointmentStatus, TimeSlot } from '@shared/types';
 
 type TabKey = 'all' | 'upcoming' | 'history';
 
@@ -18,14 +20,44 @@ const tabs: { key: TabKey; label: string }[] = [
 const upcomingStatuses: AppointmentStatus[] = ['in_progress', 'confirmed', 'pending'];
 const historyStatuses: AppointmentStatus[] = ['completed', 'cancelled'];
 
+function getWeekDates(): { date: Date; dateStr: string; label: string }[] {
+  const dates = [];
+  const today = new Date();
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    dates.push({
+      date: d,
+      dateStr: d.toISOString().split('T')[0],
+      label: `${d.getMonth() + 1}/${d.getDate()}`,
+    });
+  }
+  return dates;
+}
+
 export default function ClientDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabKey>('all');
-  const { appointments, loading, fetchMyAppointments, updateStatus } = useAppointmentStore();
+  const { appointments, loading, fetchMyAppointments, updateStatus, requestReschedule, rescheduleLoading } = useAppointmentStore();
+  const { availableSlots, availableSlotsLoading, fetchAvailableSlots } = useCounselorStore();
+
+  const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false);
+  const [rescheduleAppointment, setRescheduleAppointment] = useState<Appointment | null>(null);
+  const [selectedRescheduleDate, setSelectedRescheduleDate] = useState<string>('');
+  const [selectedRescheduleSlot, setSelectedRescheduleSlot] = useState<string>('');
+  const [rescheduleReason, setRescheduleReason] = useState('');
+
+  const weekDates = useMemo(() => getWeekDates(), []);
 
   useEffect(() => {
     fetchMyAppointments();
   }, [fetchMyAppointments]);
+
+  useEffect(() => {
+    if (rescheduleAppointment && selectedRescheduleDate) {
+      fetchAvailableSlots(rescheduleAppointment.counselorId, selectedRescheduleDate);
+    }
+  }, [rescheduleAppointment, selectedRescheduleDate, fetchAvailableSlots]);
 
   const filteredAppointments = appointments.filter((a) => {
     if (activeTab === 'all') return true;
@@ -47,6 +79,38 @@ export default function ClientDashboard() {
 
   const handleReview = (id: string) => {
     navigate('/client/reviews', { state: { reviewAppointmentId: id } });
+  };
+
+  const handleOpenReschedule = (id: string) => {
+    const appt = appointments.find((a) => a.id === id);
+    if (appt) {
+      setRescheduleAppointment(appt);
+      setSelectedRescheduleDate('');
+      setSelectedRescheduleSlot('');
+      setRescheduleReason('');
+      setRescheduleModalOpen(true);
+    }
+  };
+
+  const handleCloseRescheduleModal = () => {
+    setRescheduleModalOpen(false);
+    setRescheduleAppointment(null);
+    setSelectedRescheduleDate('');
+    setSelectedRescheduleSlot('');
+    setRescheduleReason('');
+  };
+
+  const handleSubmitReschedule = async () => {
+    if (!rescheduleAppointment || !selectedRescheduleDate || !selectedRescheduleSlot) return;
+    const result = await requestReschedule(rescheduleAppointment.id, {
+      newDate: selectedRescheduleDate,
+      newTimeSlot: selectedRescheduleSlot,
+      reason: rescheduleReason || undefined,
+    });
+    if (result) {
+      handleCloseRescheduleModal();
+      fetchMyAppointments();
+    }
   };
 
   const upcomingCount = appointments.filter((a) => upcomingStatuses.includes(a.status)).length;
@@ -152,10 +216,110 @@ export default function ClientDashboard() {
               role="client"
               onCancel={handleCancel}
               onReview={handleReview}
+              onReschedule={handleOpenReschedule}
             />
           ))}
         </div>
       )}
+
+      <Modal
+        isOpen={rescheduleModalOpen}
+        onClose={handleCloseRescheduleModal}
+        title="申请改期"
+        confirmText={rescheduleLoading ? '提交中...' : '提交改期申请'}
+        confirmVariant="primary"
+        onConfirm={handleSubmitReschedule}
+        className="max-w-lg"
+      >
+        {rescheduleAppointment && (
+          <div className="space-y-4">
+            <div className="rounded-xl bg-slate-50 p-4">
+              <p className="text-xs font-medium text-slate-500">当前预约</p>
+              <p className="mt-1 text-sm font-semibold text-slate-700">
+                {rescheduleAppointment.date} {rescheduleAppointment.timeSlot}
+              </p>
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                选择新日期
+              </label>
+              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+                {weekDates.map((wd) => {
+                  const isSelected = selectedRescheduleDate === wd.dateStr;
+                  return (
+                    <button
+                      key={wd.dateStr}
+                      onClick={() => {
+                        setSelectedRescheduleDate(wd.dateStr);
+                        setSelectedRescheduleSlot('');
+                      }}
+                      className={cn(
+                        'shrink-0 flex flex-col items-center gap-1 rounded-xl px-4 py-3 transition-all min-w-[70px]',
+                        isSelected
+                          ? 'bg-primary-600 text-white shadow-soft'
+                          : 'bg-slate-50 text-slate-600 hover:bg-primary-50 hover:text-primary-700'
+                      )}
+                    >
+                      <span className="text-xs font-medium">{wd.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {selectedRescheduleDate && (
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-700">
+                  选择新时段
+                </label>
+                {availableSlotsLoading ? (
+                  <div className="flex h-20 items-center justify-center">
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-200 border-t-primary-600" />
+                  </div>
+                ) : availableSlots.length > 0 && availableSlots.some((s) => s.available) ? (
+                  <div className="grid grid-cols-3 gap-2">
+                    {availableSlots.map((slot, i) => (
+                      <button
+                        key={i}
+                        onClick={() => slot.available && setSelectedRescheduleSlot(`${slot.start}-${slot.end}`)}
+                        disabled={!slot.available}
+                        className={cn(
+                          'rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                          !slot.available
+                            ? 'bg-slate-50 text-slate-300 cursor-not-allowed line-through'
+                            : selectedRescheduleSlot === `${slot.start}-${slot.end}`
+                              ? 'bg-primary-600 text-white shadow-soft'
+                              : 'bg-slate-50 text-slate-700 hover:bg-primary-50 hover:text-primary-700'
+                        )}
+                      >
+                        {slot.start}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="rounded-xl bg-slate-50 p-4 text-center">
+                    <p className="text-sm text-slate-500">该日期暂无可预约时段</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                改期原因
+              </label>
+              <textarea
+                rows={3}
+                value={rescheduleReason}
+                onChange={(e) => setRescheduleReason(e.target.value)}
+                placeholder="选填，请说明改期原因..."
+                className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+              />
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

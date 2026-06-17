@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Appointment, AppointmentStatus, AssessmentForm } from '../../shared/types';
+import type { Appointment, AppointmentStatus, AssessmentForm, RescheduleRequest } from '../../shared/types';
 import { apiClient } from '../lib/api';
 
 interface CreateAppointmentData {
@@ -16,20 +16,34 @@ interface CheckConflictResult {
   conflict: boolean;
 }
 
+interface RescheduleData {
+  newDate: string;
+  newTimeSlot: string;
+  reason?: string;
+}
+
 interface AppointmentState {
   appointments: Appointment[];
   currentAppointment: Appointment | null;
   loading: boolean;
+  rescheduleRequests: RescheduleRequest[];
+  rescheduleLoading: boolean;
   fetchMyAppointments: () => Promise<boolean>;
   createAppointment: (data: CreateAppointmentData) => Promise<Appointment | null>;
   updateStatus: (id: string, status: AppointmentStatus) => Promise<boolean>;
   checkConflict: (counselorId: string, date: string, timeSlot: string) => Promise<boolean>;
+  requestReschedule: (appointmentId: string, data: RescheduleData) => Promise<RescheduleRequest | null>;
+  fetchRescheduleRequests: (appointmentId: string) => Promise<boolean>;
+  approveReschedule: (appointmentId: string, requestId: string) => Promise<boolean>;
+  rejectReschedule: (appointmentId: string, requestId: string) => Promise<boolean>;
 }
 
 export const useAppointmentStore = create<AppointmentState>((set) => ({
   appointments: [],
   currentAppointment: null,
   loading: false,
+  rescheduleRequests: [],
+  rescheduleLoading: false,
 
   fetchMyAppointments: async () => {
     set({ loading: true });
@@ -79,6 +93,63 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
     if (res.success && res.data) {
       return res.data.conflict;
     }
+    return false;
+  },
+
+  requestReschedule: async (appointmentId, data) => {
+    set({ rescheduleLoading: true });
+    const res = await apiClient.post<RescheduleRequest>(`/appointments/${appointmentId}/reschedule`, data);
+    if (res.success && res.data) {
+      set((state) => ({
+        rescheduleRequests: [...state.rescheduleRequests, res.data!],
+        rescheduleLoading: false,
+      }));
+      return res.data;
+    }
+    set({ rescheduleLoading: false });
+    return null;
+  },
+
+  fetchRescheduleRequests: async (appointmentId) => {
+    set({ rescheduleLoading: true });
+    const res = await apiClient.get<RescheduleRequest[]>(`/appointments/${appointmentId}/reschedule`);
+    if (res.success && res.data) {
+      set({ rescheduleRequests: res.data, rescheduleLoading: false });
+      return true;
+    }
+    set({ rescheduleLoading: false });
+    return false;
+  },
+
+  approveReschedule: async (appointmentId, requestId) => {
+    set({ rescheduleLoading: true });
+    const res = await apiClient.put(`/appointments/${appointmentId}/reschedule/${requestId}/approve`);
+    if (res.success) {
+      set((state) => ({
+        rescheduleRequests: state.rescheduleRequests.map((r) =>
+          r.id === requestId ? { ...r, status: 'approved' as const } : r
+        ),
+        rescheduleLoading: false,
+      }));
+      return true;
+    }
+    set({ rescheduleLoading: false });
+    return false;
+  },
+
+  rejectReschedule: async (appointmentId, requestId) => {
+    set({ rescheduleLoading: true });
+    const res = await apiClient.put(`/appointments/${appointmentId}/reschedule/${requestId}/reject`);
+    if (res.success) {
+      set((state) => ({
+        rescheduleRequests: state.rescheduleRequests.map((r) =>
+          r.id === requestId ? { ...r, status: 'rejected' as const } : r
+        ),
+        rescheduleLoading: false,
+      }));
+      return true;
+    }
+    set({ rescheduleLoading: false });
     return false;
   },
 }));

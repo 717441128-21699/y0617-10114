@@ -11,6 +11,11 @@ import type {
   Review,
   Package,
   PackagePurchase,
+  ScheduleException,
+  RescheduleRequest,
+  FollowUpTask,
+  TimeSlot,
+  WeeklySchedule,
 } from '../../shared/types.js';
 import {
   mockCounselors,
@@ -21,9 +26,10 @@ import {
   mockReviews,
   mockPackages,
   mockPackagePurchases,
+  mockScheduleExceptions,
 } from './mockData.js';
 import { encryptContent, decryptContent } from './encryption.js';
-import { normalizeWeeklySchedule, normalizeCounselorSchedule } from './utils.js';
+import { normalizeWeeklySchedule, normalizeCounselorSchedule, DEFAULT_TIME_SLOTS } from './utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +45,9 @@ interface DatabaseData {
   reviews: Review[];
   packages: Package[];
   packagePurchases: PackagePurchase[];
+  scheduleExceptions: ScheduleException[];
+  rescheduleRequests: RescheduleRequest[];
+  followUpTasks: FollowUpTask[];
 }
 
 function getInitialData(): DatabaseData {
@@ -53,6 +62,9 @@ function getInitialData(): DatabaseData {
     reviews: mockReviews,
     packages: mockPackages,
     packagePurchases: mockPackagePurchases,
+    scheduleExceptions: mockScheduleExceptions,
+    rescheduleRequests: [],
+    followUpTasks: [],
   };
 }
 
@@ -67,6 +79,9 @@ export class Database {
   public reviews: Review[];
   public packages: Package[];
   public packagePurchases: PackagePurchase[];
+  public scheduleExceptions: ScheduleException[];
+  public rescheduleRequests: RescheduleRequest[];
+  public followUpTasks: FollowUpTask[];
 
   private constructor() {
     const data = this.load();
@@ -79,6 +94,9 @@ export class Database {
     this.reviews = data.reviews;
     this.packages = data.packages;
     this.packagePurchases = data.packagePurchases;
+    this.scheduleExceptions = data.scheduleExceptions;
+    this.rescheduleRequests = data.rescheduleRequests;
+    this.followUpTasks = data.followUpTasks;
     this.save();
   }
 
@@ -103,7 +121,10 @@ export class Database {
           parsed.counselorNotes &&
           parsed.reviews &&
           parsed.packages &&
-          parsed.packagePurchases
+          parsed.packagePurchases &&
+          parsed.scheduleExceptions &&
+          parsed.rescheduleRequests &&
+          parsed.followUpTasks
         ) {
           const decryptedMessages = parsed.chatMessages.map((msg) => ({
             ...msg,
@@ -113,6 +134,9 @@ export class Database {
           return {
             ...parsed,
             chatMessages: decryptedMessages,
+            scheduleExceptions: parsed.scheduleExceptions || [],
+            rescheduleRequests: parsed.rescheduleRequests || [],
+            followUpTasks: parsed.followUpTasks || [],
           };
         }
       }
@@ -152,6 +176,9 @@ export class Database {
       reviews: this.reviews,
       packages: this.packages,
       packagePurchases: this.packagePurchases,
+      scheduleExceptions: this.scheduleExceptions,
+      rescheduleRequests: this.rescheduleRequests,
+      followUpTasks: this.followUpTasks,
     };
     this.saveInternal(data);
   }
@@ -167,6 +194,9 @@ export class Database {
     this.reviews = initial.reviews;
     this.packages = initial.packages;
     this.packagePurchases = initial.packagePurchases;
+    this.scheduleExceptions = initial.scheduleExceptions;
+    this.rescheduleRequests = initial.rescheduleRequests;
+    this.followUpTasks = initial.followUpTasks;
     this.save();
   }
 
@@ -290,7 +320,18 @@ export class Database {
     return result;
   }
 
-  public addAppointment(appointment: Appointment): Appointment {
+  public addAppointment(appointment: Appointment): Appointment | null {
+    const exists = this.appointments.some(
+      (a) =>
+        a.counselorId === appointment.counselorId &&
+        a.date === appointment.date &&
+        a.timeSlot === appointment.timeSlot &&
+        a.status !== 'cancelled' &&
+        a.id !== appointment.id,
+    );
+    if (exists) {
+      return null;
+    }
     this.appointments.push(appointment);
     this.save();
     return appointment;
@@ -511,6 +552,231 @@ export class Database {
     if (!purchase || purchase.remainingSessions <= 0) return undefined;
     return this.updatePackagePurchase(purchaseId, {
       remainingSessions: purchase.remainingSessions - 1,
+    });
+  }
+
+  // ============ Schedule Exceptions ============
+  public listScheduleExceptions(
+    counselorId: string,
+    startDate?: string,
+    endDate?: string,
+  ): ScheduleException[] {
+    let result = this.scheduleExceptions.filter((e) => e.counselorId === counselorId);
+    if (startDate) {
+      result = result.filter((e) => e.date >= startDate);
+    }
+    if (endDate) {
+      result = result.filter((e) => e.date <= endDate);
+    }
+    return result.sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  public addScheduleException(exception: ScheduleException): ScheduleException {
+    this.scheduleExceptions.push(exception);
+    this.save();
+    return exception;
+  }
+
+  public updateScheduleException(
+    id: string,
+    updates: Partial<ScheduleException>,
+  ): ScheduleException | undefined {
+    const idx = this.scheduleExceptions.findIndex((e) => e.id === id);
+    if (idx === -1) return undefined;
+    this.scheduleExceptions[idx] = { ...this.scheduleExceptions[idx], ...updates };
+    this.save();
+    return this.scheduleExceptions[idx];
+  }
+
+  public deleteScheduleException(id: string): boolean {
+    const idx = this.scheduleExceptions.findIndex((e) => e.id === id);
+    if (idx === -1) return false;
+    this.scheduleExceptions.splice(idx, 1);
+    this.save();
+    return true;
+  }
+
+  public getAvailableSlotsForDate(counselorId: string, date: string): TimeSlot[] {
+    const counselor = this.getCounselorById(counselorId);
+    if (!counselor) {
+      return DEFAULT_TIME_SLOTS.map((s) => ({ ...s, available: false }));
+    }
+
+    const dateObj = new Date(date);
+    const days: (keyof WeeklySchedule)[] = [
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+    ];
+    const weekday = days[dateObj.getDay()];
+    const defaultSlots = counselor.schedule[weekday] || [];
+
+    const exception = this.scheduleExceptions.find(
+      (e) => e.counselorId === counselorId && e.date === date,
+    );
+
+    if (exception) {
+      if (exception.type === 'off') {
+        return DEFAULT_TIME_SLOTS.map((s) => ({ ...s, available: false }));
+      }
+      if (exception.type === 'extra' && exception.timeSlots) {
+        const slotMap = new Map<string, boolean>();
+        for (const slot of defaultSlots) {
+          slotMap.set(slot.start, slot.available);
+        }
+        for (const slot of exception.timeSlots) {
+          slotMap.set(slot.start, true);
+        }
+        return DEFAULT_TIME_SLOTS.map((defaultSlot) => ({
+          start: defaultSlot.start,
+          end: defaultSlot.end,
+          available: slotMap.get(defaultSlot.start) ?? false,
+        }));
+      }
+    }
+
+    return DEFAULT_TIME_SLOTS.map((defaultSlot) => {
+      const existing = defaultSlots.find((s) => s.start === defaultSlot.start);
+      return {
+        start: defaultSlot.start,
+        end: defaultSlot.end,
+        available: existing?.available ?? false,
+      };
+    });
+  }
+
+  // ============ Reschedule Requests ============
+  public createRescheduleRequest(request: RescheduleRequest): RescheduleRequest {
+    this.rescheduleRequests.push(request);
+    this.save();
+    return request;
+  }
+
+  public getRescheduleRequestsForAppointment(appointmentId: string): RescheduleRequest[] {
+    return this.rescheduleRequests
+      .filter((r) => r.appointmentId === appointmentId)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  public getRescheduleRequestsForCounselor(counselorId: string): RescheduleRequest[] {
+    return this.rescheduleRequests
+      .filter((r) => {
+        const appt = this.appointments.find((a) => a.id === r.appointmentId);
+        return appt?.counselorId === counselorId;
+      })
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  public getRescheduleRequestsForClient(clientId: string): RescheduleRequest[] {
+    return this.rescheduleRequests
+      .filter((r) => {
+        const appt = this.appointments.find((a) => a.id === r.appointmentId);
+        return appt?.clientId === clientId;
+      })
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  public updateRescheduleRequest(
+    id: string,
+    updates: Partial<RescheduleRequest>,
+  ): RescheduleRequest | undefined {
+    const idx = this.rescheduleRequests.findIndex((r) => r.id === id);
+    if (idx === -1) return undefined;
+    this.rescheduleRequests[idx] = { ...this.rescheduleRequests[idx], ...updates };
+    this.save();
+    return this.rescheduleRequests[idx];
+  }
+
+  public approveReschedule(
+    requestId: string,
+  ): { oldAppointment: Appointment; newAppointment: Appointment; request: RescheduleRequest } | null {
+    const request = this.rescheduleRequests.find((r) => r.id === requestId);
+    if (!request) return null;
+
+    const oldAppointment = this.appointments.find((a) => a.id === request.appointmentId);
+    if (!oldAppointment) return null;
+
+    const newAppointment: Appointment = {
+      ...oldAppointment,
+      id: `a-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      date: request.newDate,
+      timeSlot: request.newTimeSlot,
+      status: 'confirmed',
+      createdAt: new Date().toISOString(),
+    };
+
+    const created = this.addAppointment(newAppointment);
+    if (!created) return null;
+
+    this.updateAppointment(oldAppointment.id, { status: 'rescheduled' });
+
+    const updatedRequest = this.updateRescheduleRequest(requestId, {
+      status: 'approved',
+      decidedAt: new Date().toISOString(),
+    });
+    if (!updatedRequest) return null;
+
+    return {
+      oldAppointment: { ...oldAppointment, status: 'rescheduled' },
+      newAppointment: created,
+      request: updatedRequest,
+    };
+  }
+
+  // ============ Follow Up Tasks ============
+  public createFollowUpTask(task: FollowUpTask): FollowUpTask {
+    this.followUpTasks.push(task);
+    this.save();
+    return task;
+  }
+
+  public getFollowUpsByCounselor(
+    counselorId: string,
+    status?: FollowUpTask['status'],
+  ): FollowUpTask[] {
+    let result = this.followUpTasks.filter((t) => t.counselorId === counselorId);
+    if (status) {
+      result = result.filter((t) => t.status === status);
+    }
+    return result.sort((a, b) => {
+      if (a.dueDate && b.dueDate) return a.dueDate.localeCompare(b.dueDate);
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  }
+
+  public getFollowUpsByClient(
+    counselorId: string,
+    clientId: string,
+    status?: FollowUpTask['status'],
+  ): FollowUpTask[] {
+    let result = this.followUpTasks.filter(
+      (t) => t.counselorId === counselorId && t.clientId === clientId,
+    );
+    if (status) {
+      result = result.filter((t) => t.status === status);
+    }
+    return result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  public updateFollowUp(
+    id: string,
+    updates: Partial<FollowUpTask>,
+  ): FollowUpTask | undefined {
+    const idx = this.followUpTasks.findIndex((t) => t.id === id);
+    if (idx === -1) return undefined;
+    this.followUpTasks[idx] = { ...this.followUpTasks[idx], ...updates };
+    this.save();
+    return this.followUpTasks[idx];
+  }
+
+  public completeFollowUp(id: string): FollowUpTask | undefined {
+    return this.updateFollowUp(id, {
+      status: 'completed',
+      completedAt: new Date().toISOString(),
     });
   }
 }

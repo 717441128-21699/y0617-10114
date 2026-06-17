@@ -1,14 +1,15 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { User, FileText, Clock, Plus, Edit2, Save, X, Calendar, CheckCircle, Users, MessageSquare, ChevronDown, AlertTriangle, Heart } from 'lucide-react';
+import { User, FileText, Clock, Plus, Edit2, Save, X, Calendar, CheckCircle, Users, MessageSquare, ChevronDown, AlertTriangle, Heart, ListTodo, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useRecordStore } from '@/store/recordStore';
 import { useAppointmentStore } from '@/store/appointmentStore';
+import { useFollowUpStore } from '@/store/followUpStore';
 import Empty from '@/components/Empty';
 import Modal from '@/components/Modal';
 import PrivacyBadge from '@/components/PrivacyBadge';
-import { AppointmentStatusLabels } from '@shared/types';
-import type { CounselorNote, Appointment, AssessmentForm } from '@shared/types';
+import { AppointmentStatusLabels, FollowUpSourceLabels } from '@shared/types';
+import type { CounselorNote, Appointment, AssessmentForm, FollowUpTask, FollowUpSource } from '@shared/types';
 
 interface ClientItem {
   id: string;
@@ -18,7 +19,7 @@ interface ClientItem {
   lastSession: string;
 }
 
-type TabKey = 'notes' | 'timeline';
+type TabKey = 'notes' | 'timeline' | 'followups';
 
 export default function CounselorRecords() {
   const [searchParams] = useSearchParams();
@@ -38,6 +39,15 @@ export default function CounselorRecords() {
 
   const { notes, loading, fetchNotesByClient, createNote, updateNote } = useRecordStore();
   const { appointments, fetchMyAppointments } = useAppointmentStore();
+  const { tasks: followUpTasks, loading: followUpLoading, fetchByClient, createTask, updateTask, completeTask, deleteTask } = useFollowUpStore();
+
+  const [followUpModalOpen, setFollowUpModalOpen] = useState(false);
+  const [editingFollowUp, setEditingFollowUp] = useState<FollowUpTask | null>(null);
+  const [followUpTitle, setFollowUpTitle] = useState('');
+  const [followUpDescription, setFollowUpDescription] = useState('');
+  const [followUpDueDate, setFollowUpDueDate] = useState('');
+  const [followUpSource, setFollowUpSource] = useState<FollowUpSource>('manual');
+  const [followUpSaving, setFollowUpSaving] = useState(false);
 
   const clients: ClientItem[] = useMemo(() => {
     const grouped = new Map<string, Appointment[]>();
@@ -90,8 +100,11 @@ export default function CounselorRecords() {
   useEffect(() => {
     if (selectedClientId) {
       fetchNotesByClient(selectedClientId);
+      if (activeTab === 'followups') {
+        fetchByClient(selectedClientId);
+      }
     }
-  }, [selectedClientId, fetchNotesByClient]);
+  }, [selectedClientId, activeTab, fetchNotesByClient, fetchByClient]);
 
   const sortedClientAppointments = useMemo(
     () =>
@@ -161,10 +174,72 @@ export default function CounselorRecords() {
       });
     }
     setSaving(false);
-    const savedApptId = noteAppointmentId;
     handleCloseNoteModal();
-    if (savedApptId && !selectedAppointmentId) {
-      setSelectedAppointmentId(savedApptId);
+  };
+
+  const pendingFollowUps = useMemo(
+    () => followUpTasks.filter((t) => t.status === 'pending'),
+    [followUpTasks]
+  );
+
+  const completedFollowUps = useMemo(
+    () => followUpTasks.filter((t) => t.status === 'completed'),
+    [followUpTasks]
+  );
+
+  const handleOpenAddFollowUp = () => {
+    setEditingFollowUp(null);
+    setFollowUpTitle('');
+    setFollowUpDescription('');
+    setFollowUpDueDate('');
+    setFollowUpSource('manual');
+    setFollowUpModalOpen(true);
+  };
+
+  const handleOpenEditFollowUp = (task: FollowUpTask) => {
+    setEditingFollowUp(task);
+    setFollowUpTitle(task.title);
+    setFollowUpDescription(task.description || '');
+    setFollowUpDueDate(task.dueDate || '');
+    setFollowUpSource(task.source);
+    setFollowUpModalOpen(true);
+  };
+
+  const handleCloseFollowUpModal = () => {
+    setFollowUpModalOpen(false);
+    setEditingFollowUp(null);
+    setFollowUpTitle('');
+    setFollowUpDescription('');
+    setFollowUpDueDate('');
+    setFollowUpSource('manual');
+  };
+
+  const handleSaveFollowUp = async () => {
+    if (!selectedClientId || !followUpTitle.trim()) return;
+    setFollowUpSaving(true);
+    const data = {
+      clientId: selectedClientId,
+      title: followUpTitle,
+      description: followUpDescription || undefined,
+      dueDate: followUpDueDate || undefined,
+      source: followUpSource,
+    };
+    if (editingFollowUp) {
+      await updateTask(editingFollowUp.id, data);
+    } else {
+      await createTask(data);
+    }
+    setFollowUpSaving(false);
+    handleCloseFollowUpModal();
+  };
+
+  const handleCompleteFollowUp = async (id: string) => {
+    await completeTask(id);
+  };
+
+  const handleDeleteFollowUp = async (id: string) => {
+    if (window.confirm('确定要删除这个随访任务吗？')) {
+      await deleteTask(id);
     }
   };
 
@@ -183,8 +258,7 @@ export default function CounselorRecords() {
       return sortedClientAppointments;
     }
     const selected = sortedClientAppointments.find((a) => a.id === selectedAppointmentId);
-    const others = sortedClientAppointments.filter((a) => a.id !== selectedAppointmentId);
-    return selected ? [selected, ...others] : sortedClientAppointments;
+    return selected ? [selected] : [];
   }, [sortedClientAppointments, selectedAppointmentId]);
 
   const isNoteAppointmentReadonly = !editingNote && !!noteAppointmentId && (
@@ -304,10 +378,20 @@ export default function CounselorRecords() {
 
               {sortedClientAppointments.length > 0 && (
                 <div className="rounded-2xl bg-white p-4 shadow-card">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
-                    <Calendar className="mr-1.5 inline h-4 w-4" />
-                    按咨询筛选
-                  </label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label className="text-sm font-medium text-slate-700">
+                      <Calendar className="mr-1.5 inline h-4 w-4" />
+                      按咨询筛选
+                    </label>
+                    {selectedAppointmentId && (
+                      <button
+                        onClick={() => setSelectedAppointmentId('')}
+                        className="inline-flex items-center gap-1 text-xs font-medium text-primary-600 transition-colors hover:text-primary-700"
+                      >
+                        返回全部
+                      </button>
+                    )}
+                  </div>
                   <div className="relative">
                     <select
                       value={selectedAppointmentId}
@@ -366,6 +450,29 @@ export default function CounselorRecords() {
                       activeTab === 'timeline' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-500'
                     )}>
                       {sortedClientAppointments.length}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActiveTab('followups');
+                      if (selectedClientId) {
+                        fetchByClient(selectedClientId);
+                      }
+                    }}
+                    className={cn(
+                      'flex-1 flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+                      activeTab === 'followups'
+                        ? 'bg-amber-50 text-amber-700 shadow-glow'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+                    )}
+                  >
+                    <ListTodo className="h-4 w-4" />
+                    随访待办
+                    <span className={cn(
+                      'rounded-full px-1.5 py-0.5 text-xs font-semibold',
+                      activeTab === 'followups' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'
+                    )}>
+                      {pendingFollowUps.length}
                     </span>
                   </button>
                 </div>
@@ -463,6 +570,76 @@ export default function CounselorRecords() {
                   )}
                 </div>
               )}
+
+              {activeTab === 'followups' && (
+                <div className="space-y-4">
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleOpenAddFollowUp}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-medium text-white shadow-soft transition-colors hover:bg-amber-600"
+                    >
+                      <Plus className="h-4 w-4" />
+                      新增随访
+                    </button>
+                  </div>
+
+                  {followUpLoading ? (
+                    <div className="flex h-40 items-center justify-center">
+                      <div className="h-8 w-8 animate-spin rounded-full border-2 border-amber-200 border-t-amber-600" />
+                    </div>
+                  ) : followUpTasks.length === 0 ? (
+                    <Empty
+                      icon={ListTodo}
+                      title="暂无随访任务"
+                      description="点击「新增随访」为来访者创建随访待办"
+                      className="py-12"
+                      action={{ label: '新增随访', onClick: handleOpenAddFollowUp }}
+                    />
+                  ) : (
+                    <div className="space-y-6">
+                      {pendingFollowUps.length > 0 && (
+                        <div className="space-y-3">
+                          <h4 className="flex items-center gap-2 text-sm font-semibold text-amber-700">
+                            <span className="flex h-2 w-2 rounded-full bg-amber-500"></span>
+                            未完成 ({pendingFollowUps.length})
+                          </h4>
+                          <div className="space-y-3">
+                            {pendingFollowUps.map((task) => (
+                              <FollowUpCard
+                                key={task.id}
+                                task={task}
+                                onComplete={handleCompleteFollowUp}
+                                onEdit={handleOpenEditFollowUp}
+                                onDelete={handleDeleteFollowUp}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {completedFollowUps.length > 0 && (
+                        <div className="space-y-3">
+                          <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-500">
+                            <CheckCircle className="h-4 w-4" />
+                            已完成 ({completedFollowUps.length})
+                          </h4>
+                          <div className="space-y-3">
+                            {completedFollowUps.map((task) => (
+                              <FollowUpCard
+                                key={task.id}
+                                task={task}
+                                onComplete={handleCompleteFollowUp}
+                                onEdit={handleOpenEditFollowUp}
+                                onDelete={handleDeleteFollowUp}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ) : (
             <div className="rounded-2xl bg-white p-10 shadow-card">
@@ -475,6 +652,79 @@ export default function CounselorRecords() {
           )}
         </section>
       </div>
+
+      <Modal
+        isOpen={followUpModalOpen}
+        onClose={handleCloseFollowUpModal}
+        title={editingFollowUp ? '编辑随访任务' : '新增随访任务'}
+        confirmText={followUpSaving ? '保存中...' : '保存'}
+        confirmVariant="warm"
+        onConfirm={handleSaveFollowUp}
+        className="max-w-lg"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              任务标题 <span className="text-crisis-500">*</span>
+            </label>
+            <input
+              type="text"
+              value={followUpTitle}
+              onChange={(e) => setFollowUpTitle(e.target.value)}
+              placeholder="例如：危机干预跟进"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors focus:border-warm-400 focus:ring-2 focus:ring-warm-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              截止日期
+            </label>
+            <input
+              type="date"
+              value={followUpDueDate}
+              onChange={(e) => setFollowUpDueDate(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors focus:border-warm-400 focus:ring-2 focus:ring-warm-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              来源
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {(['crisis', 'manual', 'assessment'] as FollowUpSource[]).map((source) => (
+                <button
+                  key={source}
+                  type="button"
+                  onClick={() => setFollowUpSource(source)}
+                  className={cn(
+                    'rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                    followUpSource === source
+                      ? 'bg-warm-500 text-white shadow-soft'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  )}
+                >
+                  {FollowUpSourceLabels[source]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              描述
+            </label>
+            <textarea
+              rows={4}
+              value={followUpDescription}
+              onChange={(e) => setFollowUpDescription(e.target.value)}
+              placeholder="选填，添加详细描述..."
+              className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors focus:border-warm-400 focus:ring-2 focus:ring-warm-100"
+            />
+          </div>
+        </div>
+      </Modal>
 
       <Modal
         isOpen={noteModalOpen}
@@ -711,6 +961,98 @@ function TimelineItem({ appointment, isLast, highlighted }: TimelineItemProps) {
         <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
           <span>¥{appointment.price}</span>
           {appointment.packageUsageId && <span>使用课程包</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+interface FollowUpCardProps {
+  task: FollowUpTask;
+  onComplete: (id: string) => void;
+  onEdit: (task: FollowUpTask) => void;
+  onDelete: (id: string) => void;
+}
+
+function FollowUpCard({ task, onComplete, onEdit, onDelete }: FollowUpCardProps) {
+  const isCompleted = task.status === 'completed';
+
+  const sourceColors: Record<string, string> = {
+    crisis: 'bg-crisis-100 text-crisis-700',
+    manual: 'bg-primary-100 text-primary-700',
+    assessment: 'bg-safe-100 text-safe-700',
+  };
+
+  return (
+    <div
+      className={cn(
+        'rounded-xl border p-4 transition-all',
+        isCompleted
+          ? 'bg-slate-50 border-slate-200 opacity-70'
+          : 'bg-gradient-to-br from-amber-50 to-warm-50 border-amber-200 shadow-soft'
+      )}
+    >
+      <div className="flex items-start gap-3">
+        <button
+          onClick={() => !isCompleted && onComplete(task.id)}
+          className={cn(
+            'mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all',
+            isCompleted
+              ? 'border-safe-400 bg-safe-400 text-white'
+              : 'border-amber-300 bg-white hover:border-amber-500 hover:bg-amber-50'
+          )}
+          disabled={isCompleted}
+        >
+          {isCompleted && <CheckCircle className="h-3 w-3" />}
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h5 className={cn(
+                'font-semibold text-sm',
+                isCompleted ? 'text-slate-500 line-through' : 'text-slate-800'
+              )}>
+                {task.title}
+              </h5>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                <span className={cn(
+                  'rounded-full px-2 py-0.5 text-[10px] font-medium',
+                  sourceColors[task.source] || 'bg-slate-100 text-slate-600'
+                )}>
+                  {FollowUpSourceLabels[task.source]}
+                </span>
+                {task.dueDate && (
+                  <span className="flex items-center gap-1 text-[11px] text-slate-500">
+                    <Calendar className="h-3 w-3" />
+                    截止 {task.dueDate}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
+              <button
+                onClick={() => onEdit(task)}
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/60 hover:text-slate-600"
+              >
+                <Edit2 className="h-3.5 w-3.5" />
+              </button>
+              <button
+                onClick={() => onDelete(task.id)}
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          </div>
+          {task.description && (
+            <p className={cn(
+              'mt-2 text-sm leading-relaxed',
+              isCompleted ? 'text-slate-400 line-through' : 'text-slate-600'
+            )}>
+              {task.description}
+            </p>
+          )}
         </div>
       </div>
     </div>

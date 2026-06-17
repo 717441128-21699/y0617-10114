@@ -6,6 +6,7 @@ import type {
   ChatMessage,
   User,
   Appointment,
+  FollowUpTask,
 } from '../../shared/types.js';
 
 const router = Router();
@@ -84,6 +85,28 @@ router.post('/:appointmentId/messages', authRequired, async (req: Request, res: 
 
     if (crisisResult.triggered) {
       db.updateAppointment(appointmentId, { crisisTriggered: true });
+
+      if (crisisResult.severity === 'high' || crisisResult.severity === 'medium') {
+        const appointment = db.getAppointmentById(appointmentId);
+        const client = db.getClientById(appointment?.clientId || '');
+        const dueDate = new Date();
+        dueDate.setHours(dueDate.getHours() + 24);
+
+        const severityLabel = crisisResult.severity === 'high' ? '高' : '中';
+        const followUp: FollowUpTask = {
+          id: `fu-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          counselorId: appointment?.counselorId || '',
+          clientId: appointment?.clientId || '',
+          appointmentId,
+          title: `危机干预跟进 - ${client?.name || '来访者'}`,
+          description: `来访者在咨询中触发了${severityLabel}级危机关键词，请及时跟进`,
+          dueDate: dueDate.toISOString(),
+          status: 'pending',
+          source: 'crisis',
+          createdAt: new Date().toISOString(),
+        };
+        db.createFollowUpTask(followUp);
+      }
     }
 
     res.status(201).json({

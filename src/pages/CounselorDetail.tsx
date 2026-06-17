@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, BadgeCheck, Calendar, Users, Star, MessageSquare, Phone, Video, BookOpen, Award, Sparkles, Clock, ChevronRight, Lock, AlertCircle } from 'lucide-react';
+import { ArrowLeft, BadgeCheck, Calendar, Users, Star, MessageSquare, Phone, Video, BookOpen, Award, Sparkles, Clock, ChevronRight, Lock, AlertCircle, AlertTriangle, Lightbulb } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import RatingStars from '@/components/RatingStars';
 import PackageCard from '@/components/PackageCard';
@@ -10,8 +10,8 @@ import { useAuthStore } from '@/store/authStore';
 import { useCounselorStore } from '@/store/counselorStore';
 import { useReviewStore } from '@/store/reviewStore';
 import { usePackageStore } from '@/store/packageStore';
-import { cn, normalizeWeeklySchedule } from '@/lib/utils';
-import type { Specialty, ServiceMode, TimeSlot, WeeklySchedule } from '@shared/types';
+import { cn } from '@/lib/utils';
+import type { Specialty, ServiceMode, TimeSlot } from '@shared/types';
 import { SpecialtyLabels, ServiceModeLabels } from '@shared/types';
 
 type TabType = 'intro' | 'reviews' | 'schedule' | 'packages';
@@ -65,7 +65,7 @@ export default function CounselorDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { currentCounselor, loading, fetchCounselorById } = useCounselorStore();
+  const { currentCounselor, loading, fetchCounselorById, availableSlots, availableSlotsLoading, fetchAvailableSlots, exceptions, fetchCounselorExceptions } = useCounselorStore();
   const { stats, loading: reviewsLoading, fetchReviewStats } = useReviewStore();
   const { packages, loading: packagesLoading, fetchPackages } = usePackageStore();
 
@@ -126,11 +126,25 @@ export default function CounselorDetail() {
 
   const today = new Date();
 
-  const normalizedSchedule: WeeklySchedule = useMemo(() => {
-    return normalizeWeeklySchedule(currentCounselor?.schedule);
-  }, [currentCounselor]);
+  useEffect(() => {
+    if (id && activeTab === 'schedule') {
+      fetchCounselorExceptions(id);
+    }
+  }, [id, activeTab, fetchCounselorExceptions]);
 
-  const currentDaySlots: TimeSlot[] = normalizedSchedule[weekDates[selectedDay].dayKey] || [];
+  useEffect(() => {
+    if (id && activeTab === 'schedule' && weekDates[selectedDay]) {
+      const dateStr = formatDateISO(weekDates[selectedDay].date);
+      fetchAvailableSlots(id, dateStr);
+    }
+  }, [id, activeTab, selectedDay, fetchAvailableSlots, weekDates]);
+
+  const currentDaySlots: TimeSlot[] = availableSlots;
+
+  const currentDayException = useMemo(() => {
+    const dateStr = formatDateISO(weekDates[selectedDay]?.date || new Date());
+    return exceptions.find((e) => e.date === dateStr);
+  }, [exceptions, selectedDay, weekDates]);
 
   const tabs: { key: TabType; label: string; icon: typeof BookOpen }[] = [
     { key: 'intro', label: '简介', icon: BookOpen },
@@ -542,7 +556,36 @@ export default function CounselorDetail() {
                       <Clock className="h-4 w-4" />
                       {weekDayLabels[weekDates[selectedDay].dayKey]}（{formatDate(weekDates[selectedDay].date)}）可预约时段
                     </h4>
-                    {currentDaySlots.length > 0 ? (
+
+                    {currentDayException?.type === 'off' && (
+                      <div className="mb-4 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                        <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600" />
+                        <div>
+                          <p className="font-medium text-amber-800">⚠️ 咨询师当日休息，暂不可预约</p>
+                          <p className="mt-1 text-xs text-amber-700/80">
+                            {currentDayException.note || '当日为休息日，请选择其他日期预约'}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {currentDayException?.type === 'extra' && (
+                      <div className="mb-4 flex items-start gap-3 rounded-xl border border-warm-200 bg-warm-50 p-4">
+                        <Lightbulb className="h-5 w-5 shrink-0 text-warm-600" />
+                        <div>
+                          <p className="font-medium text-warm-800">💡 当日有加开时段</p>
+                          <p className="mt-1 text-xs text-warm-700/80">
+                            {currentDayException.note || '咨询师临时开放了额外时段，欢迎预约'}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {availableSlotsLoading ? (
+                      <div className="flex h-32 items-center justify-center">
+                        <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-200 border-t-primary-600" />
+                      </div>
+                    ) : currentDaySlots.length > 0 && currentDaySlots.some((s) => s.available) ? (
                       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                         {currentDaySlots.map((slot, i) => (
                           <button

@@ -11,6 +11,7 @@ import type {
   TimeSlot,
   Specialty,
   ServiceMode,
+  ScheduleException,
 } from '../../shared/types.js';
 
 function generateDailySlots(): TimeSlot[] {
@@ -638,5 +639,28 @@ export const mockChatMessages: ChatMessage[] = [
     content: '雨晴你好，这些闪回的记忆一定让你非常痛苦。感谢你有勇气面对它们。我们今天先不着急深入，先来建立一个让你感到安全的"内在空间"，可以吗？',
     contentEncrypted: false,
     timestamp: '2024-03-05T15:01:00Z',
+  },
+];
+
+export const mockScheduleExceptions: ScheduleException[] = [
+  {
+    id: 'se-001',
+    counselorId: 'c-001',
+    date: '2026-06-18',
+    type: 'off',
+    note: '全天请假',
+    createdAt: '2026-06-15T10:00:00Z',
+  },
+  {
+    id: 'se-002',
+    counselorId: 'c-001',
+    date: '2026-06-20',
+    type: 'extra',
+    timeSlots: [
+      { start: '09:00', end: '09:50', available: true },
+      { start: '10:00', end: '10:50', available: true },
+    ],
+    note: '周六上午加班',
+    createdAt: '2026-06-15T10:30:00Z',
   },
 ];

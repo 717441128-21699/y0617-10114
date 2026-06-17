@@ -71,7 +71,7 @@ export const ServiceModeLabels: Record<ServiceMode, string> = {
 };
 
 // ============ 预约相关 ============
-export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'in_progress';
+export type AppointmentStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed' | 'in_progress' | 'rescheduled';
 
 export const AppointmentStatusLabels: Record<AppointmentStatus, string> = {
   pending: '待确认',
@@ -79,6 +79,7 @@ export const AppointmentStatusLabels: Record<AppointmentStatus, string> = {
   cancelled: '已取消',
   completed: '已完成',
   in_progress: '进行中',
+  rescheduled: '已改期',
 };
 
 export interface Appointment {
@@ -208,4 +209,66 @@ export interface CounselorFilters {
   minPrice?: number;
   maxPrice?: number;
   search?: string;
+}
+
+// ============ 排班例外 ============
+export type ScheduleExceptionType = 'off' | 'extra';
+
+export interface ScheduleException {
+  id: string;
+  counselorId: string;
+  date: string;
+  type: ScheduleExceptionType;
+  timeSlots?: TimeSlot[];
+  note?: string;
+  createdAt: string;
+}
+
+// ============ 改期申请 ============
+export type RescheduleStatus = 'pending' | 'approved' | 'rejected' | 'cancelled';
+
+export const RescheduleStatusLabels: Record<RescheduleStatus, string> = {
+  pending: '待处理',
+  approved: '已同意',
+  rejected: '已拒绝',
+  cancelled: '已取消',
+};
+
+export interface RescheduleRequest {
+  id: string;
+  appointmentId: string;
+  requesterId: string;
+  requesterRole: UserRole;
+  newDate: string;
+  newTimeSlot: string;
+  reason?: string;
+  status: RescheduleStatus;
+  createdAt: string;
+  decidedAt?: string;
+  decidedById?: string;
+  responseNote?: string;
+}
+
+// ============ 随访/待办任务 ============
+export type FollowUpStatus = 'pending' | 'completed';
+export type FollowUpSource = 'crisis' | 'manual' | 'assessment';
+
+export const FollowUpSourceLabels: Record<FollowUpSource, string> = {
+  crisis: '危机干预',
+  manual: '手动创建',
+  assessment: '评估生成',
+};
+
+export interface FollowUpTask {
+  id: string;
+  counselorId: string;
+  clientId: string;
+  appointmentId?: string;
+  title: string;
+  description?: string;
+  dueDate?: string;
+  status: FollowUpStatus;
+  source: FollowUpSource;
+  createdAt: string;
+  completedAt?: string;
 }

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, MessageSquare, PenLine, Phone, Star, Video, X } from 'lucide-react';
+import { Calendar, Clock, MessageSquare, PenLine, Phone, Star, Video, X, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   AppointmentStatusLabels,
@@ -14,6 +14,8 @@ interface AppointmentCardProps {
   onConfirm?: (id: string) => void;
   onReview?: (id: string) => void;
   onNote?: (id: string) => void;
+  onReschedule?: (id: string) => void;
+  hasPendingReschedule?: boolean;
 }
 
 const statusStyles: Record<AppointmentStatus, string> = {
@@ -22,6 +24,7 @@ const statusStyles: Record<AppointmentStatus, string> = {
   in_progress: 'bg-primary-50 text-primary-700 border-primary-200',
   completed: 'bg-slate-50 text-slate-600 border-slate-200',
   cancelled: 'bg-slate-50 text-slate-500 border-slate-200',
+  rescheduled: 'bg-purple-50 text-purple-700 border-purple-200',
 };
 
 const ServiceIcon: Record<ServiceMode, typeof MessageSquare> = {
@@ -37,6 +40,8 @@ export default function AppointmentCard({
   onConfirm,
   onReview,
   onNote,
+  onReschedule,
+  hasPendingReschedule,
 }: AppointmentCardProps) {
   const otherName = role === 'counselor' ? appointment.clientName : appointment.counselorName;
   const sessionLink = `/session/${appointment.id}`;
@@ -66,6 +71,19 @@ export default function AppointmentCard({
           className="inline-flex items-center gap-1.5 rounded-lg bg-safe-600 px-4 py-2 text-sm font-medium text-white shadow-soft transition-colors hover:bg-safe-700"
         >
           确认预约
+        </button>
+      );
+    }
+
+    if (status === 'confirmed' && onReschedule) {
+      buttons.push(
+        <button
+          key="reschedule"
+          onClick={() => onReschedule?.(appointment.id)}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-primary-200 bg-primary-50 px-4 py-2 text-sm font-medium text-primary-600 transition-colors hover:bg-primary-100"
+        >
+          <RefreshCw className="h-4 w-4" />
+          改期
         </button>
       );
     }
@@ -143,17 +161,32 @@ export default function AppointmentCard({
         </div>
 
         <div className="text-right shrink-0">
-          <div className="mb-1">
+          <div className="mb-1 flex items-center justify-end gap-2">
             <span className="text-lg font-bold text-warm-500">¥{appointment.price}</span>
-          </div>
-          <span
-            className={cn(
-              'inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium',
-              statusStyles[appointment.status]
+            {hasPendingReschedule && (
+              <div className="relative">
+                <span className="flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-crisis-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-crisis-500"></span>
+                </span>
+              </div>
             )}
-          >
-            {AppointmentStatusLabels[appointment.status]}
-          </span>
+          </div>
+          <div className="flex items-center justify-end gap-2">
+            <span
+              className={cn(
+                'inline-block rounded-full border px-2.5 py-0.5 text-xs font-medium',
+                statusStyles[appointment.status]
+              )}
+            >
+              {AppointmentStatusLabels[appointment.status]}
+            </span>
+            {hasPendingReschedule && (
+              <span className="inline-block rounded-full bg-crisis-100 px-2 py-0.5 text-[10px] font-medium text-crisis-700">
+                待处理改期
+              </span>
+            )}
+          </div>
         </div>
       </div>
 

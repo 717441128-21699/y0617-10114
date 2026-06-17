@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Save, CheckSquare, Square, CalendarDays, RefreshCw, Check, CheckCircle2 } from 'lucide-react';
+import { Save, CheckSquare, Square, CalendarDays, RefreshCw, Check, CheckCircle2, Plus, Edit2, Trash2, X, Calendar } from 'lucide-react';
 import { cn, normalizeWeeklySchedule } from '@/lib/utils';
 import { apiClient } from '@/lib/api';
 import { useCounselorStore } from '@/store/counselorStore';
 import { useAuthStore } from '@/store/authStore';
-import type { WeeklySchedule, TimeSlot } from '@shared/types';
+import Modal from '@/components/Modal';
+import type { WeeklySchedule, TimeSlot, ScheduleException } from '@shared/types';
 
 type DayKey = keyof WeeklySchedule;
 
@@ -41,16 +42,25 @@ function createInitialSchedule(): WeeklySchedule {
 }
 
 export default function CounselorSchedule() {
-  const { currentUserCounselor, fetchCurrentCounselor, updateSchedule } = useCounselorStore();
+  const { currentUserCounselor, fetchCurrentCounselor, updateSchedule, exceptions, exceptionsLoading, fetchMyExceptions, createException, updateException, deleteException } = useCounselorStore();
   const { updateUser } = useAuthStore();
   const [schedule, setSchedule] = useState<WeeklySchedule>(createInitialSchedule());
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
 
+  const [exceptionModalOpen, setExceptionModalOpen] = useState(false);
+  const [editingException, setEditingException] = useState<ScheduleException | null>(null);
+  const [exceptionDate, setExceptionDate] = useState('');
+  const [exceptionType, setExceptionType] = useState<'off' | 'extra'>('off');
+  const [exceptionTimeSlots, setExceptionTimeSlots] = useState<TimeSlot[]>([]);
+  const [exceptionNote, setExceptionNote] = useState('');
+  const [exceptionSaving, setExceptionSaving] = useState(false);
+
   useEffect(() => {
     fetchCurrentCounselor();
-  }, [fetchCurrentCounselor]);
+    fetchMyExceptions();
+  }, [fetchCurrentCounselor, fetchMyExceptions]);
 
   useEffect(() => {
     if (currentUserCounselor) {
@@ -137,6 +147,65 @@ export default function CounselorSchedule() {
     (sum, day) => sum + schedule[day].filter((s) => s.available).length,
     0
   );
+
+  const handleOpenAddException = () => {
+    setEditingException(null);
+    setExceptionDate('');
+    setExceptionType('off');
+    setExceptionTimeSlots(defaultTimeSlots.map((t) => ({ ...t, available: false })));
+    setExceptionNote('');
+    setExceptionModalOpen(true);
+  };
+
+  const handleOpenEditException = (ex: ScheduleException) => {
+    setEditingException(ex);
+    setExceptionDate(ex.date);
+    setExceptionType(ex.type);
+    setExceptionTimeSlots(ex.timeSlots || defaultTimeSlots.map((t) => ({ ...t, available: false })));
+    setExceptionNote(ex.note || '');
+    setExceptionModalOpen(true);
+  };
+
+  const handleCloseExceptionModal = () => {
+    setExceptionModalOpen(false);
+    setEditingException(null);
+    setExceptionDate('');
+    setExceptionType('off');
+    setExceptionTimeSlots([]);
+    setExceptionNote('');
+  };
+
+  const handleToggleExceptionSlot = (index: number) => {
+    setExceptionTimeSlots((prev) =>
+      prev.map((slot, i) =>
+        i === index ? { ...slot, available: !slot.available } : slot
+      )
+    );
+  };
+
+  const handleSaveException = async () => {
+    if (!exceptionDate) return;
+    setExceptionSaving(true);
+    const data = {
+      date: exceptionDate,
+      type: exceptionType,
+      timeSlots: exceptionType === 'extra' ? exceptionTimeSlots : undefined,
+      note: exceptionNote || undefined,
+    };
+    if (editingException) {
+      await updateException(editingException.id, data);
+    } else {
+      await createException(data);
+    }
+    setExceptionSaving(false);
+    handleCloseExceptionModal();
+  };
+
+  const handleDeleteException = async (id: string) => {
+    if (window.confirm('确定要删除这个例外日期吗？')) {
+      await deleteException(id);
+    }
+  };
 
   return (
     <div className="space-y-6 relative">
@@ -326,6 +395,223 @@ export default function CounselorSchedule() {
           <li>• 已有预约的时段无法取消，需先与来访者协商改期</li>
         </ul>
       </div>
+
+      <div className="rounded-2xl bg-white p-5 shadow-card">
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h3 className="font-serif text-lg font-bold text-slate-800">临时调整</h3>
+            <p className="mt-1 text-sm text-slate-500">管理请假、加班等临时例外日期</p>
+          </div>
+          <button
+            onClick={handleOpenAddException}
+            className="inline-flex items-center gap-1.5 rounded-xl bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-soft transition-colors hover:bg-primary-700"
+          >
+            <Plus className="h-4 w-4" />
+            添加例外
+          </button>
+        </div>
+
+        {exceptionsLoading ? (
+          <div className="flex h-32 items-center justify-center">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary-200 border-t-primary-600" />
+          </div>
+        ) : exceptions.length === 0 ? (
+          <div className="py-8 text-center">
+            <Calendar className="mx-auto mb-2 h-8 w-8 text-slate-300" />
+            <p className="text-sm text-slate-500">暂无临时调整</p>
+            <p className="mt-1 text-xs text-slate-400">点击「添加例外」设置请假或加班时段</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {exceptions.map((ex) => (
+              <div
+                key={ex.id}
+                className={cn(
+                  'flex items-center justify-between rounded-xl border p-4 transition-colors',
+                  ex.type === 'off' ? 'border-slate-200 bg-slate-50/50' : 'border-warm-200 bg-warm-50/30'
+                )}
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    className={cn(
+                      'flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl',
+                      ex.type === 'off' ? 'bg-slate-200 text-slate-600' : 'bg-warm-200 text-warm-700'
+                    )}
+                  >
+                    <span className="text-xs font-medium">
+                      {new Date(ex.date).getMonth() + 1}月
+                    </span>
+                    <span className="text-lg font-bold">
+                      {new Date(ex.date).getDate()}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={cn(
+                          'rounded-full px-2 py-0.5 text-xs font-medium',
+                          ex.type === 'off'
+                            ? 'bg-slate-200 text-slate-700'
+                            : 'bg-warm-200 text-warm-700'
+                        )}
+                      >
+                        {ex.type === 'off' ? '请假' : '加班'}
+                      </span>
+                      <span className="text-sm font-semibold text-slate-700">
+                        {ex.date}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm text-slate-500">
+                      {ex.type === 'off'
+                        ? '全天不可约'
+                        : `${ex.timeSlots?.filter((s) => s.available).length || 0} 个开放时段`}
+                    </p>
+                    {ex.note && (
+                      <p className="mt-1 text-xs text-slate-400">备注：{ex.note}</p>
+                    )}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleOpenEditException(ex)}
+                    className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteException(ex.id)}
+                    className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <Modal
+        isOpen={exceptionModalOpen}
+        onClose={handleCloseExceptionModal}
+        title={editingException ? '编辑例外日期' : '添加例外日期'}
+        confirmText={exceptionSaving ? '保存中...' : '保存'}
+        confirmVariant="primary"
+        onConfirm={handleSaveException}
+        className="max-w-lg"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              日期 <span className="text-crisis-500">*</span>
+            </label>
+            <input
+              type="date"
+              value={exceptionDate}
+              onChange={(e) => setExceptionDate(e.target.value)}
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              类型
+            </label>
+            <div className="flex gap-3">
+              <label className="flex-1 cursor-pointer">
+                <input
+                  type="radio"
+                  name="exceptionType"
+                  value="off"
+                  checked={exceptionType === 'off'}
+                  onChange={(e) => setExceptionType(e.target.value as 'off' | 'extra')}
+                  className="sr-only"
+                />
+                <div
+                  className={cn(
+                    'rounded-xl border-2 p-4 text-center transition-all',
+                    exceptionType === 'off'
+                      ? 'border-slate-400 bg-slate-50 shadow-glow'
+                      : 'border-slate-200 bg-white hover:border-slate-300'
+                  )}
+                >
+                  <p className={cn(
+                    'font-semibold text-sm',
+                    exceptionType === 'off' ? 'text-slate-700' : 'text-slate-500'
+                  )}>
+                    请假
+                  </p>
+                  <p className="mt-1 text-xs text-slate-400">全天不可预约</p>
+                </div>
+              </label>
+              <label className="flex-1 cursor-pointer">
+                <input
+                  type="radio"
+                  name="exceptionType"
+                  value="extra"
+                  checked={exceptionType === 'extra'}
+                  onChange={(e) => setExceptionType(e.target.value as 'off' | 'extra')}
+                  className="sr-only"
+                />
+                <div
+                  className={cn(
+                    'rounded-xl border-2 p-4 text-center transition-all',
+                    exceptionType === 'extra'
+                      ? 'border-warm-400 bg-warm-50 shadow-glow'
+                      : 'border-slate-200 bg-white hover:border-slate-300'
+                  )}
+                >
+                  <p className={cn(
+                    'font-semibold text-sm',
+                    exceptionType === 'extra' ? 'text-warm-700' : 'text-slate-500'
+                  )}>
+                    加班
+                  </p>
+                  <p className="mt-1 text-xs text-slate-400">额外开放时段</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          {exceptionType === 'extra' && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                开放时段
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {exceptionTimeSlots.map((slot, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => handleToggleExceptionSlot(i)}
+                    className={cn(
+                      'rounded-lg px-3 py-2 text-sm font-medium transition-all',
+                      slot.available
+                        ? 'bg-warm-500 text-white shadow-soft'
+                        : 'bg-slate-100 text-slate-400 hover:bg-slate-200 hover:text-slate-600'
+                    )}
+                  >
+                    {slot.start}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              备注
+            </label>
+            <textarea
+              rows={3}
+              value={exceptionNote}
+              onChange={(e) => setExceptionNote(e.target.value)}
+              placeholder="选填，添加备注说明..."
+              className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition-colors focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+            />
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

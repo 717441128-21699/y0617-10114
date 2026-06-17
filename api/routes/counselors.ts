@@ -9,6 +9,9 @@ import type {
   WeeklySchedule,
   Appointment,
   User,
+  ScheduleException,
+  ScheduleExceptionType,
+  TimeSlot,
 } from '../../shared/types.js';
 
 const router = Router();
@@ -234,6 +237,162 @@ router.get('/:id/schedule', async (req: Request, res: Response): Promise<void> =
         next7Days,
       },
     });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师管理：我的例外列表 ============
+router.get('/me/exceptions', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = req.user as Counselor;
+    const { startDate, endDate } = req.query;
+
+    const exceptions = db.listScheduleExceptions(
+      user.id,
+      startDate ? String(startDate) : undefined,
+      endDate ? String(endDate) : undefined,
+    );
+    res.status(200).json({ success: true, data: exceptions });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师管理：新增例外 ============
+router.post('/me/exceptions', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = req.user as Counselor;
+    const { date, type, timeSlots, note } = req.body as {
+      date: string;
+      type: ScheduleExceptionType;
+      timeSlots?: TimeSlot[];
+      note?: string;
+    };
+
+    if (!date || !type) {
+      res.status(400).json({ success: false, error: 'date and type are required' });
+      return;
+    }
+
+    if (type !== 'off' && type !== 'extra') {
+      res.status(400).json({ success: false, error: 'type must be off or extra' });
+      return;
+    }
+
+    const id = `se-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const exception: ScheduleException = {
+      id,
+      counselorId: user.id,
+      date,
+      type,
+      timeSlots: type === 'extra' ? timeSlots : undefined,
+      note,
+      createdAt: new Date().toISOString(),
+    };
+
+    const created = db.addScheduleException(exception);
+    res.status(201).json({ success: true, data: created });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师管理：更新例外 ============
+router.put('/me/exceptions/:id', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = req.user as Counselor;
+    const { id } = req.params;
+    const updates = req.body as Partial<ScheduleException>;
+
+    const existing = db.listScheduleExceptions(user.id).find((e) => e.id === id);
+    if (!existing) {
+      res.status(404).json({ success: false, error: 'Schedule exception not found' });
+      return;
+    }
+
+    const updated = db.updateScheduleException(id, updates);
+    if (!updated) {
+      res.status(404).json({ success: false, error: 'Schedule exception not found' });
+      return;
+    }
+    res.status(200).json({ success: true, data: updated });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 咨询师管理：删除例外 ============
+router.delete('/me/exceptions/:id', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
+  try {
+    const user = req.user as Counselor;
+    const { id } = req.params;
+
+    const existing = db.listScheduleExceptions(user.id).find((e) => e.id === id);
+    if (!existing) {
+      res.status(404).json({ success: false, error: 'Schedule exception not found' });
+      return;
+    }
+
+    const deleted = db.deleteScheduleException(id);
+    if (!deleted) {
+      res.status(404).json({ success: false, error: 'Schedule exception not found' });
+      return;
+    }
+    res.status(200).json({ success: true, message: '删除成功' });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 公开：例外日期 ============
+router.get('/:id/exceptions', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { startDate, endDate } = req.query;
+
+    const counselor = db.getCounselorById(id);
+    if (!counselor) {
+      res.status(404).json({ success: false, error: 'Counselor not found' });
+      return;
+    }
+
+    const exceptions = db.listScheduleExceptions(
+      id,
+      startDate ? String(startDate) : undefined,
+      endDate ? String(endDate) : undefined,
+    );
+    res.status(200).json({ success: true, data: exceptions });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
+// ============ 公开：某天可用时段 ============
+router.get('/:id/available-slots', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { date } = req.query;
+
+    if (!date) {
+      res.status(400).json({ success: false, error: 'date is required' });
+      return;
+    }
+
+    const counselor = db.getCounselorById(id);
+    if (!counselor) {
+      res.status(404).json({ success: false, error: 'Counselor not found' });
+      return;
+    }
+
+    const slots = db.getAvailableSlotsForDate(id, String(date));
+    res.status(200).json({ success: true, data: slots });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     res.status(500).json({ success: false, error: message });
