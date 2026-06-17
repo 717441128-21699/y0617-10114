@@ -35,6 +35,7 @@ interface AuthState {
   registerCounselor: (data: RegisterCounselorData) => Promise<boolean>;
   logout: () => void;
   init: () => void;
+  updateUser: (data: Partial<Omit<User, 'passwordHash'>>) => void;
 }
 
 const useAuthStore = create<AuthState>((set) => ({
@@ -96,6 +97,17 @@ const useAuthStore = create<AuthState>((set) => ({
     if (token && user) {
       set({ token, user });
     }
+  },
+
+  updateUser: (data: Partial<Omit<User, 'passwordHash'>>) => {
+    set((state) => {
+      if (state.user) {
+        const updatedUser = { ...state.user, ...data };
+        setCurrentUser(updatedUser);
+        return { user: updatedUser };
+      }
+      return state;
+    });
   },
 }));
 

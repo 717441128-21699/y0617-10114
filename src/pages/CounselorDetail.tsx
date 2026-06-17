@@ -114,7 +114,8 @@ export default function CounselorDetail() {
     }
     if (!selectedSlot) return;
     const date = formatDateISO(weekDates[selectedDay].date);
-    navigate(`/booking/${id}?date=${date}&slot=${encodeURIComponent(selectedSlot)}`);
+    const defaultServiceMode = currentCounselor?.serviceModes?.[0] || 'text';
+    navigate(`/booking/${id}?date=${date}&timeSlot=${encodeURIComponent(selectedSlot)}&serviceMode=${defaultServiceMode}`);
   };
 
   const today = new Date();

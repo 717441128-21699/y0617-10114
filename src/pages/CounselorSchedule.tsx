@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Save, CheckSquare, Square, CalendarDays, RefreshCw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Save, CheckSquare, Square, CalendarDays, RefreshCw, Check, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { apiClient } from '@/lib/api';
+import { useCounselorStore } from '@/store/counselorStore';
 import type { WeeklySchedule, TimeSlot } from '@shared/types';
 
 type DayKey = keyof WeeklySchedule;
@@ -39,9 +40,21 @@ function createInitialSchedule(): WeeklySchedule {
 }
 
 export default function CounselorSchedule() {
+  const { currentUserCounselor, fetchCurrentCounselor, updateSchedule } = useCounselorStore();
   const [schedule, setSchedule] = useState<WeeklySchedule>(createInitialSchedule());
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+
+  useEffect(() => {
+    fetchCurrentCounselor();
+  }, [fetchCurrentCounselor]);
+
+  useEffect(() => {
+    if (currentUserCounselor?.schedule) {
+      setSchedule(currentUserCounselor.schedule);
+    }
+  }, [currentUserCounselor]);
 
   const toggleSlot = (day: DayKey, slotIndex: number) => {
     setSchedule((prev) => ({
@@ -103,11 +116,16 @@ export default function CounselorSchedule() {
 
   const handleSave = async () => {
     setSaving(true);
-    const res = await apiClient.patch<WeeklySchedule>('/counselors/me/schedule', schedule);
+    const res = await apiClient.put<WeeklySchedule>('/counselors/me/schedule', schedule);
     setSaving(false);
-    if (res.success) {
+    if (res.success && res.data) {
       setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
+      setToastVisible(true);
+      updateSchedule(res.data);
+      setTimeout(() => {
+        setSaved(false);
+        setToastVisible(false);
+      }, 3000);
     }
   };
 
@@ -117,7 +135,15 @@ export default function CounselorSchedule() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {toastVisible && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-bounce">
+          <div className="flex items-center gap-2 rounded-xl bg-safe-600 px-6 py-3 text-white shadow-lg">
+            <CheckCircle2 className="h-5 w-5" />
+            <span className="font-medium">保存成功！时段设置已更新</span>
+          </div>
+        </div>
+      )}
       <div className="flex items-start justify-between">
         <div>
           <h1 className="font-serif text-2xl font-bold text-slate-800">时段设置</h1>
@@ -134,8 +160,8 @@ export default function CounselorSchedule() {
             saving && 'opacity-70 cursor-not-allowed'
           )}
         >
-          <Save className="h-4 w-4" />
-          {saving ? '保存中...' : saved ? '已保存' : '保存 Schedule'}
+          {saved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+          {saving ? '保存中...' : saved ? '✓ 已保存' : '保存 Schedule'}
         </button>
       </div>
 

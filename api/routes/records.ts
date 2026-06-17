@@ -86,9 +86,9 @@ router.get('/client/:clientId', authRequired, roleRequired(['counselor']), async
   }
 });
 
-router.get('/appointment/:appointmentId', authRequired, async (req: Request, res: Response): Promise<void> => {
+router.get('/appointment/:appointmentId', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
   try {
-    const user = req.user as User;
+    const user = req.user as Counselor;
     const { appointmentId } = req.params;
 
     const appointment = db.getAppointmentById(appointmentId);
@@ -97,20 +97,14 @@ router.get('/appointment/:appointmentId', authRequired, async (req: Request, res
       return;
     }
 
-    if (
-      appointment.counselorId !== user.id &&
-      appointment.clientId !== user.id
-    ) {
+    if (appointment.counselorId !== user.id) {
       res.status(403).json({ success: false, error: 'You do not have access to this appointment' });
       return;
     }
 
     let notes = db.listCounselorNotes();
     notes = notes.filter((n) => n.appointmentId === appointmentId);
-
-    if (user.role === 'counselor') {
-      notes = notes.filter((n) => n.counselorId === user.id);
-    }
+    notes = notes.filter((n) => n.counselorId === user.id);
 
     res.status(200).json({ success: true, data: notes });
   } catch (err) {

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { Appointment, AppointmentStatus } from '../../shared/types';
+import type { Appointment, AppointmentStatus, AssessmentForm } from '../../shared/types';
 import { apiClient } from '../lib/api';
 
 interface CreateAppointmentData {
@@ -9,7 +9,7 @@ interface CreateAppointmentData {
   serviceMode: string;
   price: number;
   packageUsageId?: string;
-  assessmentForm?: unknown;
+  assessmentForm?: Partial<AssessmentForm>;
 }
 
 interface AppointmentState {

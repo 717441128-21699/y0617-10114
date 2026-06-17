@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { Camera, CheckCircle2, XCircle, Save, User, Award, BookOpen } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Camera, CheckCircle2, XCircle, Save, User, Award, BookOpen, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/authStore';
+import { useCounselorStore } from '@/store/counselorStore';
 import { apiClient } from '@/lib/api';
 import { SpecialtyLabels, ServiceModeLabels } from '@shared/types';
 import type { Specialty, ServiceMode, Counselor } from '@shared/types';
@@ -31,20 +32,43 @@ function SectionCard({ icon: Icon, title, children }: SectionCardProps) {
 
 export default function CounselorProfile() {
   const user = useAuthStore((s) => s.user);
+  const updateUser = useAuthStore((s) => s.updateUser);
+  const { currentUserCounselor, fetchCurrentCounselor, updateCurrentCounselor } = useCounselorStore();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
 
   const [form, setForm] = useState({
-    licenseNo: 'LC-20230101-001',
-    licenseVerified: true,
-    specialties: ['anxiety', 'depression', 'stress'] as Specialty[],
-    serviceModes: ['text', 'voice', 'video'] as ServiceMode[],
-    experienceYears: 8,
-    education: '北京师范大学心理学硕士\n国家二级心理咨询师\n认知行为疗法（CBT）认证',
+    licenseNo: '',
+    licenseVerified: false,
+    specialties: [] as Specialty[],
+    serviceModes: [] as ServiceMode[],
+    experienceYears: 0,
+    education: '',
     sessionDuration: 50,
-    pricePerSession: 399,
-    introduction: '从事心理咨询工作8年，擅长运用认知行为疗法（CBT）、正念减压疗法等方法，帮助来访者处理焦虑、抑郁、压力管理等方面的问题。相信每个人都有自我成长的力量，我会以真诚、温暖、专业的态度陪伴您走过困难的时刻。',
+    pricePerSession: 0,
+    introduction: '',
   });
+
+  useEffect(() => {
+    fetchCurrentCounselor();
+  }, [fetchCurrentCounselor]);
+
+  useEffect(() => {
+    if (currentUserCounselor) {
+      setForm({
+        licenseNo: currentUserCounselor.licenseNo || '',
+        licenseVerified: currentUserCounselor.licenseVerified || false,
+        specialties: currentUserCounselor.specialties || [],
+        serviceModes: currentUserCounselor.serviceModes || [],
+        experienceYears: currentUserCounselor.experienceYears || 0,
+        education: currentUserCounselor.education || '',
+        sessionDuration: currentUserCounselor.sessionDuration || 50,
+        pricePerSession: currentUserCounselor.pricePerSession || 0,
+        introduction: currentUserCounselor.introduction || '',
+      });
+    }
+  }, [currentUserCounselor]);
 
   const toggleSpecialty = (s: Specialty) => {
     setForm((f) => ({
@@ -62,16 +86,33 @@ export default function CounselorProfile() {
 
   const handleSave = async () => {
     setSaving(true);
-    const res = await apiClient.patch<Counselor>('/counselors/me/profile', form);
+    const res = await apiClient.put<Counselor>('/counselors/me/profile', form);
     setSaving(false);
-    if (res.success) {
+    if (res.success && res.data) {
       setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
+      setToastVisible(true);
+      updateCurrentCounselor(res.data);
+      updateUser({
+        name: res.data.name,
+        avatar: res.data.avatar,
+      });
+      setTimeout(() => {
+        setSaved(false);
+        setToastVisible(false);
+      }, 3000);
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {toastVisible && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 animate-bounce">
+          <div className="flex items-center gap-2 rounded-xl bg-safe-600 px-6 py-3 text-white shadow-lg">
+            <CheckCircle2 className="h-5 w-5" />
+            <span className="font-medium">保存成功！您的执业信息已更新</span>
+          </div>
+        </div>
+      )}
       <div className="flex items-start justify-between">
         <div>
           <h1 className="font-serif text-2xl font-bold text-slate-800">执业信息</h1>
@@ -86,8 +127,8 @@ export default function CounselorProfile() {
             saving && 'opacity-70 cursor-not-allowed'
           )}
         >
-          <Save className="h-4 w-4" />
-          {saving ? '保存中...' : saved ? '已保存' : '保存修改'}
+          {saved ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+          {saving ? '保存中...' : saved ? '✓ 保存成功' : '保存修改'}
         </button>
       </div>
 

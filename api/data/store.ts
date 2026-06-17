@@ -22,6 +22,7 @@ import {
   mockPackages,
   mockPackagePurchases,
 } from './mockData.js';
+import { encryptContent, decryptContent } from './encryption.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -77,6 +78,7 @@ export class Database {
     this.reviews = data.reviews;
     this.packages = data.packages;
     this.packagePurchases = data.packagePurchases;
+    this.save();
   }
 
   public static getInstance(): Database {
@@ -102,7 +104,15 @@ export class Database {
           parsed.packages &&
           parsed.packagePurchases
         ) {
-          return parsed;
+          const decryptedMessages = parsed.chatMessages.map((msg) => ({
+            ...msg,
+            content: decryptContent(msg.content),
+            contentEncrypted: false,
+          }));
+          return {
+            ...parsed,
+            chatMessages: decryptedMessages,
+          };
         }
       }
     } catch (err) {
@@ -126,12 +136,17 @@ export class Database {
   }
 
   public save(): void {
+    const encryptedMessages = this.chatMessages.map((msg) => ({
+      ...msg,
+      content: encryptContent(msg.content),
+      contentEncrypted: true,
+    }));
     const data: DatabaseData = {
       users: this.users,
       counselors: this.counselors,
       clients: this.clients,
       appointments: this.appointments,
-      chatMessages: this.chatMessages,
+      chatMessages: encryptedMessages,
       counselorNotes: this.counselorNotes,
       reviews: this.reviews,
       packages: this.packages,

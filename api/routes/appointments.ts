@@ -40,6 +40,7 @@ router.post('/', authRequired, async (req: Request, res: Response): Promise<void
       timeSlot,
       serviceMode,
       packageUsageId,
+      assessmentForm,
     } = req.body;
 
     if (!counselorId || !date || !timeSlot || !serviceMode) {
@@ -88,6 +89,16 @@ router.post('/', authRequired, async (req: Request, res: Response): Promise<void
 
     const client = db.getClientById(user.id);
     const id = generateId('a');
+
+    let appointmentAssessmentForm: AssessmentForm | undefined;
+    if (assessmentForm) {
+      appointmentAssessmentForm = {
+        ...assessmentForm,
+        anonymousId: client?.anonymousId || '',
+        submittedAt: new Date().toISOString(),
+      };
+    }
+
     const appointment: Appointment = {
       id,
       counselorId,
@@ -100,6 +111,7 @@ router.post('/', authRequired, async (req: Request, res: Response): Promise<void
       status: 'pending',
       price,
       packageUsageId: usedPackageId,
+      assessmentForm: appointmentAssessmentForm,
       crisisTriggered: false,
       createdAt: new Date().toISOString(),
     };

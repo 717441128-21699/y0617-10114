@@ -133,7 +133,7 @@ router.put('/me/profile', authRequired, roleRequired(['counselor']), async (req:
       res.status(404).json({ success: false, error: 'Counselor not found' });
       return;
     }
-    res.status(200).json({ success: true, data: omitPasswordHashFromCounselor(updated) });
+    res.status(200).json({ success: true, data: omitPasswordHashFromCounselor(updated), message: '保存成功' });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     res.status(500).json({ success: false, error: message });
@@ -153,7 +153,7 @@ router.put('/me/schedule', authRequired, roleRequired(['counselor']), async (req
       res.status(404).json({ success: false, error: 'Counselor not found' });
       return;
     }
-    res.status(200).json({ success: true, data: updated.schedule });
+    res.status(200).json({ success: true, data: updated.schedule, message: '保存成功' });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     res.status(500).json({ success: false, error: message });

@@ -105,6 +105,16 @@ export default function Booking() {
     setShowSelfHarmWarning(assessment.selfHarmThoughts === 'occasional' || assessment.selfHarmThoughts === 'frequent');
   }, [assessment.selfHarmThoughts]);
 
+  useEffect(() => {
+    if (!counselorLoading && currentCounselor && selectedDate && selectedTimeSlot) {
+      if (isFirstTime) {
+        setStep(2);
+      } else {
+        setStep(3);
+      }
+    }
+  }, [counselorLoading, currentCounselor, selectedDate, selectedTimeSlot, isFirstTime]);
+
   const price = useMemo(() => {
     if (selectedPackageUsageId) return 0;
     return currentCounselor?.pricePerSession || 0;

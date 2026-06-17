@@ -1,18 +1,23 @@
 import { create } from 'zustand';
-import type { Counselor, CounselorFilters } from '../../shared/types';
+import type { Counselor, CounselorFilters, WeeklySchedule } from '../../shared/types';
 import { apiClient } from '../lib/api';
 
 interface CounselorState {
   counselors: Counselor[];
   currentCounselor: Counselor | null;
+  currentUserCounselor: Counselor | null;
   loading: boolean;
   fetchCounselors: (filters?: CounselorFilters) => Promise<boolean>;
   fetchCounselorById: (id: string) => Promise<boolean>;
+  fetchCurrentCounselor: () => Promise<boolean>;
+  updateCurrentCounselor: (data: Partial<Counselor>) => void;
+  updateSchedule: (schedule: WeeklySchedule) => void;
 }
 
-export const useCounselorStore = create<CounselorState>((set) => ({
+export const useCounselorStore = create<CounselorState>((set, get) => ({
   counselors: [],
   currentCounselor: null,
+  currentUserCounselor: null,
   loading: false,
 
   fetchCounselors: async (filters?: CounselorFilters) => {
@@ -44,5 +49,30 @@ export const useCounselorStore = create<CounselorState>((set) => ({
     }
     set({ loading: false });
     return false;
+  },
+
+  fetchCurrentCounselor: async () => {
+    set({ loading: true });
+    const res = await apiClient.get<Counselor>('/counselors/me/profile');
+    if (res.success && res.data) {
+      set({ currentUserCounselor: res.data, loading: false });
+      return true;
+    }
+    set({ loading: false });
+    return false;
+  },
+
+  updateCurrentCounselor: (data: Partial<Counselor>) => {
+    const { currentUserCounselor } = get();
+    if (currentUserCounselor) {
+      set({ currentUserCounselor: { ...currentUserCounselor, ...data } });
+    }
+  },
+
+  updateSchedule: (schedule: WeeklySchedule) => {
+    const { currentUserCounselor } = get();
+    if (currentUserCounselor) {
+      set({ currentUserCounselor: { ...currentUserCounselor, schedule } });
+    }
   },
 }));

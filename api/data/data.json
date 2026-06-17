@@ -12,19 +12,17 @@
       "licenseVerified": true,
       "specialties": [
         "anxiety",
-        "depression",
-        "marriage"
+        "depression"
       ],
       "serviceModes": [
         "text",
-        "voice",
         "video"
       ],
-      "introduction": "国家二级心理咨询师，从业10年，擅长运用认知行为疗法(CBT)和正念疗法处理焦虑、抑郁等情绪问题，以及婚姻关系咨询。",
+      "introduction": "????????:???????,?????????",
       "education": "北京大学心理学硕士",
       "experienceYears": 10,
-      "sessionDuration": 50,
-      "pricePerSession": 600,
+      "sessionDuration": 60,
+      "pricePerSession": 599,
       "avgRating": 4.8,
       "reviewCount": 156,
       "totalSessions": 892,
@@ -1055,19 +1053,17 @@
       "licenseVerified": true,
       "specialties": [
         "anxiety",
-        "depression",
-        "marriage"
+        "depression"
       ],
       "serviceModes": [
         "text",
-        "voice",
         "video"
       ],
-      "introduction": "国家二级心理咨询师，从业10年，擅长运用认知行为疗法(CBT)和正念疗法处理焦虑、抑郁等情绪问题，以及婚姻关系咨询。",
+      "introduction": "????????:???????,?????????",
       "education": "北京大学心理学硕士",
       "experienceYears": 10,
-      "sessionDuration": 50,
-      "pricePerSession": 600,
+      "sessionDuration": 60,
+      "pricePerSession": 599,
       "avgRating": 4.8,
       "reviewCount": 156,
       "totalSessions": 892,
@@ -2227,6 +2223,33 @@
       "price": 600,
       "crisisTriggered": false,
       "createdAt": "2024-03-19T14:20:00Z"
+    },
+    {
+      "id": "a-1781670472483-xco5bm",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "counselorName": "林清和",
+      "clientName": "李小明",
+      "date": "2025-01-15",
+      "timeSlot": "10:00-11:00",
+      "serviceMode": "video",
+      "status": "pending",
+      "price": 599,
+      "assessmentForm": {
+        "stressLevel": 7,
+        "selfHarmThoughts": false,
+        "mainConcern": "?????????",
+        "previousTherapy": false,
+        "sleepQuality": 4,
+        "emotionalState": 6,
+        "suicidalIdeation": false,
+        "additionalNotes": "???????",
+        "durationMonths": 6,
+        "anonymousId": "anon-u001-abc123",
+        "submittedAt": "2026-06-17T04:27:52.483Z"
+      },
+      "crisisTriggered": false,
+      "createdAt": "2026-06-17T04:27:52.483Z"
     }
   ],
   "chatMessages": [
@@ -2235,8 +2258,8 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "王老师好，我是李小明。今天想聊聊和我妻子的关系问题。",
-      "contentEncrypted": false,
+      "content": "enc:SXI9X3l2O2znjpLogIjluI/lpoTvvJPmiJjmmLbmnZXlsJbmmJXjgInku5HlpLDmg7rogZHogZHlkpPmiJjlp4LlrZfnmovlhbrntILpl7Xpop/jgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-20T14:00:05Z"
     },
     {
@@ -2244,8 +2267,8 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "小明你好，很高兴见到你。我们今天可以慢慢来，你想从哪里开始说呢？",
-      "contentEncrypted": false,
+      "content": "enc:W3lUbMKBcGtf5bCW5piV5L2n5aaE77yT5b6P6auf5YW76KeI5Yi35L2n44CJ5oiY5Luz5LuR5aSw5Y+25Lus5oWp5oWp5p2s77yT5L2n5oO65LuV5ZOx6YeT5byH5aeS6K+75ZGp77ym",
+      "contentEncrypted": true,
       "timestamp": "2024-03-20T14:00:30Z"
     },
     {
@@ -2253,8 +2276,8 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "最近和我妻子总是吵架，一点小事就能吵起来。她总说我不关心她，可我觉得我已经很努力了。",
-      "contentEncrypted": false,
+      "content": "enc:PHU9SWFMV2nmnIfov5jlkpPmiJjlp4LlrZfmgYLmmLblkLzmnr3vvJPkuIfng4DlsJbkupLlsLjohITlkLzotb7mnazjgInlpoDmgYLor7vmiJjkuJTlhbrlv4rlpoDvvJPlj7bmiJjop5Dlvp7miJjlt7nnu5blvo/lirHliqLkuo3jgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-20T14:01:15Z"
     },
     {
@@ -2262,8 +2285,8 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "听起来你在这段关系里感到很委屈，明明付出了却没有被看到。能具体说说最近一次争吵的情况吗？",
-      "contentEncrypted": false,
+      "content": "enc:SEltV3BKSmnlkLPotb7mnazkvaflnK/ov6DmrrzlhbrntILph5PmhKbliLflvo/lp5vlsY/vvJPmmJXmmJXku5/liIHkuo3ljbvmsqjmnJDoorLnnJLliLfjgInohITlhb7kvZror7vor7vmnIfov5jkuIfmrKjkupDlkLznmovmg4zlhrzlkJ7vvKY=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-20T14:02:00Z"
     },
     {
@@ -2271,8 +2294,8 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "好的，就是昨天晚上。我加班到很晚才回家，她就质问我为什么不回消息。我当时太累了，就说了一句\"你别无理取闹好不好\"，然后她就哭了。",
-      "contentEncrypted": false,
+      "content": "enc:U1hYczpVPXHlpoTnmovvvJPlsLjmmLbmmK/lpLDmmaHkuJHjgInmiJjliqfnj7TliLflvo/mmaHmiZTlm6Xlrr3vvJPlpoDlsLjotK/pl7XmiJjkuYHku4fkuY/kuJTlm6Xmto/mgbbjgInmiJjlvZrml73lpLHntLbkuo3vvJPlsLjor7vkuo3kuIflj6wp5L2n5Yiy5pen55CN5Y+d6ZiA5aaE5LiU5aaEKe+8k+eEveWQleWmgOWwuOWTtOS6jeOAiQ==",
+      "contentEncrypted": true,
       "timestamp": "2024-03-20T14:03:20Z"
     },
     {
@@ -2280,8 +2303,8 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "我能理解你加班后的疲惫，也能感受到妻子在等待消息时的焦虑和不安。这其实是一个很典型的\"追-逃\"模式。你愿意听听我对这个模式的分析吗？",
-      "contentEncrypted": false,
+      "content": "enc:N0pff2xtfHjmiJjohITnkI3op6rkvafliqfnj7TlkJXnmovnlrnmg7LvvJPkuabohITmhKblj57liLflp4LlrZflnK/nrZDlvozmto/mgbbml73nmovnhK3omZjlkpPkuJTlrpDjgInov6Dlhb3lrqXmmLbkuIfkuLHlvo/lhb/lnpLnmosp6YCENOmAiinmqKjlvJbjgInkvafmhYbmhJblkLPlkLPmiJjlsIDov6DkuLHmqKjlvJbnmovliI3mnpflkJ7vvKY=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-20T14:04:45Z"
     },
     {
@@ -2289,8 +2312,8 @@
       "appointmentId": "a-001",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "林老师您好，我最近感觉压力特别大，晚上经常睡不着觉。",
-      "contentEncrypted": false,
+      "content": "enc:X2l8YEtLXlfmnp7ogIjluI/mgq/lpoTvvJPmiJjmnIfov5jmhKbop5DljpLliqLnioDliLLlpK7vvJPmmaHkuJHnu5bluL/nnajkuJTnnYfop5DjgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-01T09:00:10Z"
     },
     {
@@ -2298,8 +2321,8 @@
       "appointmentId": "a-001",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "小明你好，感谢你的信任。能告诉我这种情况持续多久了吗？主要是哪些方面的压力呢？",
-      "contentEncrypted": false,
+      "content": "enc:XlA+bTpWVT7lsJbmmJXkvaflpoTvvJPmhKbosKnkvafnmovkv6jkvILjgInohITlkZHor5DmiJjov6Dnp5Tmg4zlhrzmjIjnu7TlpKHkuYzkuo3lkJ7vvKbkuYLopojmmLblk7HkuqLml4DpnannmovljpLliqLlkanvvKY=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-01T09:00:45Z"
     },
     {
@@ -2307,8 +2330,8 @@
       "appointmentId": "a-003",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "林老师，我最近有时候真的撑不住了，想消失。",
-      "contentEncrypted": false,
+      "content": "enc:TnZzb2FveFvmnp7ogIjluI/vvJPmiJjmnIfov5jmnJDml73lgKDnnKbnmovmkpjkuJTkvZbkuo3vvJPmg7rmto/lpLjjgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-15T10:15:30Z",
       "crisisFlags": [
         "撑不住",
@@ -2320,8 +2343,8 @@
       "appointmentId": "a-003",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "小明，我听到了你现在非常痛苦，我很感谢你愿意告诉我这些。你现在在哪里？身边有人吗？我想先确认你的安全。",
-      "contentEncrypted": false,
+      "content": "enc:eElfVXN/TX/lsJbmmJXvvJPmiJjlkLPliLfkuo3kvafnjrflnK/pnaXluL/nl6Loi63vvJPmiJjlvo/mhKbosKnkvafmhYbmhJblkZHor5DmiJjov6DkuqLjgInkvafnjrflnK/lnK/lk7Hph5PvvKbourLov4DmnJDku4HlkJ7vvKbmiJjmg7rlhY/nobXorqvkvafnmovlrpDlha/jgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-15T10:16:00Z"
     },
     {
@@ -2329,8 +2352,8 @@
       "appointmentId": "a-003",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "我在家，一个人。我不会做什么的，就是感觉特别累。",
-      "contentEncrypted": false,
+      "content": "enc:O01oOm1xOX3miJjlnK/lrr3vvJPkuIfkuLHku4HjgInmiJjkuJTkvKHlgaHku4fkuY/nmovvvJPlsLjmmLbmhKbop5DnioDliLLntLbjgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-15T10:16:45Z"
     },
     {
@@ -2338,8 +2361,8 @@
       "appointmentId": "a-003",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "好的，我很高兴你现在是安全的。这种\"想消失\"的感觉确实很让人难受，但它也在告诉我们，你内心积压了太多需要处理的情绪。我们今天一起来面对这些，好吗？",
-      "contentEncrypted": false,
+      "content": "enc:eFJVXV9NXVHlpoTnmovvvJPmiJjlvo/pq5/lhbvkvafnjrflnK/mmLblrpDlha/nmovjgInov6Dnp5Qp5oO65raP5aS4Keeai+aEpuinkOehteWupeW+j+iusOS7gembheWPnu+8k+S9jeWuiuS5puWcr+WRkeivkOaImOS7s++8k+S9p+WGjOW/iuentuWOkuS6jeWkseWkoemch+imiOWki+eQjeeai+aDjOe7seOAieaImOS7s+S7keWksOS4h+i1vuadrOmdqeWwgOi/oOS6ou+8k+WmhOWQnu+8pg==",
+      "contentEncrypted": true,
       "timestamp": "2024-03-15T10:17:30Z"
     },
     {
@@ -2347,8 +2370,8 @@
       "appointmentId": "a-004",
       "senderId": "u-002",
       "senderRole": "client",
-      "content": "陈医生，我最近总是做噩梦，梦到小时候被欺负的场景。醒来就很难再入睡了。",
-      "contentEncrypted": false,
+      "content": "enc:PVVQVl86dnfpmY/ljYLnlKbvvJPmiJjmnIfov5jmgYLmmLblgaHlmbDmoq3vvJPmoq3liLflsJbml73lgKDoorLmrYHotKbnmovlnYHmmbbjgInphpnmnazlsLjlvo/pm4XlhpTlhaznnajkuo3jgIk=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-05T15:00:20Z"
     },
     {
@@ -2356,9 +2379,18 @@
       "appointmentId": "a-004",
       "senderId": "c-002",
       "senderRole": "counselor",
-      "content": "雨晴你好，这些闪回的记忆一定让你非常痛苦。感谢你有勇气面对它们。我们今天先不着急深入，先来建立一个让你感到安全的\"内在空间\"，可以吗？",
-      "contentEncrypted": false,
+      "content": "enc:fFJVwoB8VHtt6Zuv5pm75L2n5aaE77yT6L+g5Lqi6Zex5Zul55qL6K635b+N5LiH5a6h6K6w5L2n6Z2l5bi/55ei6Iut44CJ5oSm6LCp5L2n5pyQ5YuO5rCb6Z2p5bCA5a6K5Luz44CJ5oiY5Luz5LuR5aSw5YWP5LiU552H5oCs5re45YWs77yT5YWP5p2s5byB56uS5LiH5Lix6K6w5L2n5oSm5Yi35a6Q5YWv55qLKeWGjOWcr+eqgemXuynvvJPlj7bku6zlkJ7vvKY=",
+      "contentEncrypted": true,
       "timestamp": "2024-03-05T15:01:00Z"
+    },
+    {
+      "id": "m-1781670495801-jp7bx1",
+      "appointmentId": "a-006",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "enc:eVhpUVM6N2tGRkZGRkZGRkZGRjNGRkY=",
+      "contentEncrypted": true,
+      "timestamp": "2026-06-17T04:28:15.801Z"
     }
   ],
   "counselorNotes": [
