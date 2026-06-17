@@ -17,14 +17,16 @@ import {
   Lock,
   Home,
   CalendarDays,
+  AlertCircle,
 } from 'lucide-react';
 import { useCounselorStore } from '@/store/counselorStore';
 import { useAppointmentStore } from '@/store/appointmentStore';
 import { usePackageStore } from '@/store/packageStore';
 import { useAuthStore } from '@/store/authStore';
 import PrivacyBadge from '@/components/PrivacyBadge';
+import Modal from '@/components/Modal';
 import { ServiceModeLabels, type ServiceMode } from '@shared/types';
-import { cn } from '@/lib/utils';
+import { cn, normalizeWeeklySchedule } from '@/lib/utils';
 
 type BookingStep = 1 | 2 | 3 | 4;
 
@@ -53,7 +55,7 @@ export default function Booking() {
   const navigate = useNavigate();
 
   const { currentCounselor, fetchCounselorById, loading: counselorLoading } = useCounselorStore();
-  const { createAppointment, loading: appointmentLoading } = useAppointmentStore();
+  const { createAppointment, checkConflict, loading: appointmentLoading } = useAppointmentStore();
   const { myPackages, fetchMyPackages } = usePackageStore();
   const { user } = useAuthStore();
 
@@ -63,6 +65,10 @@ export default function Booking() {
   const [selectedServiceMode, setSelectedServiceMode] = useState<ServiceMode>(
     (searchParams.get('serviceMode') as ServiceMode) || 'text'
   );
+
+  const [conflictModalOpen, setConflictModalOpen] = useState(false);
+  const [slotConflictStatus, setSlotConflictStatus] = useState<'checking' | 'available' | 'conflict' | null>(null);
+  const [checkingStep1, setCheckingStep1] = useState(false);
 
   const [isFirstTime, setIsFirstTime] = useState(true);
 
@@ -136,15 +142,38 @@ export default function Booking() {
     return dates;
   }, []);
 
+  const normalizedSchedule = useMemo(() => {
+    return normalizeWeeklySchedule(currentCounselor?.schedule);
+  }, [currentCounselor]);
+
   const availableTimeSlots = useMemo(() => {
-    if (!selectedDate || !currentCounselor) return [];
+    if (!selectedDate) return [];
     const dateObj = new Date(selectedDate);
     const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-    const dayName = dayNames[dateObj.getDay()] as keyof typeof currentCounselor.schedule;
-    return currentCounselor.schedule[dayName] || [];
-  }, [selectedDate, currentCounselor]);
+    const dayName = dayNames[dateObj.getDay()] as keyof typeof normalizedSchedule;
+    return normalizedSchedule[dayName] || [];
+  }, [selectedDate, normalizedSchedule]);
 
-  const canProceedStep1 = selectedDate && selectedTimeSlot && selectedServiceMode;
+  useEffect(() => {
+    let cancelled = false;
+    if (step === 1 && selectedDate && selectedTimeSlot && counselorId) {
+      setSlotConflictStatus('checking');
+      setCheckingStep1(true);
+      checkConflict(counselorId, selectedDate, selectedTimeSlot).then((conflict) => {
+        if (!cancelled) {
+          setSlotConflictStatus(conflict ? 'conflict' : 'available');
+          setCheckingStep1(false);
+        }
+      });
+    } else {
+      setSlotConflictStatus(null);
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [step, selectedDate, selectedTimeSlot, counselorId, checkConflict]);
+
+  const canProceedStep1 = selectedDate && selectedTimeSlot && selectedServiceMode && slotConflictStatus !== 'conflict' && !checkingStep1;
   const canProceedStep2 = assessment.mainConcern.trim().length > 0;
 
   const handleNext = () => {
@@ -166,6 +195,13 @@ export default function Booking() {
 
   const handleSubmit = async () => {
     if (!counselorId || !currentCounselor) return;
+
+    const conflict = await checkConflict(counselorId, selectedDate, selectedTimeSlot);
+    if (conflict) {
+      setConflictModalOpen(true);
+      setStep(1);
+      return;
+    }
 
     const assessmentForm = isFirstTime
       ? {
@@ -396,6 +432,36 @@ export default function Booking() {
               })}
             </div>
           </div>
+
+          {slotConflictStatus && (
+            <div className={cn(
+              'mb-6 rounded-xl p-4 flex items-center gap-3',
+              slotConflictStatus === 'checking' && 'bg-slate-50',
+              slotConflictStatus === 'available' && 'bg-safe-50',
+              slotConflictStatus === 'conflict' && 'bg-crisis-500/10'
+            )}>
+              {slotConflictStatus === 'checking' && (
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-slate-200 border-t-slate-500" />
+              )}
+              {slotConflictStatus === 'available' && (
+                <Check className="h-5 w-5 text-safe-600" />
+              )}
+              {slotConflictStatus === 'conflict' && (
+                <AlertCircle className="h-5 w-5 text-crisis-600" />
+              )}
+              <div>
+                {slotConflictStatus === 'checking' && (
+                  <span className="text-sm text-slate-600">正在检查时段可用性...</span>
+                )}
+                {slotConflictStatus === 'available' && (
+                  <span className="text-sm font-semibold text-safe-700">✅ 该时段可预约</span>
+                )}
+                {slotConflictStatus === 'conflict' && (
+                  <span className="text-sm font-semibold text-crisis-700">❌ 该时段已被约走，请选择其他时段</span>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="mb-6 rounded-xl bg-safe-50 p-4">
             <div className="mb-2 flex items-center gap-2">
@@ -845,6 +911,28 @@ export default function Booking() {
             )}
           </div>
         )}
+
+        <Modal
+          isOpen={conflictModalOpen}
+          onClose={() => setConflictModalOpen(false)}
+          title="预约冲突"
+          confirmText="重新选择"
+          confirmVariant="primary"
+          onConfirm={() => setConflictModalOpen(false)}
+          hideCancel
+        >
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-6 w-6 shrink-0 text-crisis-600" />
+              <div>
+                <p className="font-semibold text-slate-800">时段已被预约</p>
+                <p className="mt-1 text-sm text-slate-600">
+                  很抱歉，该时段刚刚已被其他来访者预约，请重新选择时段。
+                </p>
+              </div>
+            </div>
+          </div>
+        </Modal>
       </div>
     </div>
   );

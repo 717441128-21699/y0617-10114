@@ -1,6 +1,7 @@
 import { Router, type Request, type Response } from 'express';
 import { db } from '../data/store.js';
 import { authRequired, roleRequired } from '../middleware/auth.js';
+import { normalizeWeeklySchedule, normalizeCounselorSchedule } from '../data/utils.js';
 import type {
   Counselor,
   Specialty,
@@ -14,7 +15,7 @@ const router = Router();
 
 function omitPasswordHashFromCounselor(c: Counselor): Omit<Counselor, 'passwordHash'> {
   const { passwordHash, ...rest } = c;
-  return rest;
+  return normalizeCounselorSchedule(rest);
 }
 
 function getWeekdayName(date: Date): keyof WeeklySchedule {
@@ -143,11 +144,12 @@ router.put('/me/profile', authRequired, roleRequired(['counselor']), async (req:
 router.put('/me/schedule', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
   try {
     const user = req.user as Counselor;
-    const schedule = (req.body.schedule ?? req.body) as WeeklySchedule;
-    if (!schedule) {
+    const rawSchedule = (req.body.schedule ?? req.body) as WeeklySchedule;
+    if (!rawSchedule) {
       res.status(400).json({ success: false, error: 'schedule is required' });
       return;
     }
+    const schedule = normalizeWeeklySchedule(rawSchedule);
     const updated = db.updateCounselor(user.id, { schedule });
     if (!updated) {
       res.status(404).json({ success: false, error: 'Counselor not found' });

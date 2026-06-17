@@ -23,6 +23,7 @@ import {
   mockPackagePurchases,
 } from './mockData.js';
 import { encryptContent, decryptContent } from './encryption.js';
+import { normalizeWeeklySchedule, normalizeCounselorSchedule } from './utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -221,23 +222,28 @@ export class Database {
 
   // ============ Counselors ============
   public getCounselorById(id: string): Counselor | undefined {
-    return this.counselors.find((c) => c.id === id);
+    const counselor = this.counselors.find((c) => c.id === id);
+    return counselor ? normalizeCounselorSchedule(counselor) : undefined;
   }
 
   public listCounselors(): Counselor[] {
-    return [...this.counselors];
+    return this.counselors.map(normalizeCounselorSchedule);
   }
 
   public updateCounselor(id: string, updates: Partial<Counselor>): Counselor | undefined {
     const idx = this.counselors.findIndex((c) => c.id === id);
     if (idx === -1) return undefined;
-    this.counselors[idx] = { ...this.counselors[idx], ...updates };
+    const normalizedUpdates: Partial<Counselor> = { ...updates };
+    if (updates.schedule !== undefined) {
+      normalizedUpdates.schedule = normalizeWeeklySchedule(updates.schedule);
+    }
+    this.counselors[idx] = { ...this.counselors[idx], ...normalizedUpdates };
     const uIdx = this.users.findIndex((u) => u.id === id);
     if (uIdx !== -1) {
-      this.users[uIdx] = { ...this.users[uIdx], ...(updates as Partial<User>) };
+      this.users[uIdx] = { ...this.users[uIdx], ...(normalizedUpdates as Partial<User>) };
     }
     this.save();
-    return this.counselors[idx];
+    return normalizeCounselorSchedule(this.counselors[idx]);
   }
 
   // ============ Clients ============

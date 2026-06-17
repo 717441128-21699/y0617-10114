@@ -12,6 +12,7 @@ interface ModalProps {
   cancelText?: string;
   confirmVariant?: 'primary' | 'danger' | 'warm';
   hideFooter?: boolean;
+  hideCancel?: boolean;
   className?: string;
 }
 
@@ -31,6 +32,7 @@ export default function Modal({
   cancelText = '取消',
   confirmVariant = 'primary',
   hideFooter = false,
+  hideCancel = false,
   className,
 }: ModalProps) {
   useEffect(() => {
@@ -76,12 +78,14 @@ export default function Modal({
 
         {!hideFooter && (
           <div className="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4">
-            <button
-              onClick={onClose}
-              className="rounded-xl border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50"
-            >
-              {cancelText}
-            </button>
+            {!hideCancel && (
+              <button
+                onClick={onClose}
+                className="rounded-xl border border-slate-200 bg-white px-5 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50"
+              >
+                {cancelText}
+              </button>
+            )}
             {onConfirm && (
               <button
                 onClick={onConfirm}

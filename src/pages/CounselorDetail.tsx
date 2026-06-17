@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, BadgeCheck, Calendar, Users, Star, MessageSquare, Phone, Video, BookOpen, Award, Sparkles, Clock, ChevronRight, Lock, AlertCircle } from 'lucide-react';
 import Navbar from '@/components/Navbar';
@@ -10,8 +10,8 @@ import { useAuthStore } from '@/store/authStore';
 import { useCounselorStore } from '@/store/counselorStore';
 import { useReviewStore } from '@/store/reviewStore';
 import { usePackageStore } from '@/store/packageStore';
-import { cn } from '@/lib/utils';
-import type { Specialty, ServiceMode, TimeSlot } from '@shared/types';
+import { cn, normalizeWeeklySchedule } from '@/lib/utils';
+import type { Specialty, ServiceMode, TimeSlot, WeeklySchedule } from '@shared/types';
 import { SpecialtyLabels, ServiceModeLabels } from '@shared/types';
 
 type TabType = 'intro' | 'reviews' | 'schedule' | 'packages';
@@ -125,7 +125,12 @@ export default function CounselorDetail() {
   };
 
   const today = new Date();
-  const currentDaySlots: TimeSlot[] = currentCounselor?.schedule?.[weekDates[selectedDay].dayKey] || [];
+
+  const normalizedSchedule: WeeklySchedule = useMemo(() => {
+    return normalizeWeeklySchedule(currentCounselor?.schedule);
+  }, [currentCounselor]);
+
+  const currentDaySlots: TimeSlot[] = normalizedSchedule[weekDates[selectedDay].dayKey] || [];
 
   const tabs: { key: TabType; label: string; icon: typeof BookOpen }[] = [
     { key: 'intro', label: '简介', icon: BookOpen },

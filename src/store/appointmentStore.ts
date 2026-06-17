@@ -12,6 +12,10 @@ interface CreateAppointmentData {
   assessmentForm?: Partial<AssessmentForm>;
 }
 
+interface CheckConflictResult {
+  conflict: boolean;
+}
+
 interface AppointmentState {
   appointments: Appointment[];
   currentAppointment: Appointment | null;
@@ -19,6 +23,7 @@ interface AppointmentState {
   fetchMyAppointments: () => Promise<boolean>;
   createAppointment: (data: CreateAppointmentData) => Promise<Appointment | null>;
   updateStatus: (id: string, status: AppointmentStatus) => Promise<boolean>;
+  checkConflict: (counselorId: string, date: string, timeSlot: string) => Promise<boolean>;
 }
 
 export const useAppointmentStore = create<AppointmentState>((set) => ({
@@ -64,6 +69,16 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
       return true;
     }
     set({ loading: false });
+    return false;
+  },
+
+  checkConflict: async (counselorId: string, date: string, timeSlot: string) => {
+    const res = await apiClient.get<CheckConflictResult>(
+      `/appointments/check-conflict?counselorId=${encodeURIComponent(counselorId)}&date=${encodeURIComponent(date)}&timeSlot=${encodeURIComponent(timeSlot)}`
+    );
+    if (res.success && res.data) {
+      return res.data.conflict;
+    }
     return false;
   },
 }));

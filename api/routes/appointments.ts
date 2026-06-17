@@ -16,6 +16,50 @@ function generateId(prefix: string): string {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
+router.get('/check-conflict', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { counselorId, date, timeSlot } = req.query;
+
+    if (!counselorId || !date || !timeSlot) {
+      res.status(400).json({
+        success: false,
+        error: 'counselorId, date, timeSlot are required',
+      });
+      return;
+    }
+
+    const appointments = db.listAppointments({ counselorId: String(counselorId) });
+    const conflictingAppointment = appointments.find(
+      (a) =>
+        a.date === String(date) &&
+        a.timeSlot === String(timeSlot) &&
+        a.status !== 'cancelled',
+    );
+
+    if (conflictingAppointment) {
+      res.status(200).json({
+        success: true,
+        data: {
+          conflict: true,
+          message: '该时段已被预约',
+          conflictingAppointmentId: conflictingAppointment.id,
+        },
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        conflict: false,
+      },
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Unknown error';
+    res.status(500).json({ success: false, error: message });
+  }
+});
+
 function enrichAppointment(appt: Appointment): Appointment {
   const counselor = db.getCounselorById(appt.counselorId);
   const client = db.getClientById(appt.clientId);

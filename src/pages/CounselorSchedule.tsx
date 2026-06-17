@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Save, CheckSquare, Square, CalendarDays, RefreshCw, Check, CheckCircle2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, normalizeWeeklySchedule } from '@/lib/utils';
 import { apiClient } from '@/lib/api';
 import { useCounselorStore } from '@/store/counselorStore';
 import { useAuthStore } from '@/store/authStore';
@@ -53,8 +53,8 @@ export default function CounselorSchedule() {
   }, [fetchCurrentCounselor]);
 
   useEffect(() => {
-    if (currentUserCounselor?.schedule) {
-      setSchedule(currentUserCounselor.schedule);
+    if (currentUserCounselor) {
+      setSchedule(normalizeWeeklySchedule(currentUserCounselor.schedule));
     }
   }, [currentUserCounselor]);
 

@@ -161,9 +161,9 @@ export default function Session() {
     const success = await updateStatus(appointmentId, 'completed');
     setEndingSession(false);
     setEndModalOpen(false);
-    if (success) {
+    if (success && appointment) {
       if (isCounselor) {
-        navigate('/counselor/records');
+        navigate(`/counselor/records?clientId=${appointment.clientId}&appointmentId=${appointmentId}&openNote=1`);
       } else {
         navigate('/client/reviews', { state: { appointmentId, openReview: true } });
       }
