@@ -1,0 +1,448 @@
+import { useEffect, useState } from 'react';
+import { User, FileText, Clock, Plus, Edit2, Save, X, Calendar, CheckCircle, Users, MessageSquare } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useRecordStore } from '@/store/recordStore';
+import { useAppointmentStore } from '@/store/appointmentStore';
+import Empty from '@/components/Empty';
+import Modal from '@/components/Modal';
+import PrivacyBadge from '@/components/PrivacyBadge';
+import { AppointmentStatusLabels } from '@shared/types';
+import type { CounselorNote, Appointment } from '@shared/types';
+
+interface ClientItem {
+  id: string;
+  anonymousId: string;
+  name: string;
+  totalSessions: number;
+  lastSession: string;
+}
+
+const mockClients: ClientItem[] = [
+  { id: 'c1', anonymousId: 'ANON-2024-001', name: '来访者A', totalSessions: 12, lastSession: '2024-01-15' },
+  { id: 'c2', anonymousId: 'ANON-2024-002', name: '来访者B', totalSessions: 5, lastSession: '2024-01-10' },
+  { id: 'c3', anonymousId: 'ANON-2023-089', name: '来访者C', totalSessions: 20, lastSession: '2024-01-08' },
+  { id: 'c4', anonymousId: 'ANON-2023-156', name: '来访者D', totalSessions: 3, lastSession: '2023-12-28' },
+  { id: 'c5', anonymousId: 'ANON-2023-201', name: '来访者E', totalSessions: 8, lastSession: '2023-12-20' },
+];
+
+type TabKey = 'notes' | 'timeline';
+
+export default function CounselorRecords() {
+  const [selectedClientId, setSelectedClientId] = useState<string | null>('c1');
+  const [activeTab, setActiveTab] = useState<TabKey>('notes');
+  const [noteModalOpen, setNoteModalOpen] = useState(false);
+  const [editingNote, setEditingNote] = useState<CounselorNote | null>(null);
+  const [noteContent, setNoteContent] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const { notes, loading, fetchNotesByClient, createNote, updateNote } = useRecordStore();
+  const { appointments, fetchMyAppointments } = useAppointmentStore();
+
+  const selectedClient = mockClients.find((c) => c.id === selectedClientId);
+
+  useEffect(() => {
+    fetchMyAppointments();
+  }, [fetchMyAppointments]);
+
+  useEffect(() => {
+    if (selectedClientId) {
+      fetchNotesByClient(selectedClientId);
+    }
+  }, [selectedClientId, fetchNotesByClient]);
+
+  const clientAppointments = appointments.filter((a) => a.clientId === selectedClientId);
+
+  const handleOpenNewNote = () => {
+    setEditingNote(null);
+    setNoteContent('');
+    setNoteModalOpen(true);
+  };
+
+  const handleOpenEditNote = (note: CounselorNote) => {
+    setEditingNote(note);
+    setNoteContent(note.content);
+    setNoteModalOpen(true);
+  };
+
+  const handleCloseNoteModal = () => {
+    setNoteModalOpen(false);
+    setEditingNote(null);
+    setNoteContent('');
+  };
+
+  const handleSaveNote = async () => {
+    if (!selectedClientId || !noteContent.trim()) return;
+    setSaving(true);
+    if (editingNote) {
+      await updateNote(editingNote.id, noteContent);
+    } else {
+      await createNote({
+        clientId: selectedClientId,
+        content: noteContent,
+        tags: ['咨询笔记'],
+      });
+    }
+    setSaving(false);
+    handleCloseNoteModal();
+  };
+
+  const sortedNotes = [...notes].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
+  const timelineAppointments = [...clientAppointments].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="font-serif text-2xl font-bold text-slate-800">档案管理</h1>
+          <p className="mt-1 text-sm text-slate-500">查看来访者档案，记录咨询笔记</p>
+        </div>
+        <PrivacyBadge />
+      </div>
+
+      <div className="grid grid-cols-12 gap-6">
+        <aside className="col-span-12 lg:col-span-4">
+          <div className="rounded-2xl bg-white p-4 shadow-card">
+            <div className="mb-4 flex items-center justify-between px-2">
+              <h2 className="font-serif text-base font-bold text-slate-700">来访者列表</h2>
+              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">
+                {mockClients.length}
+              </span>
+            </div>
+
+            <div className="space-y-1">
+              {mockClients.map((client) => {
+                const selected = client.id === selectedClientId;
+                return (
+                  <button
+                    key={client.id}
+                    onClick={() => setSelectedClientId(client.id)}
+                    className={cn(
+                      'w-full flex items-start gap-3 rounded-xl p-3 text-left transition-colors',
+                      selected
+                        ? 'bg-warm-50 shadow-glow'
+                        : 'hover:bg-slate-50'
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold',
+                        selected
+                          ? 'bg-gradient-to-br from-warm-100 to-warm-200 text-warm-700'
+                          : 'bg-slate-100 text-slate-500'
+                      )}
+                    >
+                      {client.anonymousId.slice(-3)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className={cn('font-serif text-sm font-bold truncate', selected ? 'text-warm-800' : 'text-slate-700')}>
+                          {client.name}
+                        </p>
+                        <span className={cn('shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold', selected ? 'bg-warm-100 text-warm-700' : 'bg-slate-100 text-slate-500')}>
+                          {client.totalSessions}次
+                        </span>
+                      </div>
+                      <p className="mt-0.5 truncate text-xs text-slate-400">{client.anonymousId}</p>
+                      <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-400">
+                        <Calendar className="h-3 w-3" />
+                        最近 {client.lastSession}
+                      </p>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </aside>
+
+        <section className="col-span-12 lg:col-span-8">
+          {selectedClient ? (
+            <div className="space-y-4">
+              <div className="rounded-2xl bg-white p-5 shadow-card">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-warm-100 to-warm-200 text-lg font-bold text-warm-700">
+                      {selectedClient.anonymousId.slice(-3)}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-serif text-lg font-bold text-slate-800">{selectedClient.name}</h3>
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
+                          {selectedClient.anonymousId}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm text-slate-500">匿名来访者 · 信息已加密保护</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center rounded-xl bg-slate-50 px-4 py-3">
+                      <p className="font-serif text-2xl font-bold text-warm-600">{selectedClient.totalSessions}</p>
+                      <p className="mt-0.5 text-xs text-slate-500">总咨询次数</p>
+                    </div>
+                    <div className="text-center rounded-xl bg-slate-50 px-4 py-3">
+                      <p className="font-serif text-2xl font-bold text-primary-600">
+                        {clientAppointments.filter((a) => a.status === 'completed').length}
+                      </p>
+                      <p className="mt-0.5 text-xs text-slate-500">已完成</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="rounded-2xl bg-white p-2 shadow-card">
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setActiveTab('notes')}
+                    className={cn(
+                      'flex-1 flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+                      activeTab === 'notes'
+                        ? 'bg-warm-50 text-warm-700 shadow-glow'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+                    )}
+                  >
+                    <FileText className="h-4 w-4" />
+                    档案笔记
+                    <span className={cn(
+                      'rounded-full px-1.5 py-0.5 text-xs font-semibold',
+                      activeTab === 'notes' ? 'bg-warm-100 text-warm-700' : 'bg-slate-100 text-slate-500'
+                    )}>
+                      {sortedNotes.length}
+                    </span>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('timeline')}
+                    className={cn(
+                      'flex-1 flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+                      activeTab === 'timeline'
+                        ? 'bg-primary-50 text-primary-700 shadow-glow'
+                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+                    )}
+                  >
+                    <Clock className="h-4 w-4" />
+                    咨询历程
+                    <span className={cn(
+                      'rounded-full px-1.5 py-0.5 text-xs font-semibold',
+                      activeTab === 'timeline' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-500'
+                    )}>
+                      {timelineAppointments.length}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {activeTab === 'notes' && (
+                <div className="space-y-4">
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleOpenNewNote}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-warm-500 px-5 py-2.5 text-sm font-medium text-white shadow-soft transition-colors hover:bg-warm-600"
+                    >
+                      <Plus className="h-4 w-4" />
+                      新建笔记
+                    </button>
+                  </div>
+
+                  {loading ? (
+                    <div className="flex h-40 items-center justify-center">
+                      <div className="h-8 w-8 animate-spin rounded-full border-2 border-warm-200 border-t-warm-600" />
+                    </div>
+                  ) : sortedNotes.length === 0 ? (
+                    <Empty
+                      icon={FileText}
+                      title="暂无笔记记录"
+                      description="点击「新建笔记」开始记录本次咨询内容"
+                      className="py-12"
+                      action={{ label: '新建笔记', onClick: handleOpenNewNote }}
+                    />
+                  ) : (
+                    <div className="space-y-3">
+                      {sortedNotes.map((note) => (
+                        <div key={note.id} className="rounded-2xl bg-white p-5 shadow-card">
+                          <div className="mb-3 flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <span className="rounded-full bg-warm-50 px-2.5 py-0.5 text-xs font-medium text-warm-700">
+                                {note.tags?.[0] || '咨询笔记'}
+                              </span>
+                              <span className="text-xs text-slate-400">
+                                创建于 {note.createdAt?.slice(0, 10)} {note.createdAt?.slice(11, 16)}
+                              </span>
+                              {note.updatedAt !== note.createdAt && (
+                                <span className="text-xs text-slate-400">· 已编辑</span>
+                              )}
+                            </div>
+                            <button
+                              onClick={() => handleOpenEditNote(note)}
+                              className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                            >
+                              <Edit2 className="h-3.5 w-3.5" />
+                              编辑
+                            </button>
+                          </div>
+                          <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
+                            {note.content}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'timeline' && (
+                <div className="rounded-2xl bg-white p-5 shadow-card">
+                  {timelineAppointments.length === 0 ? (
+                    <Empty
+                      icon={Calendar}
+                      title="暂无咨询历程"
+                      description="与此来访者的咨询记录将显示在这里"
+                      className="py-12"
+                    />
+                  ) : (
+                    <div className="relative pl-8">
+                      <div className="absolute left-3 top-1 bottom-1 w-0.5 bg-gradient-to-b from-warm-200 via-warm-300 to-transparent" />
+                      <div className="space-y-6">
+                        {timelineAppointments.map((appt, index) => (
+                          <TimelineItem key={appt.id} appointment={appt} isLast={index === timelineAppointments.length - 1} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-white p-10 shadow-card">
+              <Empty
+                icon={Users}
+                title="请选择来访者"
+                description="从左侧列表选择一位来访者查看详情"
+              />
+            </div>
+          )}
+        </section>
+      </div>
+
+      <Modal
+        isOpen={noteModalOpen}
+        onClose={handleCloseNoteModal}
+        title={editingNote ? '编辑笔记' : '新建咨询笔记'}
+        confirmText={saving ? '保存中...' : '保存笔记'}
+        confirmVariant="warm"
+        onConfirm={handleSaveNote}
+        className="max-w-xl"
+      >
+        <div className="space-y-4">
+          {selectedClient && (
+            <div className="flex items-center gap-3 rounded-xl bg-slate-50 p-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warm-100 text-sm font-bold text-warm-700">
+                {selectedClient.anonymousId.slice(-3)}
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-slate-700">{selectedClient.name}</p>
+                <p className="text-xs text-slate-400">{selectedClient.anonymousId}</p>
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              笔记内容 <span className="text-crisis-500">*</span>
+            </label>
+            <textarea
+              rows={8}
+              value={noteContent}
+              onChange={(e) => setNoteContent(e.target.value)}
+              placeholder="记录咨询过程中的重要内容、来访者状态、干预措施、下次计划等..."
+              className="w-full resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed text-slate-700 outline-none transition-colors focus:border-warm-400 focus:ring-2 focus:ring-warm-100"
+            />
+            <p className="mt-2 text-xs text-slate-400">
+              当前 {noteContent.length} 字 · 笔记内容仅您可见，已端到端加密存储
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-safe-50 p-3 text-xs text-safe-700">
+            <p className="flex items-start gap-2">
+              <CheckCircle className="h-4 w-4 shrink-0 mt-0.5" />
+              所有档案笔记严格遵守心理咨询伦理规范，仅用于专业咨询记录，不会对外披露。
+            </p>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+}
+
+interface TimelineItemProps {
+  appointment: Appointment;
+  isLast: boolean;
+}
+
+function TimelineItem({ appointment, isLast }: TimelineItemProps) {
+  const statusColors: Record<string, string> = {
+    completed: 'bg-safe-500 ring-safe-100',
+    confirmed: 'bg-primary-500 ring-primary-100',
+    in_progress: 'bg-warm-500 ring-warm-100',
+    pending: 'bg-amber-500 ring-amber-100',
+    cancelled: 'bg-slate-300 ring-slate-100',
+  };
+
+  return (
+    <div className="relative">
+      <div
+        className={cn(
+          'absolute -left-[22px] top-1.5 h-4 w-4 rounded-full ring-4',
+          statusColors[appointment.status] || 'bg-slate-400 ring-slate-100'
+        )}
+      />
+      <div
+        className={cn(
+          'rounded-xl border p-4 transition-colors',
+          appointment.status === 'completed'
+            ? 'bg-safe-50/30 border-safe-100'
+            : appointment.status === 'cancelled'
+            ? 'bg-slate-50 border-slate-100 opacity-60'
+            : 'bg-white border-slate-200'
+        )}
+      >
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Calendar className="h-3.5 w-3.5 text-slate-400" />
+              <span className="text-sm font-semibold text-slate-700">{appointment.date}</span>
+              <span className="text-sm text-slate-400">{appointment.timeSlot}</span>
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-xs text-slate-500">
+              <MessageSquare className="h-3 w-3" />
+              预约 #{appointment.id.slice(-6)}
+            </div>
+          </div>
+          <span
+            className={cn(
+              'shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium',
+              appointment.status === 'completed'
+                ? 'bg-safe-100 text-safe-700'
+                : appointment.status === 'confirmed'
+                ? 'bg-primary-100 text-primary-700'
+                : appointment.status === 'in_progress'
+                ? 'bg-warm-100 text-warm-700'
+                : appointment.status === 'pending'
+                ? 'bg-amber-100 text-amber-700'
+                : 'bg-slate-100 text-slate-500'
+            )}
+          >
+            {AppointmentStatusLabels[appointment.status]}
+          </span>
+        </div>
+        <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
+          <span>¥{appointment.price}</span>
+          {appointment.packageUsageId && <span>使用课程包</span>}
+        </div>
+      </div>
+    </div>
+  );
+}

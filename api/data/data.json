@@ -1,0 +1,2600 @@
+{
+  "users": [
+    {
+      "id": "c-001",
+      "role": "counselor",
+      "name": "林清和",
+      "email": "linqinghe@example.com",
+      "phone": "13800000001",
+      "avatar": "",
+      "passwordHash": "hashed_password_1",
+      "licenseNo": "CN-2018-001234",
+      "licenseVerified": true,
+      "specialties": [
+        "anxiety",
+        "depression",
+        "marriage"
+      ],
+      "serviceModes": [
+        "text",
+        "voice",
+        "video"
+      ],
+      "introduction": "国家二级心理咨询师，从业10年，擅长运用认知行为疗法(CBT)和正念疗法处理焦虑、抑郁等情绪问题，以及婚姻关系咨询。",
+      "education": "北京大学心理学硕士",
+      "experienceYears": 10,
+      "sessionDuration": 50,
+      "pricePerSession": 600,
+      "avgRating": 4.8,
+      "reviewCount": 156,
+      "totalSessions": 892,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-01-15T09:00:00Z"
+    },
+    {
+      "id": "c-002",
+      "role": "counselor",
+      "name": "陈思远",
+      "email": "chensiyuan@example.com",
+      "phone": "13800000002",
+      "avatar": "",
+      "passwordHash": "hashed_password_2",
+      "licenseNo": "CN-2019-002345",
+      "licenseVerified": true,
+      "specialties": [
+        "adolescent",
+        "trauma"
+      ],
+      "serviceModes": [
+        "voice",
+        "video"
+      ],
+      "introduction": "资深青少年心理咨询师，创伤治疗专家。曾在多家三甲医院心理科工作，擅长处理青少年成长问题及PTSD创伤后应激障碍。",
+      "education": "华东师范大学临床心理学博士",
+      "experienceYears": 8,
+      "sessionDuration": 50,
+      "pricePerSession": 800,
+      "avgRating": 4.9,
+      "reviewCount": 203,
+      "totalSessions": 1120,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-02-20T10:30:00Z"
+    },
+    {
+      "id": "c-003",
+      "role": "counselor",
+      "name": "王雅琴",
+      "email": "wangyaqin@example.com",
+      "phone": "13800000003",
+      "avatar": "",
+      "passwordHash": "hashed_password_3",
+      "licenseNo": "CN-2017-003456",
+      "licenseVerified": true,
+      "specialties": [
+        "marriage",
+        "family"
+      ],
+      "serviceModes": [
+        "text",
+        "voice",
+        "video"
+      ],
+      "introduction": "家庭系统治疗师，专注婚姻家庭领域12年。擅长夫妻关系修复、亲子沟通改善，帮助众多家庭重建和谐关系。",
+      "education": "中国科学院心理研究所博士",
+      "experienceYears": 12,
+      "sessionDuration": 50,
+      "pricePerSession": 700,
+      "avgRating": 4.7,
+      "reviewCount": 289,
+      "totalSessions": 1560,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-03-10T08:15:00Z"
+    },
+    {
+      "id": "c-004",
+      "role": "counselor",
+      "name": "张明宇",
+      "email": "zhangmingyu@example.com",
+      "phone": "13800000004",
+      "avatar": "",
+      "passwordHash": "hashed_password_4",
+      "licenseNo": "CN-2020-004567",
+      "licenseVerified": true,
+      "specialties": [
+        "stress",
+        "trauma"
+      ],
+      "serviceModes": [
+        "text",
+        "video"
+      ],
+      "introduction": "企业EAP资深顾问，压力管理专家。曾为多家世界500强企业提供心理服务，擅长职场压力调节、危机干预及创伤治疗。",
+      "education": "中山大学应用心理学硕士",
+      "experienceYears": 6,
+      "sessionDuration": 50,
+      "pricePerSession": 400,
+      "avgRating": 4.6,
+      "reviewCount": 98,
+      "totalSessions": 520,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-06-01T14:00:00Z"
+    },
+    {
+      "id": "u-001",
+      "role": "client",
+      "name": "李小明",
+      "email": "lixiaoming@example.com",
+      "phone": "13900000001",
+      "avatar": "",
+      "passwordHash": "hashed_client_1",
+      "anonymousId": "anon-u001-abc123",
+      "createdAt": "2024-01-10T11:20:00Z"
+    },
+    {
+      "id": "u-002",
+      "role": "client",
+      "name": "张雨晴",
+      "email": "zhangyuqing@example.com",
+      "phone": "13900000002",
+      "avatar": "",
+      "passwordHash": "hashed_client_2",
+      "anonymousId": "anon-u002-def456",
+      "createdAt": "2024-02-15T16:45:00Z"
+    }
+  ],
+  "counselors": [
+    {
+      "id": "c-001",
+      "role": "counselor",
+      "name": "林清和",
+      "email": "linqinghe@example.com",
+      "phone": "13800000001",
+      "avatar": "",
+      "passwordHash": "hashed_password_1",
+      "licenseNo": "CN-2018-001234",
+      "licenseVerified": true,
+      "specialties": [
+        "anxiety",
+        "depression",
+        "marriage"
+      ],
+      "serviceModes": [
+        "text",
+        "voice",
+        "video"
+      ],
+      "introduction": "国家二级心理咨询师，从业10年，擅长运用认知行为疗法(CBT)和正念疗法处理焦虑、抑郁等情绪问题，以及婚姻关系咨询。",
+      "education": "北京大学心理学硕士",
+      "experienceYears": 10,
+      "sessionDuration": 50,
+      "pricePerSession": 600,
+      "avgRating": 4.8,
+      "reviewCount": 156,
+      "totalSessions": 892,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-01-15T09:00:00Z"
+    },
+    {
+      "id": "c-002",
+      "role": "counselor",
+      "name": "陈思远",
+      "email": "chensiyuan@example.com",
+      "phone": "13800000002",
+      "avatar": "",
+      "passwordHash": "hashed_password_2",
+      "licenseNo": "CN-2019-002345",
+      "licenseVerified": true,
+      "specialties": [
+        "adolescent",
+        "trauma"
+      ],
+      "serviceModes": [
+        "voice",
+        "video"
+      ],
+      "introduction": "资深青少年心理咨询师，创伤治疗专家。曾在多家三甲医院心理科工作，擅长处理青少年成长问题及PTSD创伤后应激障碍。",
+      "education": "华东师范大学临床心理学博士",
+      "experienceYears": 8,
+      "sessionDuration": 50,
+      "pricePerSession": 800,
+      "avgRating": 4.9,
+      "reviewCount": 203,
+      "totalSessions": 1120,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-02-20T10:30:00Z"
+    },
+    {
+      "id": "c-003",
+      "role": "counselor",
+      "name": "王雅琴",
+      "email": "wangyaqin@example.com",
+      "phone": "13800000003",
+      "avatar": "",
+      "passwordHash": "hashed_password_3",
+      "licenseNo": "CN-2017-003456",
+      "licenseVerified": true,
+      "specialties": [
+        "marriage",
+        "family"
+      ],
+      "serviceModes": [
+        "text",
+        "voice",
+        "video"
+      ],
+      "introduction": "家庭系统治疗师，专注婚姻家庭领域12年。擅长夫妻关系修复、亲子沟通改善，帮助众多家庭重建和谐关系。",
+      "education": "中国科学院心理研究所博士",
+      "experienceYears": 12,
+      "sessionDuration": 50,
+      "pricePerSession": 700,
+      "avgRating": 4.7,
+      "reviewCount": 289,
+      "totalSessions": 1560,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-03-10T08:15:00Z"
+    },
+    {
+      "id": "c-004",
+      "role": "counselor",
+      "name": "张明宇",
+      "email": "zhangmingyu@example.com",
+      "phone": "13800000004",
+      "avatar": "",
+      "passwordHash": "hashed_password_4",
+      "licenseNo": "CN-2020-004567",
+      "licenseVerified": true,
+      "specialties": [
+        "stress",
+        "trauma"
+      ],
+      "serviceModes": [
+        "text",
+        "video"
+      ],
+      "introduction": "企业EAP资深顾问，压力管理专家。曾为多家世界500强企业提供心理服务，擅长职场压力调节、危机干预及创伤治疗。",
+      "education": "中山大学应用心理学硕士",
+      "experienceYears": 6,
+      "sessionDuration": 50,
+      "pricePerSession": 400,
+      "avgRating": 4.6,
+      "reviewCount": 98,
+      "totalSessions": 520,
+      "schedule": {
+        "monday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "thursday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "friday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "saturday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ],
+        "sunday": [
+          {
+            "start": "09:00",
+            "end": "09:50",
+            "available": true
+          },
+          {
+            "start": "10:00",
+            "end": "10:50",
+            "available": true
+          },
+          {
+            "start": "11:00",
+            "end": "11:50",
+            "available": true
+          },
+          {
+            "start": "14:00",
+            "end": "14:50",
+            "available": true
+          },
+          {
+            "start": "15:00",
+            "end": "15:50",
+            "available": true
+          },
+          {
+            "start": "16:00",
+            "end": "16:50",
+            "available": true
+          }
+        ]
+      },
+      "createdAt": "2023-06-01T14:00:00Z"
+    }
+  ],
+  "clients": [
+    {
+      "id": "u-001",
+      "role": "client",
+      "name": "李小明",
+      "email": "lixiaoming@example.com",
+      "phone": "13900000001",
+      "avatar": "",
+      "passwordHash": "hashed_client_1",
+      "anonymousId": "anon-u001-abc123",
+      "createdAt": "2024-01-10T11:20:00Z"
+    },
+    {
+      "id": "u-002",
+      "role": "client",
+      "name": "张雨晴",
+      "email": "zhangyuqing@example.com",
+      "phone": "13900000002",
+      "avatar": "",
+      "passwordHash": "hashed_client_2",
+      "anonymousId": "anon-u002-def456",
+      "createdAt": "2024-02-15T16:45:00Z"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "a-001",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "counselorName": "林清和",
+      "clientName": "李小明",
+      "date": "2024-03-01",
+      "timeSlot": "09:00-09:50",
+      "serviceMode": "video",
+      "status": "completed",
+      "price": 600,
+      "crisisTriggered": false,
+      "createdAt": "2024-02-20T10:00:00Z"
+    },
+    {
+      "id": "a-002",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "counselorName": "林清和",
+      "clientName": "李小明",
+      "date": "2024-03-08",
+      "timeSlot": "14:00-14:50",
+      "serviceMode": "video",
+      "status": "completed",
+      "price": 600,
+      "crisisTriggered": false,
+      "createdAt": "2024-02-25T14:30:00Z"
+    },
+    {
+      "id": "a-003",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "counselorName": "林清和",
+      "clientName": "李小明",
+      "date": "2024-03-15",
+      "timeSlot": "10:00-10:50",
+      "serviceMode": "voice",
+      "status": "completed",
+      "price": 600,
+      "crisisTriggered": true,
+      "createdAt": "2024-03-01T09:15:00Z"
+    },
+    {
+      "id": "a-004",
+      "counselorId": "c-002",
+      "clientId": "u-002",
+      "counselorName": "陈思远",
+      "clientName": "张雨晴",
+      "date": "2024-03-05",
+      "timeSlot": "15:00-15:50",
+      "serviceMode": "video",
+      "status": "completed",
+      "price": 800,
+      "crisisTriggered": false,
+      "createdAt": "2024-02-22T11:30:00Z"
+    },
+    {
+      "id": "a-005",
+      "counselorId": "c-002",
+      "clientId": "u-002",
+      "counselorName": "陈思远",
+      "clientName": "张雨晴",
+      "date": "2024-03-12",
+      "timeSlot": "16:00-16:50",
+      "serviceMode": "video",
+      "status": "completed",
+      "price": 800,
+      "crisisTriggered": false,
+      "createdAt": "2024-03-01T13:45:00Z"
+    },
+    {
+      "id": "a-006",
+      "counselorId": "c-003",
+      "clientId": "u-001",
+      "counselorName": "王雅琴",
+      "clientName": "李小明",
+      "date": "2024-03-20",
+      "timeSlot": "14:00-14:50",
+      "serviceMode": "text",
+      "status": "in_progress",
+      "price": 700,
+      "crisisTriggered": false,
+      "createdAt": "2024-03-10T16:20:00Z"
+    },
+    {
+      "id": "a-007",
+      "counselorId": "c-003",
+      "clientId": "u-002",
+      "counselorName": "王雅琴",
+      "clientName": "张雨晴",
+      "date": "2024-03-22",
+      "timeSlot": "09:00-09:50",
+      "serviceMode": "video",
+      "status": "confirmed",
+      "price": 700,
+      "crisisTriggered": false,
+      "createdAt": "2024-03-12T10:10:00Z"
+    },
+    {
+      "id": "a-008",
+      "counselorId": "c-004",
+      "clientId": "u-001",
+      "counselorName": "张明宇",
+      "clientName": "李小明",
+      "date": "2024-03-25",
+      "timeSlot": "11:00-11:50",
+      "serviceMode": "video",
+      "status": "confirmed",
+      "price": 400,
+      "crisisTriggered": false,
+      "createdAt": "2024-03-15T15:00:00Z"
+    },
+    {
+      "id": "a-009",
+      "counselorId": "c-004",
+      "clientId": "u-002",
+      "counselorName": "张明宇",
+      "clientName": "张雨晴",
+      "date": "2024-03-28",
+      "timeSlot": "14:00-14:50",
+      "serviceMode": "text",
+      "status": "pending",
+      "price": 400,
+      "crisisTriggered": false,
+      "createdAt": "2024-03-18T09:30:00Z"
+    },
+    {
+      "id": "a-010",
+      "counselorId": "c-001",
+      "clientId": "u-002",
+      "counselorName": "林清和",
+      "clientName": "张雨晴",
+      "date": "2024-03-30",
+      "timeSlot": "10:00-10:50",
+      "serviceMode": "video",
+      "status": "pending",
+      "price": 600,
+      "crisisTriggered": false,
+      "createdAt": "2024-03-19T14:20:00Z"
+    }
+  ],
+  "chatMessages": [
+    {
+      "id": "m-001",
+      "appointmentId": "a-006",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "王老师好，我是李小明。今天想聊聊和我妻子的关系问题。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-20T14:00:05Z"
+    },
+    {
+      "id": "m-002",
+      "appointmentId": "a-006",
+      "senderId": "c-003",
+      "senderRole": "counselor",
+      "content": "小明你好，很高兴见到你。我们今天可以慢慢来，你想从哪里开始说呢？",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-20T14:00:30Z"
+    },
+    {
+      "id": "m-003",
+      "appointmentId": "a-006",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "最近和我妻子总是吵架，一点小事就能吵起来。她总说我不关心她，可我觉得我已经很努力了。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-20T14:01:15Z"
+    },
+    {
+      "id": "m-004",
+      "appointmentId": "a-006",
+      "senderId": "c-003",
+      "senderRole": "counselor",
+      "content": "听起来你在这段关系里感到很委屈，明明付出了却没有被看到。能具体说说最近一次争吵的情况吗？",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-20T14:02:00Z"
+    },
+    {
+      "id": "m-005",
+      "appointmentId": "a-006",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "好的，就是昨天晚上。我加班到很晚才回家，她就质问我为什么不回消息。我当时太累了，就说了一句\"你别无理取闹好不好\"，然后她就哭了。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-20T14:03:20Z"
+    },
+    {
+      "id": "m-006",
+      "appointmentId": "a-006",
+      "senderId": "c-003",
+      "senderRole": "counselor",
+      "content": "我能理解你加班后的疲惫，也能感受到妻子在等待消息时的焦虑和不安。这其实是一个很典型的\"追-逃\"模式。你愿意听听我对这个模式的分析吗？",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-20T14:04:45Z"
+    },
+    {
+      "id": "m-007",
+      "appointmentId": "a-001",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "林老师您好，我最近感觉压力特别大，晚上经常睡不着觉。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-01T09:00:10Z"
+    },
+    {
+      "id": "m-008",
+      "appointmentId": "a-001",
+      "senderId": "c-001",
+      "senderRole": "counselor",
+      "content": "小明你好，感谢你的信任。能告诉我这种情况持续多久了吗？主要是哪些方面的压力呢？",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-01T09:00:45Z"
+    },
+    {
+      "id": "m-009",
+      "appointmentId": "a-003",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "林老师，我最近有时候真的撑不住了，想消失。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-15T10:15:30Z",
+      "crisisFlags": [
+        "撑不住",
+        "想消失"
+      ]
+    },
+    {
+      "id": "m-010",
+      "appointmentId": "a-003",
+      "senderId": "c-001",
+      "senderRole": "counselor",
+      "content": "小明，我听到了你现在非常痛苦，我很感谢你愿意告诉我这些。你现在在哪里？身边有人吗？我想先确认你的安全。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-15T10:16:00Z"
+    },
+    {
+      "id": "m-011",
+      "appointmentId": "a-003",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "我在家，一个人。我不会做什么的，就是感觉特别累。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-15T10:16:45Z"
+    },
+    {
+      "id": "m-012",
+      "appointmentId": "a-003",
+      "senderId": "c-001",
+      "senderRole": "counselor",
+      "content": "好的，我很高兴你现在是安全的。这种\"想消失\"的感觉确实很让人难受，但它也在告诉我们，你内心积压了太多需要处理的情绪。我们今天一起来面对这些，好吗？",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-15T10:17:30Z"
+    },
+    {
+      "id": "m-013",
+      "appointmentId": "a-004",
+      "senderId": "u-002",
+      "senderRole": "client",
+      "content": "陈医生，我最近总是做噩梦，梦到小时候被欺负的场景。醒来就很难再入睡了。",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-05T15:00:20Z"
+    },
+    {
+      "id": "m-014",
+      "appointmentId": "a-004",
+      "senderId": "c-002",
+      "senderRole": "counselor",
+      "content": "雨晴你好，这些闪回的记忆一定让你非常痛苦。感谢你有勇气面对它们。我们今天先不着急深入，先来建立一个让你感到安全的\"内在空间\"，可以吗？",
+      "contentEncrypted": false,
+      "timestamp": "2024-03-05T15:01:00Z"
+    }
+  ],
+  "counselorNotes": [
+    {
+      "id": "n-001",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "clientName": "李小明",
+      "appointmentId": "a-001",
+      "content": "来访者首次咨询，主诉工作压力导致的焦虑情绪，持续约3个月。表现为入睡困难、注意力不集中、易烦躁。家族无精神病史，无过往咨询经历。初步评估为广泛性焦虑障碍（GAD）轻度。建立咨询关系良好，来访者有较强求助动机。下周约定继续进行认知探索。",
+      "tags": [
+        "首次访谈",
+        "焦虑",
+        "工作压力",
+        "CBT"
+      ],
+      "createdAt": "2024-03-01T11:00:00Z",
+      "updatedAt": "2024-03-01T11:00:00Z"
+    },
+    {
+      "id": "n-002",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "clientName": "李小明",
+      "appointmentId": "a-002",
+      "content": "第二次咨询，来访者反馈睡眠有轻微改善。本周内出现2次较明显的焦虑发作，均与工作 deadlines 相关。引入正念呼吸练习，来访者愿意尝试每日5分钟练习。讨论了核心自动思维：\"我必须完美\"，布置思维记录作业。",
+      "tags": [
+        "CBT",
+        "正念",
+        "自动思维",
+        "家庭作业"
+      ],
+      "createdAt": "2024-03-08T16:00:00Z",
+      "updatedAt": "2024-03-08T16:00:00Z"
+    },
+    {
+      "id": "n-003",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "clientName": "李小明",
+      "appointmentId": "a-003",
+      "content": "第三次咨询。来访者在咨询中提到\"有时候真的撑不住了，想消失\"，触发危机预警。立即进行危机评估：无具体自杀计划，无自伤行为，但存在被动自杀意念。评估后转中等风险等级。与来访者达成安全契约，约定下次咨询前如有强烈冲动拨打危机热线。下周增加随访频率。",
+      "tags": [
+        "危机预警",
+        "被动自杀意念",
+        "安全契约",
+        "重点关注"
+      ],
+      "createdAt": "2024-03-15T12:30:00Z",
+      "updatedAt": "2024-03-15T12:45:00Z"
+    },
+    {
+      "id": "n-004",
+      "counselorId": "c-002",
+      "clientId": "u-002",
+      "clientName": "张雨晴",
+      "appointmentId": "a-004",
+      "content": "来访者为22岁大学生，主诉童年创伤回忆频繁闪回，影响学习和人际关系。经评估符合PTSD部分症状。来访者愿意尝试EMDR眼动脱敏疗法。建立稳定化资源，教授\"安全岛\"练习。",
+      "tags": [
+        "PTSD",
+        "童年创伤",
+        "EMDR",
+        "稳定化"
+      ],
+      "createdAt": "2024-03-05T17:30:00Z",
+      "updatedAt": "2024-03-05T17:30:00Z"
+    },
+    {
+      "id": "n-005",
+      "counselorId": "c-002",
+      "clientId": "u-002",
+      "clientName": "张雨晴",
+      "appointmentId": "a-005",
+      "content": "第二次创伤咨询。安全岛练习掌握良好。开始处理第一个创伤记忆节点（校园霸凌事件），使用EMDR双刺激技术。来访者情绪波动较大，但能保持在场感。结束时进行充分接地练习。下周继续处理同一记忆。",
+      "tags": [
+        "EMDR",
+        "创伤处理",
+        "接地技术"
+      ],
+      "createdAt": "2024-03-12T19:00:00Z",
+      "updatedAt": "2024-03-12T19:00:00Z"
+    },
+    {
+      "id": "n-006",
+      "counselorId": "c-003",
+      "clientId": "u-001",
+      "clientName": "李小明",
+      "appointmentId": "a-006",
+      "content": "来访者转介至婚姻家庭咨询。主诉与妻子沟通困难，经常因琐事争吵。探索原生家庭模式，发现来访者有较强的回避型依恋倾向。进行首次夫妻系统概念教育。",
+      "tags": [
+        "婚姻咨询",
+        "夫妻沟通",
+        "依恋模式"
+      ],
+      "createdAt": "2024-03-20T16:00:00Z",
+      "updatedAt": "2024-03-20T16:00:00Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r-001",
+      "appointmentId": "a-001",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "rating": 5,
+      "createdAt": "2024-03-02T10:00:00Z"
+    },
+    {
+      "id": "r-002",
+      "appointmentId": "a-002",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "rating": 4,
+      "createdAt": "2024-03-09T15:30:00Z"
+    },
+    {
+      "id": "r-003",
+      "appointmentId": "a-003",
+      "counselorId": "c-001",
+      "clientId": "u-001",
+      "rating": 5,
+      "createdAt": "2024-03-16T11:20:00Z"
+    },
+    {
+      "id": "r-004",
+      "appointmentId": "a-004",
+      "counselorId": "c-002",
+      "clientId": "u-002",
+      "rating": 5,
+      "createdAt": "2024-03-06T17:00:00Z"
+    },
+    {
+      "id": "r-005",
+      "appointmentId": "a-005",
+      "counselorId": "c-002",
+      "clientId": "u-002",
+      "rating": 5,
+      "createdAt": "2024-03-13T18:45:00Z"
+    }
+  ],
+  "packages": [
+    {
+      "id": "pk-001",
+      "counselorId": "c-001",
+      "name": "林清和 6次咨询包",
+      "sessionCount": 6,
+      "originalPrice": 3600,
+      "discountPrice": 3240,
+      "description": "6次咨询套餐，享9折优惠，适合短期情绪调节"
+    },
+    {
+      "id": "pk-002",
+      "counselorId": "c-001",
+      "name": "林清和 12次咨询包",
+      "sessionCount": 12,
+      "originalPrice": 7200,
+      "discountPrice": 5760,
+      "description": "12次咨询套餐，享8折优惠，适合深度心理成长"
+    },
+    {
+      "id": "pk-003",
+      "counselorId": "c-002",
+      "name": "陈思远 6次咨询包",
+      "sessionCount": 6,
+      "originalPrice": 4800,
+      "discountPrice": 4320,
+      "description": "6次咨询套餐，享9折优惠，青少年及创伤咨询推荐"
+    },
+    {
+      "id": "pk-004",
+      "counselorId": "c-002",
+      "name": "陈思远 12次咨询包",
+      "sessionCount": 12,
+      "originalPrice": 9600,
+      "discountPrice": 7680,
+      "description": "12次咨询套餐，享8折优惠，创伤康复深度疗程"
+    },
+    {
+      "id": "pk-005",
+      "counselorId": "c-003",
+      "name": "王雅琴 6次咨询包",
+      "sessionCount": 6,
+      "originalPrice": 4200,
+      "discountPrice": 3780,
+      "description": "6次咨询套餐，享9折优惠，婚姻家庭咨询首选"
+    },
+    {
+      "id": "pk-006",
+      "counselorId": "c-003",
+      "name": "王雅琴 12次咨询包",
+      "sessionCount": 12,
+      "originalPrice": 8400,
+      "discountPrice": 6720,
+      "description": "12次咨询套餐，享8折优惠，家庭系统重建疗程"
+    },
+    {
+      "id": "pk-007",
+      "counselorId": "c-004",
+      "name": "张明宇 6次咨询包",
+      "sessionCount": 6,
+      "originalPrice": 2400,
+      "discountPrice": 2160,
+      "description": "6次咨询套餐，享9折优惠，职场压力管理推荐"
+    },
+    {
+      "id": "pk-008",
+      "counselorId": "c-004",
+      "name": "张明宇 12次咨询包",
+      "sessionCount": 12,
+      "originalPrice": 4800,
+      "discountPrice": 3840,
+      "description": "12次咨询套餐，享8折优惠，深度压力释放疗程"
+    }
+  ],
+  "packagePurchases": [
+    {
+      "id": "pp-001",
+      "packageId": "pk-001",
+      "clientId": "u-001",
+      "counselorId": "c-001",
+      "counselorName": "林清和",
+      "remainingSessions": 3,
+      "totalSessions": 6,
+      "purchasedAt": "2024-02-18T09:00:00Z",
+      "expireAt": "2025-02-18T23:59:59Z"
+    },
+    {
+      "id": "pp-002",
+      "packageId": "pk-003",
+      "clientId": "u-002",
+      "counselorId": "c-002",
+      "counselorName": "陈思远",
+      "remainingSessions": 4,
+      "totalSessions": 6,
+      "purchasedAt": "2024-02-20T14:30:00Z",
+      "expireAt": "2025-02-20T23:59:59Z"
+    }
+  ]
+}
