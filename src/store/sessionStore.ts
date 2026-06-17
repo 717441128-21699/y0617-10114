@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { ChatMessage } from '../../shared/types';
 import { apiClient } from '../lib/api';
+import { getCurrentUser } from '../lib/auth';
 
 interface SessionState {
   messages: ChatMessage[];
@@ -41,7 +42,28 @@ export const useSessionStore = create<SessionState>((set, get) => ({
   },
 
   sendMessage: async (apptId: string, content: string) => {
-    const res = await apiClient.post<ChatMessage>(`/sessions/${apptId}/messages`, { content });
+    const currentUser = getCurrentUser();
+    const tempId = `temp-${Date.now()}`;
+
+    const optimisticMsg: ChatMessage = {
+      id: tempId,
+      appointmentId: apptId,
+      senderId: currentUser?.id || '',
+      senderRole: currentUser?.role || 'client',
+      content,
+      contentEncrypted: false,
+      timestamp: new Date().toISOString(),
+    };
+
+    set((state) => ({
+      messages: [...state.messages, optimisticMsg],
+    }));
+
+    const res = await apiClient.post<ChatMessage & { crisisDetected?: boolean; crisisInfo?: string }>(
+      `/sessions/${apptId}/messages`,
+      { content }
+    );
+
     if (res.success && res.data) {
       const msg = res.data;
       set((state) => {
@@ -51,14 +73,21 @@ export const useSessionStore = create<SessionState>((set, get) => ({
           crisis = true;
           msg.crisisFlags.forEach((k) => newKeywords.add(k));
         }
+        if (msg.crisisDetected) {
+          crisis = true;
+        }
         return {
-          messages: [...state.messages, msg],
+          messages: state.messages.map((m) => (m.id === tempId ? msg : m)),
           crisisActive: crisis,
           matchedKeywords: Array.from(newKeywords),
         };
       });
       return true;
     }
+
+    set((state) => ({
+      messages: state.messages.filter((m) => m.id !== tempId),
+    }));
     return false;
   },
 

@@ -72,6 +72,7 @@ export default function CounselorDetail() {
   const [activeTab, setActiveTab] = useState<TabType>('intro');
   const [selectedDay, setSelectedDay] = useState<number>(0);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [selectedServiceMode, setSelectedServiceMode] = useState<ServiceMode | null>(null);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [purchasePkgId, setPurchasePkgId] = useState<string | null>(null);
 
@@ -82,6 +83,12 @@ export default function CounselorDetail() {
       fetchCounselorById(id);
     }
   }, [id, fetchCounselorById]);
+
+  useEffect(() => {
+    if (currentCounselor?.serviceModes?.length && !selectedServiceMode) {
+      setSelectedServiceMode(currentCounselor.serviceModes[0]);
+    }
+  }, [currentCounselor, selectedServiceMode]);
 
   useEffect(() => {
     if (id && activeTab === 'reviews') {
@@ -112,10 +119,9 @@ export default function CounselorDetail() {
       setLoginModalOpen(true);
       return;
     }
-    if (!selectedSlot) return;
+    if (!selectedSlot || !selectedServiceMode) return;
     const date = formatDateISO(weekDates[selectedDay].date);
-    const defaultServiceMode = currentCounselor?.serviceModes?.[0] || 'text';
-    navigate(`/booking/${id}?date=${date}&timeSlot=${encodeURIComponent(selectedSlot)}&serviceMode=${defaultServiceMode}`);
+    navigate(`/booking/${id}?date=${date}&timeSlot=${encodeURIComponent(selectedSlot)}&serviceMode=${selectedServiceMode}`);
   };
 
   const today = new Date();
@@ -431,7 +437,51 @@ export default function CounselorDetail() {
             )}
 
             {activeTab === 'schedule' && (
-              <div className="max-w-4xl">
+              <div className="max-w-4xl space-y-6">
+                <div className="rounded-2xl bg-white p-6 shadow-card">
+                  <h3 className="mb-6 font-serif text-lg font-bold text-slate-800">选择服务形式</h3>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    {currentCounselor.serviceModes.map((mode) => {
+                      const Icon = ServiceIcon[mode];
+                      const selected = selectedServiceMode === mode;
+                      return (
+                        <button
+                          key={mode}
+                          onClick={() => setSelectedServiceMode(mode)}
+                          className={cn(
+                            'flex items-center gap-3 rounded-xl border-2 p-4 text-left transition-all',
+                            selected
+                              ? 'border-primary-500 bg-primary-50 shadow-glow'
+                              : 'border-slate-200 bg-slate-50 hover:border-primary-200 hover:bg-primary-50/50'
+                          )}
+                        >
+                          <div
+                            className={cn(
+                              'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg',
+                              selected ? 'bg-primary-500 text-white' : 'bg-primary-100 text-primary-700'
+                            )}
+                          >
+                            <Icon className="h-5 w-5" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div
+                              className={cn(
+                                'font-semibold text-sm',
+                                selected ? 'text-primary-800' : 'text-slate-800'
+                              )}
+                            >
+                              {ServiceModeLabels[mode]}
+                            </div>
+                            <div className="text-xs text-slate-500">
+                              ¥{currentCounselor.pricePerSession} / {currentCounselor.sessionDuration}分钟
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 <div className="rounded-2xl bg-white p-6 shadow-card">
                   <h3 className="mb-6 font-serif text-lg font-bold text-slate-800">选择预约时段</h3>
 
@@ -519,10 +569,26 @@ export default function CounselorDetail() {
                   </div>
 
                   <div className="flex flex-col gap-3 rounded-xl border border-primary-100 bg-primary-50/50 p-5 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="text-sm">
+                    <div className="text-sm space-y-1">
+                      {selectedServiceMode && (
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-slate-500">服务形式：</span>
+                          {(() => {
+                            const Icon = ServiceIcon[selectedServiceMode];
+                            return (
+                              <>
+                                <Icon className="h-4 w-4 text-primary-600" />
+                                <span className="font-medium text-primary-700">
+                                  {ServiceModeLabels[selectedServiceMode]}
+                                </span>
+                              </>
+                            );
+                          })()}
+                        </div>
+                      )}
                       {selectedSlot ? (
                         <div>
-                          <span className="font-medium text-slate-700">已选择：</span>
+                          <span className="font-medium text-slate-700">已选择时段：</span>
                           <span className="text-primary-700">
                             {formatDate(weekDates[selectedDay].date)} {selectedSlot.split('-')[0]}
                           </span>
@@ -536,10 +602,10 @@ export default function CounselorDetail() {
                     </div>
                     <button
                       onClick={handleBooking}
-                      disabled={!selectedSlot}
+                      disabled={!selectedSlot || !selectedServiceMode}
                       className={cn(
                         'rounded-xl px-8 py-3 text-sm font-semibold shadow-soft transition-all',
-                        selectedSlot
+                        selectedSlot && selectedServiceMode
                           ? 'bg-primary-600 text-white hover:bg-primary-700 hover:-translate-y-0.5'
                           : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                       )}

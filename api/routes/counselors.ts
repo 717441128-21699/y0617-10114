@@ -143,12 +143,12 @@ router.put('/me/profile', authRequired, roleRequired(['counselor']), async (req:
 router.put('/me/schedule', authRequired, roleRequired(['counselor']), async (req: Request, res: Response): Promise<void> => {
   try {
     const user = req.user as Counselor;
-    const { schedule } = req.body;
+    const schedule = (req.body.schedule ?? req.body) as WeeklySchedule;
     if (!schedule) {
       res.status(400).json({ success: false, error: 'schedule is required' });
       return;
     }
-    const updated = db.updateCounselor(user.id, { schedule: schedule as WeeklySchedule });
+    const updated = db.updateCounselor(user.id, { schedule });
     if (!updated) {
       res.status(404).json({ success: false, error: 'Counselor not found' });
       return;

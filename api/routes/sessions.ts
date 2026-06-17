@@ -89,7 +89,7 @@ router.post('/:appointmentId/messages', authRequired, async (req: Request, res: 
     res.status(201).json({
       success: true,
       data: {
-        message: created,
+        ...created,
         crisisDetected: crisisResult.triggered,
         crisisInfo: crisisResult.triggered ? {
           matchedKeywords: crisisResult.matchedKeywords,

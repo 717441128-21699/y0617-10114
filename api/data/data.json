@@ -27,230 +27,24 @@
       "reviewCount": 156,
       "totalSessions": 892,
       "schedule": {
+        "tuesday": [],
+        "friday": [],
+        "wednesday": [],
+        "saturday": [],
+        "thursday": [],
         "monday": [
           {
-            "start": "09:00",
             "end": "09:50",
-            "available": true
+            "available": true,
+            "start": "09:00"
           },
           {
-            "start": "10:00",
             "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
+            "available": false,
+            "start": "10:00"
           }
         ],
-        "tuesday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "wednesday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "thursday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "friday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "saturday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "sunday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ]
+        "sunday": []
       },
       "createdAt": "2023-01-15T09:00:00Z"
     },
@@ -1068,230 +862,24 @@
       "reviewCount": 156,
       "totalSessions": 892,
       "schedule": {
+        "tuesday": [],
+        "friday": [],
+        "wednesday": [],
+        "saturday": [],
+        "thursday": [],
         "monday": [
           {
-            "start": "09:00",
             "end": "09:50",
-            "available": true
+            "available": true,
+            "start": "09:00"
           },
           {
-            "start": "10:00",
             "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
+            "available": false,
+            "start": "10:00"
           }
         ],
-        "tuesday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "wednesday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "thursday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "friday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "saturday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ],
-        "sunday": [
-          {
-            "start": "09:00",
-            "end": "09:50",
-            "available": true
-          },
-          {
-            "start": "10:00",
-            "end": "10:50",
-            "available": true
-          },
-          {
-            "start": "11:00",
-            "end": "11:50",
-            "available": true
-          },
-          {
-            "start": "14:00",
-            "end": "14:50",
-            "available": true
-          },
-          {
-            "start": "15:00",
-            "end": "15:50",
-            "available": true
-          },
-          {
-            "start": "16:00",
-            "end": "16:50",
-            "available": true
-          }
-        ]
+        "sunday": []
       },
       "createdAt": "2023-01-15T09:00:00Z"
     },
@@ -2258,7 +1846,7 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:SXI9X3l2O2znjpLogIjluI/lpoTvvJPmiJjmmLbmnZXlsJbmmJXjgInku5HlpLDmg7rogZHogZHlkpPmiJjlp4LlrZfnmovlhbrntILpl7Xpop/jgIk=",
+      "content": "enc:b31UQDdAV1jnjpLogIjluI/lpoTvvJPmiJjmmLbmnZXlsJbmmJXjgInku5HlpLDmg7rogZHogZHlkpPmiJjlp4LlrZfnmovlhbrntILpl7Xpop/jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:00:05Z"
     },
@@ -2267,7 +1855,7 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "enc:W3lUbMKBcGtf5bCW5piV5L2n5aaE77yT5b6P6auf5YW76KeI5Yi35L2n44CJ5oiY5Luz5LuR5aSw5Y+25Lus5oWp5oWp5p2s77yT5L2n5oO65LuV5ZOx6YeT5byH5aeS6K+75ZGp77ym",
+      "content": "enc:bX03N8KAS0h75bCW5piV5L2n5aaE77yT5b6P6auf5YW76KeI5Yi35L2n44CJ5oiY5Luz5LuR5aSw5Y+25Lus5oWp5oWp5p2s77yT5L2n5oO65LuV5ZOx6YeT5byH5aeS6K+75ZGp77ym",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:00:30Z"
     },
@@ -2276,7 +1864,7 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:PHU9SWFMV2nmnIfov5jlkpPmiJjlp4LlrZfmgYLmmLblkLzmnr3vvJPkuIfng4DlsJbkupLlsLjohITlkLzotb7mnazjgInlpoDmgYLor7vmiJjkuJTlhbrlv4rlpoDvvJPlj7bmiJjop5Dlvp7miJjlt7nnu5blvo/lirHliqLkuo3jgIk=",
+      "content": "enc:XG5KX3ZyfnDmnIfov5jlkpPmiJjlp4LlrZfmgYLmmLblkLzmnr3vvJPkuIfng4DlsJbkupLlsLjohITlkLzotb7mnazjgInlpoDmgYLor7vmiJjkuJTlhbrlv4rlpoDvvJPlj7bmiJjop5Dlvp7miJjlt7nnu5blvo/lirHliqLkuo3jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:01:15Z"
     },
@@ -2285,7 +1873,7 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "enc:SEltV3BKSmnlkLPotb7mnazkvaflnK/ov6DmrrzlhbrntILph5PmhKbliLflvo/lp5vlsY/vvJPmmJXmmJXku5/liIHkuo3ljbvmsqjmnJDoorLnnJLliLfjgInohITlhb7kvZror7vor7vmnIfov5jkuIfmrKjkupDlkLznmovmg4zlhrzlkJ7vvKY=",
+      "content": "enc:OHR8eWt3T2vlkLPotb7mnazkvaflnK/ov6DmrrzlhbrntILph5PmhKbliLflvo/lp5vlsY/vvJPmmJXmmJXku5/liIHkuo3ljbvmsqjmnJDoorLnnJLliLfjgInohITlhb7kvZror7vor7vmnIfov5jkuIfmrKjkupDlkLznmovmg4zlhrzlkJ7vvKY=",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:02:00Z"
     },
@@ -2294,7 +1882,7 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:U1hYczpVPXHlpoTnmovvvJPlsLjmmLbmmK/lpLDmmaHkuJHjgInmiJjliqfnj7TliLflvo/mmaHmiZTlm6Xlrr3vvJPlpoDlsLjotK/pl7XmiJjkuYHku4fkuY/kuJTlm6Xmto/mgbbjgInmiJjlvZrml73lpLHntLbkuo3vvJPlsLjor7vkuo3kuIflj6wp5L2n5Yiy5pen55CN5Y+d6ZiA5aaE5LiU5aaEKe+8k+eEveWQleWmgOWwuOWTtOS6jeOAiQ==",
+      "content": "enc:d11PaVNgYDjlpoTnmovvvJPlsLjmmLbmmK/lpLDmmaHkuJHjgInmiJjliqfnj7TliLflvo/mmaHmiZTlm6Xlrr3vvJPlpoDlsLjotK/pl7XmiJjkuYHku4fkuY/kuJTlm6Xmto/mgbbjgInmiJjlvZrml73lpLHntLbkuo3vvJPlsLjor7vkuo3kuIflj6wp5L2n5Yiy5pen55CN5Y+d6ZiA5aaE5LiU5aaEKe+8k+eEveWQleWmgOWwuOWTtOS6jeOAiQ==",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:03:20Z"
     },
@@ -2303,7 +1891,7 @@
       "appointmentId": "a-006",
       "senderId": "c-003",
       "senderRole": "counselor",
-      "content": "enc:N0pff2xtfHjmiJjohITnkI3op6rkvafliqfnj7TlkJXnmovnlrnmg7LvvJPkuabohITmhKblj57liLflp4LlrZflnK/nrZDlvozmto/mgbbml73nmovnhK3omZjlkpPkuJTlrpDjgInov6Dlhb3lrqXmmLbkuIfkuLHlvo/lhb/lnpLnmosp6YCENOmAiinmqKjlvJbjgInkvafmhYbmhJblkLPlkLPmiJjlsIDov6DkuLHmqKjlvJbnmovliI3mnpflkJ7vvKY=",
+      "content": "enc:c0jCgFVuV3Y+5oiY6ISE55CN6Keq5L2n5Yqn54+05ZCV55qL55a55oOy77yT5Lmm6ISE5oSm5Y+e5Yi35aeC5a2X5Zyv562Q5b6M5raP5oG25pe955qL54St6JmY5ZKT5LiU5a6Q44CJ6L+g5YW95a6l5pi25LiH5Lix5b6P5YW/5Z6S55qLKemAhDTpgIop5qio5byW44CJ5L2n5oWG5oSW5ZCz5ZCz5oiY5bCA6L+g5Lix5qio5byW55qL5YiN5p6X5ZCe77ym",
       "contentEncrypted": true,
       "timestamp": "2024-03-20T14:04:45Z"
     },
@@ -2312,7 +1900,7 @@
       "appointmentId": "a-001",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:X2l8YEtLXlfmnp7ogIjluI/mgq/lpoTvvJPmiJjmnIfov5jmhKbop5DljpLliqLnioDliLLlpK7vvJPmmaHkuJHnu5bluL/nnajkuJTnnYfop5DjgIk=",
+      "content": "enc:dnbCgUB8dW1Q5p6e6ICI5biP5oKv5aaE77yT5oiY5pyH6L+Y5oSm6KeQ5Y6S5Yqi54qA5Yiy5aSu77yT5pmh5LiR57uW5bi/552o5LiU552H6KeQ44CJ",
       "contentEncrypted": true,
       "timestamp": "2024-03-01T09:00:10Z"
     },
@@ -2321,7 +1909,7 @@
       "appointmentId": "a-001",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "enc:XlA+bTpWVT7lsJbmmJXkvaflpoTvvJPmhKbosKnkvafnmovkv6jkvILjgInohITlkZHor5DmiJjov6Dnp5Tmg4zlhrzmjIjnu7TlpKHkuYzkuo3lkJ7vvKbkuYLopojmmLblk7HkuqLml4DpnannmovljpLliqLlkanvvKY=",
+      "content": "enc:WGl2dTptbW/lsJbmmJXkvaflpoTvvJPmhKbosKnkvafnmovkv6jkvILjgInohITlkZHor5DmiJjov6Dnp5Tmg4zlhrzmjIjnu7TlpKHkuYzkuo3lkJ7vvKbkuYLopojmmLblk7HkuqLml4DpnannmovljpLliqLlkanvvKY=",
       "contentEncrypted": true,
       "timestamp": "2024-03-01T09:00:45Z"
     },
@@ -2330,7 +1918,7 @@
       "appointmentId": "a-003",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:TnZzb2FveFvmnp7ogIjluI/vvJPmiJjmnIfov5jmnJDml73lgKDnnKbnmovmkpjkuJTkvZbkuo3vvJPmg7rmto/lpLjjgIk=",
+      "content": "enc:OFdVwoFbQH515p6e6ICI5biP77yT5oiY5pyH6L+Y5pyQ5pe95YCg55ym55qL5pKY5LiU5L2W5LqN77yT5oO65raP5aS444CJ",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:15:30Z",
       "crisisFlags": [
@@ -2343,7 +1931,7 @@
       "appointmentId": "a-003",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "enc:eElfVXN/TX/lsJbmmJXvvJPmiJjlkLPliLfkuo3kvafnjrflnK/pnaXluL/nl6Loi63vvJPmiJjlvo/mhKbosKnkvafmhYbmhJblkZHor5DmiJjov6DkuqLjgInkvafnjrflnK/lnK/lk7Hph5PvvKbourLov4DmnJDku4HlkJ7vvKbmiJjmg7rlhY/nobXorqvkvafnmovlrpDlha/jgIk=",
+      "content": "enc:cVDCgG9rO3c45bCW5piV77yT5oiY5ZCz5Yi35LqN5L2n54635Zyv6Z2l5bi/55ei6Iut77yT5oiY5b6P5oSm6LCp5L2n5oWG5oSW5ZGR6K+Q5oiY6L+g5Lqi44CJ5L2n54635Zyv5Zyv5ZOx6YeT77ym6Lqy6L+A5pyQ5LuB5ZCe77ym5oiY5oO65YWP56G16K6r5L2n55qL5a6Q5YWv44CJ",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:16:00Z"
     },
@@ -2352,7 +1940,7 @@
       "appointmentId": "a-003",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:O01oOm1xOX3miJjlnK/lrr3vvJPkuIfkuLHku4HjgInmiJjkuJTkvKHlgaHku4fkuY/nmovvvJPlsLjmmLbmhKbop5DnioDliLLntLbjgIk=",
+      "content": "enc:c8KAcDd+Sm975oiY5Zyv5a6977yT5LiH5Lix5LuB44CJ5oiY5LiU5Lyh5YGh5LuH5LmP55qL77yT5bC45pi25oSm6KeQ54qA5Yiy57S244CJ",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:16:45Z"
     },
@@ -2361,7 +1949,7 @@
       "appointmentId": "a-003",
       "senderId": "c-001",
       "senderRole": "counselor",
-      "content": "enc:eFJVXV9NXVHlpoTnmovvvJPmiJjlvo/pq5/lhbvkvafnjrflnK/mmLblrpDlha/nmovjgInov6Dnp5Qp5oO65raP5aS4Keeai+aEpuinkOehteWupeW+j+iusOS7gembheWPnu+8k+S9jeWuiuS5puWcr+WRkeivkOaImOS7s++8k+S9p+WGjOW/iuentuWOkuS6jeWkseWkoemch+imiOWki+eQjeeai+aDjOe7seOAieaImOS7s+S7keWksOS4h+i1vuadrOmdqeWwgOi/oOS6ou+8k+WmhOWQnu+8pg==",
+      "content": "enc:OUs+P1tgaz7lpoTnmovvvJPmiJjlvo/pq5/lhbvkvafnjrflnK/mmLblrpDlha/nmovjgInov6Dnp5Qp5oO65raP5aS4Keeai+aEpuinkOehteWupeW+j+iusOS7gembheWPnu+8k+S9jeWuiuS5puWcr+WRkeivkOaImOS7s++8k+S9p+WGjOW/iuentuWOkuS6jeWkseWkoemch+imiOWki+eQjeeai+aDjOe7seOAieaImOS7s+S7keWksOS4h+i1vuadrOmdqeWwgOi/oOS6ou+8k+WmhOWQnu+8pg==",
       "contentEncrypted": true,
       "timestamp": "2024-03-15T10:17:30Z"
     },
@@ -2370,7 +1958,7 @@
       "appointmentId": "a-004",
       "senderId": "u-002",
       "senderRole": "client",
-      "content": "enc:PVVQVl86dnfpmY/ljYLnlKbvvJPmiJjmnIfov5jmgYLmmLblgaHlmbDmoq3vvJPmoq3liLflsJbml73lgKDoorLmrYHotKbnmovlnYHmmbbjgInphpnmnazlsLjlvo/pm4XlhpTlhaznnajkuo3jgIk=",
+      "content": "enc:YDp9ckxPaTjpmY/ljYLnlKbvvJPmiJjmnIfov5jmgYLmmLblgaHlmbDmoq3vvJPmoq3liLflsJbml73lgKDoorLmrYHotKbnmovlnYHmmbbjgInphpnmnazlsLjlvo/pm4XlhpTlhaznnajkuo3jgIk=",
       "contentEncrypted": true,
       "timestamp": "2024-03-05T15:00:20Z"
     },
@@ -2379,7 +1967,7 @@
       "appointmentId": "a-004",
       "senderId": "c-002",
       "senderRole": "counselor",
-      "content": "enc:fFJVwoB8VHtt6Zuv5pm75L2n5aaE77yT6L+g5Lqi6Zex5Zul55qL6K635b+N5LiH5a6h6K6w5L2n6Z2l5bi/55ei6Iut44CJ5oSm6LCp5L2n5pyQ5YuO5rCb6Z2p5bCA5a6K5Luz44CJ5oiY5Luz5LuR5aSw5YWP5LiU552H5oCs5re45YWs77yT5YWP5p2s5byB56uS5LiH5Lix6K6w5L2n5oSm5Yi35a6Q5YWv55qLKeWGjOWcr+eqgemXuynvvJPlj7bku6zlkJ7vvKY=",
+      "content": "enc:TW03XEtqc2zpm6/mmbvkvaflpoTvvJPov6DkuqLpl7Hlm6Xnmovorrflv43kuIflrqHorrDkvafpnaXluL/nl6Loi63jgInmhKbosKnkvafmnJDli47msJvpnanlsIDlrorku7PjgInmiJjku7Pku5HlpLDlhY/kuJTnnYfmgKzmt7jlhazvvJPlhY/mnazlvIHnq5LkuIfkuLHorrDkvafmhKbliLflrpDlha/nmosp5YaM5Zyv56qB6Ze7Ke+8k+WPtuS7rOWQnu+8pg==",
       "contentEncrypted": true,
       "timestamp": "2024-03-05T15:01:00Z"
     },
@@ -2388,9 +1976,27 @@
       "appointmentId": "a-006",
       "senderId": "u-001",
       "senderRole": "client",
-      "content": "enc:eVhpUVM6N2tGRkZGRkZGRkZGRjNGRkY=",
+      "content": "enc:dDhXentWaDhGRkZGRkZGRkZGRjNGRkY=",
       "contentEncrypted": true,
       "timestamp": "2026-06-17T04:28:15.801Z"
+    },
+    {
+      "id": "m-1781672113543-69q80j",
+      "appointmentId": "a-006",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "enc:eFBOOl52XnNGRkZGRkZGM0ZGRkZGRg==",
+      "contentEncrypted": true,
+      "timestamp": "2026-06-17T04:55:13.543Z"
+    },
+    {
+      "id": "m-1781672142707-zqr22y",
+      "appointmentId": "a-006",
+      "senderId": "u-001",
+      "senderRole": "client",
+      "content": "enc:woFwcVjCgGF1XEZGRkZGRkYzRkZG",
+      "contentEncrypted": true,
+      "timestamp": "2026-06-17T04:55:42.707Z"
     }
   ],
   "counselorNotes": [

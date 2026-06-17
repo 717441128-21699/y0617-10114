@@ -3,6 +3,7 @@ import { Save, CheckSquare, Square, CalendarDays, RefreshCw, Check, CheckCircle2
 import { cn } from '@/lib/utils';
 import { apiClient } from '@/lib/api';
 import { useCounselorStore } from '@/store/counselorStore';
+import { useAuthStore } from '@/store/authStore';
 import type { WeeklySchedule, TimeSlot } from '@shared/types';
 
 type DayKey = keyof WeeklySchedule;
@@ -41,6 +42,7 @@ function createInitialSchedule(): WeeklySchedule {
 
 export default function CounselorSchedule() {
   const { currentUserCounselor, fetchCurrentCounselor, updateSchedule } = useCounselorStore();
+  const { updateUser } = useAuthStore();
   const [schedule, setSchedule] = useState<WeeklySchedule>(createInitialSchedule());
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -122,6 +124,8 @@ export default function CounselorSchedule() {
       setSaved(true);
       setToastVisible(true);
       updateSchedule(res.data);
+      updateUser({});
+      await fetchCurrentCounselor();
       setTimeout(() => {
         setSaved(false);
         setToastVisible(false);

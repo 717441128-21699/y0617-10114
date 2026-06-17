@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { User, FileText, Clock, Plus, Edit2, Save, X, Calendar, CheckCircle, Users, MessageSquare } from 'lucide-react';
+import { useEffect, useState, useMemo } from 'react';
+import { User, FileText, Clock, Plus, Edit2, Save, X, Calendar, CheckCircle, Users, MessageSquare, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useRecordStore } from '@/store/recordStore';
 import { useAppointmentStore } from '@/store/appointmentStore';
@@ -17,28 +17,54 @@ interface ClientItem {
   lastSession: string;
 }
 
-const mockClients: ClientItem[] = [
-  { id: 'c1', anonymousId: 'ANON-2024-001', name: '来访者A', totalSessions: 12, lastSession: '2024-01-15' },
-  { id: 'c2', anonymousId: 'ANON-2024-002', name: '来访者B', totalSessions: 5, lastSession: '2024-01-10' },
-  { id: 'c3', anonymousId: 'ANON-2023-089', name: '来访者C', totalSessions: 20, lastSession: '2024-01-08' },
-  { id: 'c4', anonymousId: 'ANON-2023-156', name: '来访者D', totalSessions: 3, lastSession: '2023-12-28' },
-  { id: 'c5', anonymousId: 'ANON-2023-201', name: '来访者E', totalSessions: 8, lastSession: '2023-12-20' },
-];
-
 type TabKey = 'notes' | 'timeline';
 
 export default function CounselorRecords() {
-  const [selectedClientId, setSelectedClientId] = useState<string | null>('c1');
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('notes');
   const [noteModalOpen, setNoteModalOpen] = useState(false);
   const [editingNote, setEditingNote] = useState<CounselorNote | null>(null);
   const [noteContent, setNoteContent] = useState('');
+  const [noteAppointmentId, setNoteAppointmentId] = useState<string>('');
   const [saving, setSaving] = useState(false);
 
   const { notes, loading, fetchNotesByClient, createNote, updateNote } = useRecordStore();
   const { appointments, fetchMyAppointments } = useAppointmentStore();
 
-  const selectedClient = mockClients.find((c) => c.id === selectedClientId);
+  const clients: ClientItem[] = useMemo(() => {
+    const grouped = new Map<string, Appointment[]>();
+    for (const appt of appointments) {
+      if (!grouped.has(appt.clientId)) {
+        grouped.set(appt.clientId, []);
+      }
+      grouped.get(appt.clientId)!.push(appt);
+    }
+    const result: ClientItem[] = [];
+    for (const [clientId, appts] of grouped) {
+      const sorted = [...appts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      result.push({
+        id: clientId,
+        name: `来访者${clientId.slice(-3)}`,
+        anonymousId: `ANON-${clientId.slice(-6)}`,
+        totalSessions: appts.length,
+        lastSession: sorted[0]?.date || '',
+      });
+    }
+    return result.sort((a, b) => new Date(b.lastSession).getTime() - new Date(a.lastSession).getTime());
+  }, [appointments]);
+
+  useEffect(() => {
+    if (clients.length > 0 && selectedClientId === null) {
+      setSelectedClientId(clients[0].id);
+    }
+  }, [clients, selectedClientId]);
+
+  const selectedClient = clients.find((c) => c.id === selectedClientId);
+
+  const clientAppointments = useMemo(
+    () => appointments.filter((a) => a.clientId === selectedClientId),
+    [appointments, selectedClientId]
+  );
 
   useEffect(() => {
     fetchMyAppointments();
@@ -50,17 +76,25 @@ export default function CounselorRecords() {
     }
   }, [selectedClientId, fetchNotesByClient]);
 
-  const clientAppointments = appointments.filter((a) => a.clientId === selectedClientId);
+  const sortedClientAppointments = useMemo(
+    () =>
+      [...clientAppointments].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      ),
+    [clientAppointments]
+  );
 
   const handleOpenNewNote = () => {
     setEditingNote(null);
     setNoteContent('');
+    setNoteAppointmentId(sortedClientAppointments[0]?.id || '');
     setNoteModalOpen(true);
   };
 
   const handleOpenEditNote = (note: CounselorNote) => {
     setEditingNote(note);
     setNoteContent(note.content);
+    setNoteAppointmentId(note.appointmentId || '');
     setNoteModalOpen(true);
   };
 
@@ -68,6 +102,7 @@ export default function CounselorRecords() {
     setNoteModalOpen(false);
     setEditingNote(null);
     setNoteContent('');
+    setNoteAppointmentId('');
   };
 
   const handleSaveNote = async () => {
@@ -78,6 +113,7 @@ export default function CounselorRecords() {
     } else {
       await createNote({
         clientId: selectedClientId,
+        appointmentId: noteAppointmentId || undefined,
         content: noteContent,
         tags: ['咨询笔记'],
       });
@@ -88,10 +124,6 @@ export default function CounselorRecords() {
 
   const sortedNotes = [...notes].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
-
-  const timelineAppointments = [...clientAppointments].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
   return (
@@ -110,52 +142,60 @@ export default function CounselorRecords() {
             <div className="mb-4 flex items-center justify-between px-2">
               <h2 className="font-serif text-base font-bold text-slate-700">来访者列表</h2>
               <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-600">
-                {mockClients.length}
+                {clients.length}
               </span>
             </div>
 
             <div className="space-y-1">
-              {mockClients.map((client) => {
-                const selected = client.id === selectedClientId;
-                return (
-                  <button
-                    key={client.id}
-                    onClick={() => setSelectedClientId(client.id)}
-                    className={cn(
-                      'w-full flex items-start gap-3 rounded-xl p-3 text-left transition-colors',
-                      selected
-                        ? 'bg-warm-50 shadow-glow'
-                        : 'hover:bg-slate-50'
-                    )}
-                  >
-                    <div
+              {clients.length === 0 ? (
+                <div className="px-2 py-8 text-center">
+                  <Users className="mx-auto mb-2 h-8 w-8 text-slate-300" />
+                  <p className="text-sm text-slate-500">暂无来访者数据</p>
+                  <p className="mt-1 text-xs text-slate-400">完成预约后来访者信息会显示在这里</p>
+                </div>
+              ) : (
+                clients.map((client) => {
+                  const selected = client.id === selectedClientId;
+                  return (
+                    <button
+                      key={client.id}
+                      onClick={() => setSelectedClientId(client.id)}
                       className={cn(
-                        'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold',
+                        'w-full flex items-start gap-3 rounded-xl p-3 text-left transition-colors',
                         selected
-                          ? 'bg-gradient-to-br from-warm-100 to-warm-200 text-warm-700'
-                          : 'bg-slate-100 text-slate-500'
+                          ? 'bg-warm-50 shadow-glow'
+                          : 'hover:bg-slate-50'
                       )}
                     >
-                      {client.anonymousId.slice(-3)}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className={cn('font-serif text-sm font-bold truncate', selected ? 'text-warm-800' : 'text-slate-700')}>
-                          {client.name}
-                        </p>
-                        <span className={cn('shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold', selected ? 'bg-warm-100 text-warm-700' : 'bg-slate-100 text-slate-500')}>
-                          {client.totalSessions}次
-                        </span>
+                      <div
+                        className={cn(
+                          'flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-sm font-bold',
+                          selected
+                            ? 'bg-gradient-to-br from-warm-100 to-warm-200 text-warm-700'
+                            : 'bg-slate-100 text-slate-500'
+                        )}
+                      >
+                        {client.anonymousId.slice(-3)}
                       </div>
-                      <p className="mt-0.5 truncate text-xs text-slate-400">{client.anonymousId}</p>
-                      <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-400">
-                        <Calendar className="h-3 w-3" />
-                        最近 {client.lastSession}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className={cn('font-serif text-sm font-bold truncate', selected ? 'text-warm-800' : 'text-slate-700')}>
+                            {client.name}
+                          </p>
+                          <span className={cn('shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold', selected ? 'bg-warm-100 text-warm-700' : 'bg-slate-100 text-slate-500')}>
+                            {client.totalSessions}次
+                          </span>
+                        </div>
+                        <p className="mt-0.5 truncate text-xs text-slate-400">{client.anonymousId}</p>
+                        <p className="mt-1 flex items-center gap-1 text-[11px] text-slate-400">
+                          <Calendar className="h-3 w-3" />
+                          最近 {client.lastSession}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })
+              )}
             </div>
           </div>
         </aside>
@@ -229,7 +269,7 @@ export default function CounselorRecords() {
                       'rounded-full px-1.5 py-0.5 text-xs font-semibold',
                       activeTab === 'timeline' ? 'bg-primary-100 text-primary-700' : 'bg-slate-100 text-slate-500'
                     )}>
-                      {timelineAppointments.length}
+                      {sortedClientAppointments.length}
                     </span>
                   </button>
                 </div>
@@ -295,7 +335,7 @@ export default function CounselorRecords() {
 
               {activeTab === 'timeline' && (
                 <div className="rounded-2xl bg-white p-5 shadow-card">
-                  {timelineAppointments.length === 0 ? (
+                  {sortedClientAppointments.length === 0 ? (
                     <Empty
                       icon={Calendar}
                       title="暂无咨询历程"
@@ -306,8 +346,8 @@ export default function CounselorRecords() {
                     <div className="relative pl-8">
                       <div className="absolute left-3 top-1 bottom-1 w-0.5 bg-gradient-to-b from-warm-200 via-warm-300 to-transparent" />
                       <div className="space-y-6">
-                        {timelineAppointments.map((appt, index) => (
-                          <TimelineItem key={appt.id} appointment={appt} isLast={index === timelineAppointments.length - 1} />
+                        {sortedClientAppointments.map((appt, index) => (
+                          <TimelineItem key={appt.id} appointment={appt} isLast={index === sortedClientAppointments.length - 1} />
                         ))}
                       </div>
                     </div>
@@ -345,6 +385,29 @@ export default function CounselorRecords() {
               <div>
                 <p className="text-sm font-semibold text-slate-700">{selectedClient.name}</p>
                 <p className="text-xs text-slate-400">{selectedClient.anonymousId}</p>
+              </div>
+            </div>
+          )}
+
+          {!editingNote && sortedClientAppointments.length > 0 && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                关联预约
+              </label>
+              <div className="relative">
+                <select
+                  value={noteAppointmentId}
+                  onChange={(e) => setNoteAppointmentId(e.target.value)}
+                  className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm text-slate-700 outline-none transition-colors focus:border-warm-400 focus:ring-2 focus:ring-warm-100"
+                >
+                  <option value="">不关联具体预约</option>
+                  {sortedClientAppointments.map((appt) => (
+                    <option key={appt.id} value={appt.id}>
+                      {appt.date} {appt.timeSlot} · {AppointmentStatusLabels[appt.status]}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               </div>
             </div>
           )}
